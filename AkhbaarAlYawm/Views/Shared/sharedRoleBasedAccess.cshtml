@@ -1,0 +1,18 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserRoleModel
+
+<ul class="nav">
+    @if (Model != null)
+    {
+        if (Model.RoleName == "SuperAdmin" || Model.RoleName == "Admin")
+        {
+<li class=""><a class="depth-0" href="/Home/ManagementArticles"><i class="sectors  icon"></i>Post Articles</a></li>
+<li class=""><a class="depth-0" href="/Category/SelectCategory"><i class="sectors  icon"></i>Category</a></li>
+<li class=""><a class="depth-0" href="/Photo/"><i class="sectors  icon"></i>Photo Gallery</a></li>
+<li class=""><a class="depth-0" href="/Miqaat/AddMiqaats"><i class="sectors  icon"></i>Miqaat</a></li>
+        }
+        if (Model.RoleName == "SuperAdmin")
+        {
+<li class=""><a class="depth-0" href="/Account/register"><i class="sectors  icon"></i>Users</a></li>
+        }
+    }
+</ul>

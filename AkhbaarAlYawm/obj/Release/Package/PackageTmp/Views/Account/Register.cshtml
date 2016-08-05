@@ -1,0 +1,53 @@
+﻿@model AkhbaarAlYawm.Web.CP.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+   
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Create a New Account</legend>
+        <ol>
+            <li>
+                <div class="ih">
+                    @Html.LabelFor(m => m.UserName)
+                    <div>
+
+                        @Html.TextBoxFor(m => m.UserName)
+                    </div>
+                </div>
+            </li>
+            <li>
+
+                <div class="ih">
+
+                    @Html.LabelFor(m => m.Password)
+                    <div>
+                        @Html.PasswordFor(m => m.Password)
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ih">
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    <div>
+                        @Html.PasswordFor(m => m.ConfirmPassword)
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <input type="submit" value="Register" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

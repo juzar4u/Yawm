@@ -1,0 +1,98 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoAlbumListModel>
+
+
+<style>
+    .tbl-block.projectListing .colum {
+    width: 19%;
+}
+    .tbl-block.projectListing .colum + .colum {
+    width: 16%;
+}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        lookuptagsUrl = "/Photo/TitleDataAutocomplete";
+        
+        $("#AlbumList").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: lookuptagsUrl,
+                    type: "GET",
+                    dataType: "json",
+                    data: {"name": $("#AlbumList").val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.ArticleData, value: item.ArticleData, element: item.ArticleID };
+                        }))
+
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            },
+            select: function (e, ui) {
+                // alert(ui.item.value);
+                var name = ui.item.element;
+                console.log(name);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: 'html',
+                    url: "/Photo/UpdateListing",
+                    data: {"elementId": name },
+                    success: function (data) {
+                        $("#projectlisting").html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Article Details');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+<fieldset>
+<div class="h1title sectors">
+    <h1>Photo's Management</h1>
+</div>
+<div class="sub-nav clear">
+    <a href="/Photo/CreateAlbum" class="projects">
+        <span><i class="sprite"></i></span>
+        <strong>Create Album</strong>
+    </a>
+    <a href="/Photo/CreateGallery" class="projects">
+        <span><i class="sprite"></i></span>
+        <strong>Create Gallery</strong>
+    </a>
+</div></fieldset>
+<fieldset>
+
+       
+        <div id="wrapper-searchbox" class="wrapper-searchbox m-bottom pull-left" style="margin-left:100px;">
+    <span class="pull-left btnpad" style="padding-top: 7px;">Search: </span>
+
+    <input type="text" id="AlbumList" name="AlbumList" placeholder="Search By Title" />
+</div>
+
+        <div id="projectlisting">
+            
+        @Html.Partial("_PartialPhotoAlbumListingView", Model)
+</div>
+
+
+    </fieldset>
+<div class="wp-pagenavi">
+        @{
+            PagerHelper ph = new PagerHelper();
+            ph.CurrentPage = (int)ViewBag.currentPage;
+            ph.TotalRecords = (int)ViewBag.totalCount;
+            Html.RenderPartial("~/Views/Shared/_Pager.cshtml", ph);
+        }
+    </div>
+

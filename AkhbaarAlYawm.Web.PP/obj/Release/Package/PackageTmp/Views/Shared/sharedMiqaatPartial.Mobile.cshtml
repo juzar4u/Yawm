@@ -1,0 +1,64 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.MasterMiqaatModel>
+
+
+
+        @foreach(var items in Model)
+            {
+            string formattedMiqaatName = "";
+            if (items.MiqaatName.Length > 68)
+                            {
+                                formattedMiqaatName =string.Format("{0}{1}",items.MiqaatName.Substring(0,68), "...");
+                            }
+                            else
+                            {
+                                formattedMiqaatName = items.MiqaatName;
+                            }            
+                                  
+            <ul class="list box" id="@items.Event_Hijri_MapID">
+                <li class="box" id="">
+                    <div class="list-img">
+                        <a href="#">
+                            <i class="fa fa-calendar-o fa-4x" aria-hidden="true" style="color: darkred">
+                            <span style="margin-left: 4px;margin-top: 5px;font-size: 16px;position: absolute;">@items.DayOfWeek</span>
+                            <span style="margin-left: 14px;margin-top: -44px;font-size: 37px;position: absolute;">@items.H_Day</span>
+
+                            </i>
+                        </a>
+                        
+                    </div>
+                    <div class="list-txt">
+                        <h3><a href="#">@formattedMiqaatName</a></h3>
+                        @if(items.ECategoryID > 0)
+                        {
+                        <p class="source">@items.Ename.ToUpper().ToString()</p>
+                        }
+                        <br />
+                        @if(items.Rank > 0)
+                        {
+                        <p class="source">DAI @items.Rank</p>
+                        }
+                        
+                        @if(!string.IsNullOrEmpty(items.Name) && items.Name.Length > 0)
+                        {
+                        <i class="fa fa-map-marker" aria-hidden="true" style="margin-right: 5px; margin-left: 5px; float: left; color: darkgray;"></i>
+                        <p class="source">
+                            @items.FormatedLocation
+                        </p>
+                        }
+                        
+                        
+                        <div class="info">
+                            <p style="float: left;">
+                                @items.FormatedIslamicDate
+                            </p>
+                            <p style="float: left; margin-left: 25px;">
+                                @items.Gregorian.ToString("dd/MM/yyyy")
+                            </p>
+                        </div>
+                    </div>
+                    
+                </li>
+            </ul>
+            
+            }
+ 

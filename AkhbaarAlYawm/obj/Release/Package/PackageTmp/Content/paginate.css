@@ -1,0 +1,113 @@
+.jPaginate{
+    height:34px;
+    position:relative;
+    font-size:small;   
+	width:100%;
+}
+.pagination .icon {
+background-color: #EEEEEE;
+border: 1px solid #CCCCCC;
+border-radius: 3px 3px 3px 3px;
+color: #000000 !important;
+display: block;
+height: 26px;
+line-height: 24px;
+margin-right: 6px;
+padding: 0;
+text-align: center;
+width: 30px;
+}
+.pagination .icon.prev:hover {
+	background-position: -75px -115px;
+}
+.pagination .icon.next:hover {
+	background-position: -112px -115px;
+}
+.pagination .icon.prev {
+	background-position: -2px -115px;
+}
+.pagination .icon.next {
+	background-position:-39px -115px;
+}
+.jPaginate a{
+    line-height:15px;
+    height:18px;
+    color:#000 !important;
+    cursor:pointer;
+    padding:2px 5px;
+    float:left;
+}
+.jPag-control-back{
+	float:left;
+}
+.jPag-control-back > a, .jPag-control-back > span, .jPag-control-front > a, .jPag-control-front > span{
+    display: block;
+	height: 38px;
+    float:left;
+	line-height: 38px;
+}
+.jPag-control-front{
+	float:left;
+}
+.jPaginate span{
+    cursor:pointer;
+}
+ul.jPag-pages{
+    float:left;
+    list-style-type:none;
+    margin:0px 0px 0px 0px;
+    padding:0px;
+}
+ul.jPag-pages li{
+    display:inline;
+    float:left;
+    padding:0px;
+    margin:0px;
+}
+ul.jPag-pages li a, .jPag-control-back a, .jPag-control-front a{
+background: none repeat scroll 0 0 #EEEEEE;
+border: 1px solid #CCCCCC;
+border-radius: 3px 3px 3px 3px;
+color: #000000 !important;
+display: block;
+height: 26px;
+line-height: 25px;
+margin-right: 6px;
+padding: 0;
+text-align: center;
+width: 26px;
+}
+.jPag-control-back a, .jPag-control-front a{
+    padding:0 15px;
+    width:auto;
+}
+ul.jPag-pages li a:hover, .jPag-control-back a:hover, .jPag-control-front a:hover {
+background: none repeat scroll 0 0 #fff;
+border: 1px solid #7BA200;
+}
+span.jPag-current{
+background: none repeat scroll 0 0 #FFFFFF;
+border: 1px solid #7BA200;
+border-radius: 3px 3px 3px 3px;
+color: #000000 !important;
+display: block;
+height: 26px;
+width: 26px;
+line-height: 25px;
+margin-right: 6px;
+}
+
+ul.jPag-pages li span.jPag-previous-img{
+    background:transparent url(../images/previous.png) no-repeat center right;
+            }
+ul.jPag-pages li span.jPag-next-img{
+    background:transparent url(../images/next.png) no-repeat center left;
+            }
+span.jPag-sprevious-img{
+    background:transparent url(../images/sprevious.png) no-repeat center right;
+            }
+span.jPag-snext-img{
+    background:transparent url(../images/snext.png) no-repeat center left;
+            }
+
+

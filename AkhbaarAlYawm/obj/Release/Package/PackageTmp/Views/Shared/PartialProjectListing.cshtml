@@ -1,0 +1,110 @@
+﻿@model IEnumerable<AkhbaarAlYawm.DataAccess.Custom.Entities.ArticleModel>
+
+<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 110px;
+    background-color: #ccc;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 3px;
+    position: absolute;
+    z-index: 1;
+    margin: -21px -29px;
+
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
+
+<div id="dataList" class="tbl-block clear projectListing">
+        <ul class="table ui-sortable" id="projectssortable" cellpadding="0" cellspacing="0">
+            <li class="labh">
+                <span class="colum sn">ArticleID</span>
+                <span class="colum">Title</span>
+                <span class="colum">Source</span>
+                <span class="colum">PublishedOn</span>
+                <span class="colum">City</span>
+                <span class="colum">Edit</span>
+                <span class="colum">Featured</span>
+                <span class="colum">Article Type</span>
+            </li>
+            @foreach (var item in Model)
+            {
+                string categoryName = "";
+
+                if (item.CategoryID == 1)
+                {
+                    categoryName = "Huzurala AKh";
+                }
+                else if (item.CategoryID == 2)
+                {
+                    categoryName = "Saadat Akh";
+                }
+                else if (item.CategoryID == 3)
+                {
+                    categoryName = "Qasre Ali Akh";
+                }
+                else
+                {
+                    categoryName = "Billad Imn Akh";
+                }
+                <li class="row" id="@item.ArticleID">
+                    <span class="colum sn">@Html.DisplayFor(model => item.ArticleID)</span>
+                    <span class="colum">@Html.DisplayFor(model => item.Title)</span>
+                    <span class="colum">@Html.DisplayFor(model => item.SourceName)</span>
+                    <span class="colum">@Html.DisplayFor(model => item.PublishedOn)</span>
+                    <span class="colum">@Html.DisplayFor(model => item.CityName)</span>
+                    <span class="colum"><a href="/Home/EditArticle/?Id=@item.ArticleID">Edit</a></span>
+                    @if(item.isFeatured == false)
+                    {
+                        item.Featuredtext = "Off";
+                    }
+                    else{
+                        item.Featuredtext = "On";
+                    }
+                    <span class="colum" onclick="myfunction('@item.ArticleID')"><a href="#">@item.Featuredtext</a>@*<a href="/Home/UpdateFeatured/?Id=@item.ArticleID">@item.Featuredtext</a>*@</span>
+                    @if (item.IsVideo == true)
+                    {
+                        <div class="tooltip"><span class="colum"><i class="fa fa-video-camera fa-2x" aria-hidden="true"></i></span><span class="tooltiptext">@categoryName</span></div>
+                    }
+                    else{
+                        <div class="tooltip"><span class="colum"><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i></span><span class="tooltiptext">@categoryName</span></div>
+                    }
+
+                    
+                </li> 
+            }
+
+
+        </ul>
+    </div>
+
+<script type="text/javascript">
+    function myfunction(id)
+    {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Home/UpdateFeatured/?Id="+id,
+            success: function (data) {
+                alert("Featured Status Updated Successfully");
+                //window.open("/Home/ManagementArticles",);
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Article Details');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,104 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/paginate.css" rel="stylesheet" />
+    <link href="~/Content/styles.css" rel="stylesheet" />
+    <link href="~/Content/chosen-31-01-2016.css" rel="stylesheet" />
+    <link href="~/Content/AwesomeFonts/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/simplePagination.css" rel="stylesheet" />
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @*<script src="/Scripts/jquery-1.7.1.js"></script>*@
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.cookie.js"></script>
+    <script src="/Scripts/jquery.paginate.js"></script>
+   
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/CPSiteJavaScript.js")
+    <script src="@Scripts.Url("~/scripts/rte/ckeditor/ckeditor.js")"></script>
+    <script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
+   
+</head>
+<body>
+    <div class="overlay-bg-popup hide" id="overlay"></div>
+    <div class="argaam-cp-container">
+        <!--header start here-->
+        <div class="logo-container">
+
+            @*@{
+                string userDisplayName = Authentication.Instance.User == null ? "" : Authentication.Instance.User.DisplayName;    
+            }*@
+            <!--navigation start here-->
+            <div class="user-holder pull-right">
+                <div class="pull-right btnpad">
+                    <span class="pull-left">Welcome,</span>
+                    <strong class="pull-left">
+                        <a href=""><span class="pull-left">@{Html.RenderAction("LoginUserInfoSection", "Account");}</span></a></strong>
+                 
+                </div>
+            </div>
+            <!--navigation end here-->
+            <a class="logo" href="/" title="Spotunity">
+                @*<img src="@Url.Image("logo-20150406.png")" alt="Argaam Plus">*@
+                <span style="
+    color: white;
+    font-family: fantasy;
+    font-size: xx-large;
+">Akhbaar</span>
+            </a>
+        </div>
+        <!--header end here-->
+
+        <!--content start here-->
+        <div class="content clear">
+
+            
+            <div class="section-left">
+                @{Html.RenderAction("AccessMenu", "Account");}
+
+            </div>
+            
+            <div class="section-right">
+                @RenderBody()
+            </div>
+        </div>
+        <!--content end here-->
+        <!--footer start here-->
+        <div class="footer clear">
+            Akhbaar © @DateTime.Now.Year
+        </div>
+        <!--footer end here-->
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[name$="Ar"]').css("direction", "rtl");
+
+
+            $('a.depth-0').each(function (a, obj) {
+
+
+                if ($(obj).attr('href') == window.location.pathname) {
+                    $(obj).addClass('active');
+                }
+            });
+
+
+
+
+        });
+
+
+    </script>
+         <script src="/Scripts/jquery-ui-1.8.20.js"></script>
+     <script src="/Scripts/chosen.jquery.js"></script>
+</body>
+</html>

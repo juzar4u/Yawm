@@ -1,0 +1,89 @@
+﻿@model PetaPoco.Page<AkhbaarAlYawm.DataAccess.Custom.Entities.MasterMiqaatModel>
+
+
+<style>
+    .info {
+        margin-left: 85px;
+    }
+
+    .ui-corner-all {
+        margin-top: 10px;
+    }
+
+    .ui-autocomplete {
+        margin-top: 150px;
+        width: 100%;
+    }
+
+    #miqaatList {
+        width: 96%;
+    height: 53px;
+    margin: 7px;
+    margin-top: 6px;
+    border: 1px solid #000;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        lookuptagsUrl = "/Miqaat/TitleDataAutocomplete";
+
+        $("#miqaatList").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: lookuptagsUrl,
+                    type: "GET",
+                    dataType: "json",
+                    data: { "name": $("#miqaatList").val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.ArticleData, value: item.ArticleData, element: item.ArticleID };
+                        }))
+
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            },
+            select: function (e, ui) {
+                // alert(ui.item.value);
+                var name = ui.item.element;
+                console.log(name);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: 'html',
+                    url: "/Miqaat/UpdateListing",
+                    data: { "elementId": name },
+                    success: function (data) {
+                        $("#projectlisting").html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Article Details');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+<div id="content">
+    <!-- RECENT ARTICLES -->
+
+
+    
+    <input type="text" id="miqaatList" name="miqaatList" placeholder="Search By Miqaat" />
+    <section class="hmeContent">
+        <div id="projectlisting">@Html.Partial("~/Views/Shared/sharedMiqaatPartial.Mobile.cshtml", Model.Items)</div>
+    </section>
+
+</div>
+@if (Model.CurrentPage < Model.TotalPages)
+{
+    <center><div class="loaderDiv">
+                <img id="imgloader" src="/Content/Images/loader.gif" style="width:40px; height:40px;" />
+            </div></center>
+    <a id="lnkReadMore" style="display: none;" class="rdmre ancrReadMore" callurl="/miqaat/Index/?pageNo=" pageId="2" totalpageno="@Model.TotalPages" onclick="return GetNextPage();">Read More</a>
+}

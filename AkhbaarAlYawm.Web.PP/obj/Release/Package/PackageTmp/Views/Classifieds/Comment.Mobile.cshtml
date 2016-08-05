@@ -1,0 +1,26 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CommentMasterModel
+
+<link href="~/Content/screen.css" rel="stylesheet" />
+
+<div class="popup-container hide" id="pop-up">
+<div class="container c-p">
+            <a class="close-btn" href=""><span>&times;</span></a>
+            <div class="form" id="CommentBox">
+               <h3>Comments</h3>
+                @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model);
+            </div>
+    
+           @*@Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model);*@
+        </div>
+    </div>
+    
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+    });
+
+
+ </script>

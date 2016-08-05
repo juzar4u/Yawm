@@ -1,0 +1,154 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoAlbumListModel
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#AddMoreImages").click(function (e) {
+            e.preventDefault();
+            var $container = $("#ImagesContainer");
+
+            if ($container != undefined) {
+                var countImages = $container.find(".image").length;
+                var newImageId = 0;
+                if (countImages == undefined || countImages <= 0) {
+                    newImageId = 1;
+                }
+                else {
+                    newImageId = countImages + 1;
+                }
+
+                $container.append("<br/><input type='file' class='image' name='image" + newImageId + "' value='' />");
+                //$container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClassImage' name='radioImage' id='radioImage" + newImageRadioId + "' value='' />");
+                $container.parent().parent().find("#TotalNewUploadedImages").val(newImageId);
+            }
+
+            return false;
+        });
+
+    });
+</script>
+@using (Html.BeginForm("EditPhotoAlbum", "Photo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="ih" style="display: none">
+        @Html.LabelFor(model => model.PhotoAlbumID)
+
+        <div>
+            @Html.EditorFor(model => model.PhotoAlbumID)
+            @Html.ValidationMessageFor(model => model.PhotoAlbumID)
+        </div>
+    </div>
+    
+    <div class="ih">
+        @Html.LabelFor(model => model.Title, "Album Title")
+
+        <div>
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+    </div>
+    
+    
+    <div class="ih clearfix m-top">
+        <label for="ImagesContainerCover">Album Image</label>
+        <div id="ImagesContainerCover" class="ImageContainer pull-left">
+            @{
+   
+                @:<div class="holder clearfix">
+<div class="Pic">
+                    <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, Model.CoverPhotoThumbnailImg)' id="@Model.PhotoAlbumID" width="50px;" height="50px;"/>
+                    </div>
+                    <div class="PicDetail">
+                   
+        <button type="button" value="Edit" onclick="coverFunction()" class="">Edit</button>
+                        </div>
+                    <input type="file" class="image" name="cover1" id="cover1" style="display:none"/>
+       
+        @:</div>
+                                                                                        
+            }
+
+
+            
+            <input type="hidden" name="CoverUploads" id="CoverUploads" value="" />
+
+        </div>
+    </div>
+    
+    <hr />
+    <br />
+    <br />
+    <h4>Album Gallery Photos</h4>
+    
+
+        
+    <div class="ih clearfix m-top">
+        <label for="ImagesContainer">Uploaded Images</label>
+        <div id="ImagesContainer" class="ImageContainer pull-left">
+            @{
+    int counter = 0;
+    foreach (var images in Model.PhotoGalleryList)
+    {
+                @:<div class="holder clearfix">
+<div class="Pic">
+                    <img src='
+@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, images.PhotoThumbnailUrl)' id="@images.PhotoGalleryID" width="50px;" height="50px;"/>
+                    </div>
+                    <div class="PicDetail">
+                   
+        <button type="button" value="Edit" onclick="imagefunction('@string.Format("{0}{1}", images.PhotoGalleryID, "image")')" class="">Edit</button>
+                        </div>
+                    <input type="file" class="image" name="@string.Format("{0}{1}{2}", images.PhotoGalleryID, "image", counter)" id="@string.Format("{0}{1}", images.PhotoGalleryID, "image")" value="" style="display:none;"/>
+        counter++;
+        @:</div>
+                                                                                        
+    }
+    
+
+            }
+            <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
+
+            <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
+            <input type="hidden" name="TotalNewUploadedImages" id="TotalNewUploadedImages" value="" />
+        </div>
+    </div>
+            
+    
+    <input type="submit" value="Create" id="submit" />
+}
+
+<script type="text/javascript">
+    function coverFunction() {
+
+        $("#CoverUploads").val(1);
+        if ($("#cover1").css('display') == 'none') {
+            $("#cover1").css('display', 'block');
+        }
+    }
+
+    function imageGalleryFunction() {
+        if ($("#ImagesContainer").css('display') == 'none') {
+            $("#ImagesContainer").css('display', 'block');
+        }
+        else {
+            $("#ImagesContainer").css('display', 'none');
+        }
+    }
+
+    function imagefunction(val) {
+
+
+        //e.preventDefault();
+        $("#" + val).css('display', 'block');
+        var $container = $("#ImagesContainer");
+
+        if ($container != undefined) {
+            var countImages = $container.find(".image").length;
+
+            $container.parent().parent().find("#TotalUploadedImages").val(countImages);
+        }
+
+        return false;
+
+    }
+</script>

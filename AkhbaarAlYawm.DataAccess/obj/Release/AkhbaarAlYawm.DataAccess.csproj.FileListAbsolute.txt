@@ -1,0 +1,8 @@
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Release\AkhbaarAlYawm.DataAccess.dll.config
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Release\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Release\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Release\EntityFramework.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Release\EntityFramework.xml
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\obj\Release\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\obj\Release\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\obj\Release\AkhbaarAlYawm.DataAccess.csprojResolveAssemblyReference.cache

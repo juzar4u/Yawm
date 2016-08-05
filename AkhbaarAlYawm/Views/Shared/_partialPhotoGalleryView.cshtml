@@ -1,0 +1,11 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoGalleryModel>
+
+
+@foreach(var items in Model)
+{
+<li class="row " id="@items.PhotoGalleryID">
+    <span class="colum">@items.PhotoGalleryID</span>
+    <span class="colum sn"><img src="@string.Format("{0}{1}{2}", @AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, "/", @items.PhotoThumbnailUrl)" width="50px;" height="50px;"/></span>
+    
+</li>
+}

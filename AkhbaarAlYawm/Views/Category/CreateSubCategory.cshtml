@@ -1,0 +1,380 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CategoryModel
+
+@{
+    ViewBag.Title = "Create Sub Category";
+}
+
+
+
+<script src="/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchselect").chosen({ width: "100%" });
+    });
+</script>
+
+<style>
+    .tbl-block.projectListing .colum {
+        width: 15%;
+    }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 21%;
+        }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 21%;
+        }
+
+            .tbl-block.projectListing .colum + .colum + .colum + .colum {
+                width: 26%;
+            }
+</style>
+<div class="h1title sectors">
+    <h1>Create Sub-Category</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label" style="display: none;">
+            @Html.LabelFor(model => model.CategoryID)
+        </div>
+        <div class="editor-field" style="display: none;">
+            @Html.EditorFor(model => model.CategoryID)
+            @Html.ValidationMessageFor(model => model.CategoryID)
+        </div>
+
+
+        <div id="wrapper">
+            <div class="ih" id="parentcategoryholder">
+                <label>Select Category</label>
+                <div class="slhold">
+                    <select id="ParentCategoryID" name="ParentCategoryID" onchange="validationRemoval()">
+                        @{
+                            <option value="" disabled selected>--Please Select--</option>
+    foreach (var category in Model.ParentListCategories)
+    { 
+                            <option style="color:blue" value="@category.CategoryID">@category.CategoryNameEn</option>
+           
+    }
+                        }
+
+                    </select>
+                    <div>
+                        <p class="field-validation-error" id="selectcategoryvalidation" style="display: none">Please Select Category</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ih">
+                <label>Sub Category Name *</label>
+                <div>
+                    @Html.EditorFor(model => model.CategoryNameEn, new { @id = "CategoryNameEn" })
+                    <br />
+                    <p class="field-validation-error" id="categorynamevalidation" style="display: none">Please Enter Category Name</p>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="ih">
+                <label>Description</label>
+                <div>
+                    @Html.EditorFor(model => model.DescriptionEn)
+                    @Html.ValidationMessageFor(model => model.DescriptionEn)
+                </div>
+            </div>
+            <p>
+                <input type="submit" id="submit" value="Create" />
+            </p>
+        </div>
+
+
+
+
+    </fieldset>
+    
+    <fieldset>
+
+        <div class="ih">
+            <label>Search Category</label>
+            <div>
+                <input type="text" id="categorySearch" name="categorySearch" value="" />
+                @*<input type="button" id="searchButton" name="searchButton" onclick="mysearchFunction()" value="Search" />*@
+                @Html.ValidationMessageFor(model => model.DescriptionEn)
+            </div>
+
+        </div>
+
+        <div id="wrapper-searchbox" class="wrapper-searchbox m-bottom pull-left">
+            <span class="pull-left btnpad"></span>
+
+
+            @*<div id="respectiveSearch">
+                @Html.Partial("respectiveSearchView")
+            </div>*@
+        </div>
+
+
+        <div id="projectlisting">
+            @Html.Partial("childCategoryList")
+        </div>
+
+
+
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+
+}
+
+
+
+<script type="text/javascript">
+
+    function mysearchFunction() {
+        
+        var value = $("#categorySearch").val();
+        //var Url = '/campaign/SearchCategory/?id=' + value;
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Category/SearchChildCategoryByName",
+            data: { "name": value },
+            success: function (data) {
+                //$("#subCategoryList").css("display", "block");
+                $("#projectlisting").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Categories.');
+            }
+        });
+    }
+
+
+    var lookuptagsUrl = "/Category/getCategoryItems";
+    var name = $("#categorySearch").val();
+
+    $("#categorySearch").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: lookuptagsUrl,
+                type: "GET",
+                dataType: "json",
+                data: { name: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.CategoryNameEn, value: item.CategoryNameEn };
+                    }))
+
+                }
+            })
+        },
+        messages: {
+            noResults: "", results: ""
+        }
+        ,
+        select: function (e, ui) {
+            // alert(ui.item.value);
+            var value = ui.item.label;
+            //var value = $("#categorySearch").val();
+            console.log(name);
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: 'html',
+                url: "/Category/SearchChildCategoryByName",
+                data: { "name": value },
+                success: function (data) {
+                    $("#projectlisting").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to Filter Sub Category Dropdown');
+                }
+            });
+        }
+    });
+
+
+    function searchchildfunction() {
+
+
+        var value = $("#searchchildselect option:selected").val();
+        //var Url = '/campaign/SearchCategory/?id=' + value;
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/campaign/SearchChildCategory",
+            data: { "id": value },
+            success: function (data) {
+                //$("#subCategoryList").css("display", "block");
+                $("#projectlisting").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Categories.');
+            }
+        });
+
+    }
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //$("#searchchildselect").chosen({ width: "100%" });
+    });
+</script>
+
+
+
+
+<script type="text/javascript">
+    $("#CategoryCreator").click(function () {
+        $("#wrapper").css("display", "block");
+        $("#parentcategoryholder").css("display", "none");
+    });
+
+    $("#SubCategoryCreator").click(function () {
+        $("#wrapper").css("display", "block");
+        $("#parentcategoryholder").css("display", "block");
+    });
+
+    $("#submit").click(function () {
+
+
+        if ($('#wrapper').css('display') == 'none') {
+            alert("Please Select Category Type");
+        } else {
+            if ($("#selectcategoryvalidation").css('display') == 'block') {
+                $("#selectcategoryvalidation").css('display', 'none');
+            }
+            if ($("#categorynamevalidation").css('display') == 'block') {
+                $("#categorynamevalidation").css('display', 'none');
+            }
+            if ($('#parentcategoryholder').css('display') == 'block') {
+                if ($('#ParentCategoryID option:selected').text() == '--Please Select--') {
+                    //alert("Please Select Parent Category");
+                    $("#selectcategoryvalidation").css("display", "block");
+                    if ($("#CategoryNameEn").val() == '') {
+                        $("#categorynamevalidation").css("display", "block");
+                        return false;
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+                else {
+                    if ($("#CategoryNameEn").val() == '') {
+                        $("#categorynamevalidation").css("display", "block");
+                        return false;
+                    }
+                }
+            }
+            else {
+                if ($("#CategoryNameEn").val() == '') {
+                    $("#categorynamevalidation").css("display", "block");
+                    return false;
+                }
+            }
+        }
+    });
+
+    $("#CategoryNameEn").keyup(function () {
+        if ($("#CategoryNameEn").val() != '') {
+            if ($("#categorynamevalidation").css("display") == "block") {
+                $("#categorynamevalidation").css("display", "none");
+            }
+        }
+        else {
+            if ($("#categorynamevalidation").css("display") == "none") {
+                $("#categorynamevalidation").css("display", "block");
+            }
+        }
+    });
+
+    function validationRemoval() {
+        if ($("#ParentCategoryID").val() != '') {
+            if ($("#selectcategoryvalidation").css('display') == 'block') {
+                $("#selectcategoryvalidation").css('display', 'none');
+            }
+        }
+
+    }
+
+
+    function categorise() {
+        if ($("#parentCategoryList").css('display') == 'block') {
+            $("#parentCategoryList").css('display', 'none');
+            $("#Pless").css("display", "none");
+            $("#Pmore").css("display", "block");
+
+        }
+        else {
+            $("#Pless").css("display", "block");
+            $("#Pmore").css("display", "none");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: 'html',
+                url: "/campaign/CategoryList",
+
+                success: function (data) {
+                    $("#parentCategoryList").css("display", "block");
+                    $("#parentCategoryList").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Categories.');
+                }
+            });
+        }
+    }
+
+    function subcategorise() {
+        if ($("#subCategoryList").css('display') == 'block') {
+            $("#subCategoryList").css('display', 'none');
+            $("#Cless").css("display", "none");
+            $("#Cmore").css("display", "block");
+        }
+        else {
+            $("#Cless").css("display", "block");
+            $("#Cmore").css("display", "none");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: 'html',
+                url: "/campaign/SubCategoryList",
+
+                success: function (data) {
+                    $("#subCategoryList").css("display", "block");
+                    $("#subCategoryList").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Categories.');
+                }
+            });
+        }
+    }
+
+</script>
+
+
+

@@ -1,0 +1,88 @@
+    
+/* line 3934, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame {
+  clear: both;
+  float: left;
+  display: inline-block;
+  /*font-size: 12px;*/
+  margin: 0 0 30px;
+  padding: 15px 0 0;
+}
+/* line 3942, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame .pager-frame-new {
+  display: inline-block;
+}
+/* line 3946, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame > div {
+  float: right;
+  font-family: Tahoma;
+  font-size: 15px;
+  font-weight: bold;
+  list-style-type: none;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-align: center;
+}
+/* line 3956, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame > div a {
+  min-width: 20px;
+  display: block;
+  padding: 2px;
+  font-weight: normal;
+}
+/* line 3964, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame ul {
+  padding: 0px;
+  float: right;
+  margin: 0px;
+}
+/* line 3969, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame ul li {
+  float: left;
+  font-family: Tahoma;
+  font-size: 13px;
+  font-weight: bold;
+  list-style-type: none;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-align: center;
+  border-radius: 3px;
+}
+/* line 3980, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame ul li:hover {
+  background-color: #CCCCCC;
+}
+/* line 3984, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame ul li a {
+  min-width: 20px;
+  display: block;
+  padding: 4px;
+  font-weight: normal;
+}
+/* line 3993, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame .page-component-frame-active {
+  min-width: 20px;
+  padding: 4px;
+  text-align: center;
+  margin-left: 2px;
+  margin-right: 2px;
+  font-size: 12px !important;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #c21d1d;
+  float: left;
+}
+/* line 4007, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame .pager-frame-new > div {
+  display: inline-block;
+  float: right;
+  font-family: ARial;
+  margin-left: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+/* line 4017, ../sass/screen.scss */
+.wp-pagenavi .page-component-frame .pager-page-indicator {
+  display: inline-block;
+  margin-top: 4px;
+}

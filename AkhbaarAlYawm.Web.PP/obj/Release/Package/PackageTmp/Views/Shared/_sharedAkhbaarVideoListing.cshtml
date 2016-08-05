@@ -1,0 +1,57 @@
+﻿ @model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.nonfeaturedArticleModel>
+
+
+<div id="content">
+<!-- RECENT ARTICLES -->
+    
+
+
+    @foreach (var items in Model)
+    {
+        <ul class="list box">
+            <li class="box" id="@items.ArticleID">
+                <div class="list-img">
+                    <a href="/Home/Detail/@items.ArticleID">
+                        @if (items.IsVideo == true)
+                            {
+                                <img src='@items.ImageUrl' alt="@items.ImageUrl"><i class="fa fa-play-circle fa-2x" aria-hidden="true" style="margin: -65px 25px;position: absolute; color: darkred;"></i>
+                            }
+                            else
+                            {
+                            <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.ImageUrl)' alt="@items.ImageUrl">
+                            }
+                    </a></div>
+                <div class="list-txt">
+                    <h3><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h3>
+
+                    <p class="source">@items.sourceName</p>
+                    @if(items.CityID > 0)
+                    {
+                    <i class="fa fa-map-marker" aria-hidden="true" style="margin-right: 5px; margin-left: 5px; float: left; color: darkgray;"></i>
+                    <p class="source">@items.Mauze</p>
+                    }
+                    <br />
+
+                    <div class="info">
+                        <p style="float: left;">
+                            @items.IslamicDate
+                        </p>
+                        <p style="float: left; margin-left: 25px;">
+                            @items._newMappedDate
+                        </p>
+                    </div>
+                    <div class="info-article">
+                        <div style="float: left;">
+                            <i class="fa fa-eye fa-lg" aria-hidden="true" style="margin-right: 5px;"></i>@items.ViewCount
+                        </div>
+                        <div style="float: left; margin-left: 35px;">
+                            <i class="fa fa-comment" aria-hidden="true" style="margin-right: 5px;"></i>@items.CommentCount
+                        </div>
+                    </div>
+                </div>
+                <!-- /list-txt -->
+            </li>
+
+        </ul>
+    }
+    </div>

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<AkhbaarAlYawm.DataAccess.Custom.Entities.ArticleModel>
+<script src="/Scripts/jquery-ui-1.8.20.js"></script>
+
+<style>
+    .tbl-block.projectListing .colum {
+        width: 9%;
+    }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 20%;
+        }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 20%;
+        }
+
+            .tbl-block.projectListing .colum + .colum + .colum + .colum {
+                width: -1%;
+            }
+
+                .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum {
+                    width: 8%;
+                }   
+
+                    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum {
+                        width: 6%;
+                    }
+                    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 11%;
+}
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var id = $("#filter").val();
+        var name = $("#ArticleList").val();
+        $("#filter").change(function () {
+            lookuptagsUrl = "/Home/" + $("#filter option:selected").text() + "DataAutocomplete"
+        });
+        $("#ArticleList").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: lookuptagsUrl,
+                    type: "GET",
+                    dataType: "json",
+                    data: { "id": $("#filter").val(), "name": $("#ArticleList").val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.ArticleData, value: item.ArticleData, element: item.ArticleID };
+                        }))
+
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            },
+            select: function (e, ui) {
+                // alert(ui.item.value);
+                var name = ui.item.element;
+                console.log(name);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: 'html',
+                    url: "/Home/UpdateListing",
+                    data: { "id": $("#filter").val(), "elementId": name },
+                    success: function (data) {
+                        $("#projectlisting").html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Article Details');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+<div class="h1title sectors">
+    <h1>Article Management</h1>
+</div>
+<div class="sub-nav clear">
+    <a href="/Home/PostArticles" class="projects">
+        <span><i class="sprite"></i></span>
+        <strong>Articles</strong>
+    </a>
+</div>
+<div class="ih">
+    <label>Filter By:</label>
+
+    <div class="slhold">
+        @Html.DropDownList("filter", new List<SelectListItem>
+        {
+
+          new SelectListItem{ Text = "Title", Value = "1" },
+          new SelectListItem{ Text = "Source", Value = "2" },
+          new SelectListItem{ Text = "City", Value = "4" } 
+        }, "Select An Option")
+    </div>
+
+
+    <input type="text" id="ArticleList" name="ArticleList" />
+</div>
+
+<div id="projectlisting">
+    @Html.Partial("PartialProjectListing")
+    <input type="hidden" id="totalrecords" name="totalrecords" value="281">
+</div>
+<div class="wp-pagenavi">
+        @{
+            PagerHelper ph = new PagerHelper();
+            ph.CurrentPage = ViewBag.currentPage;
+            ph.TotalRecords = ViewBag.totalCount;
+            Html.RenderPartial("~/Views/Shared/_Pager.cshtml", ph);
+        }
+    </div>
+
+

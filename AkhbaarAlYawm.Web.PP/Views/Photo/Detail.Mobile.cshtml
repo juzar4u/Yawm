@@ -1,0 +1,285 @@
+﻿@model  AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.DetailModel
+<link href="~/Content/PhotoSwipe/dist/photoswipe.css" rel="stylesheet" />
+<link href="~/Content/PhotoSwipe/dist/default-skin/default-skin.css" rel="stylesheet" />
+<link href="~/Content/css/SocialShare.css" rel="stylesheet" />
+
+<style>
+    .gallery li img {
+        height: 100px;
+        width: 100px;
+    }
+
+    .gallery {
+        margin: 20px -35px;
+    }
+</style>
+<div id="wrapper">
+    <div id="content">
+
+        <div class="padding">
+
+            <h2 class="separator">@Model.Detail.Title - @Model.Detail.PhotoGalleryCount</h2>
+
+            <!-- IMAGES (75x75px) -->
+
+            @if(Model.Detail.PhotoGalleryList.Count > 0)
+            {
+            <div class="swiper-container">
+                <div class="swiper-wrapper baba">
+                    <ul class="gallery box">
+                        @foreach (var items in Model.Detail.PhotoGalleryList)
+                        {
+                   
+                        
+                            <figure>
+                                <li><a>
+                                    <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.PhotoThumbnailUrl)' alt="" /></a></li>
+                            </figure>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+            else
+            {
+             <h3 style="color:red; font-size:16px; font-weight:bold; font-style:italic; text-align:center;">Images Not Yet Updated.</h3>   
+            }
+
+            <!-- /padding -->
+
+            <!-- RECENT ARTICLES -->
+            <h2 class="separator">Recently Added Albums</h2>
+
+            <ul class="list box">
+
+                @foreach (var items in Model._recentlyAdded)
+                {
+                    <li class="box">
+                        <div class="list-img">
+                            <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
+                                <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' alt="" /></a>
+                        </div>
+                        <div class="list-txt">
+                            <h3><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h3>
+                            <h3 style="color: red; font-size: 20px; font-weight: bold; font-style: italic; float: right; margin: 18px;">@items.PhotoGalleryCount</h3>
+                        </div>
+                        <!-- /list-txt -->
+                    </li>
+                }
+            </ul>
+
+        </div>
+    </div>
+    @{ Html.RenderPartial("~/Views/Shared/_StickyFooterShareSection.cshtml", Model.SocialShare); }
+    @Html.Partial("~/Views/Shared/_sharedPartialPhotoswipe.cshtml")
+
+
+
+    <script src="/Content/PhotoSwipe/dist/photoswipe.js"></script>
+    <script src="/Content/PhotoSwipe/dist/photoswipe-ui-default.js"></script>
+    <script src="/FeaturedPanel/dist/js/swiper.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+
+        var gallaryImages = new Array();
+
+        var initPhotoSwipeFromDOM = function (gallerySelector) {
+
+            var tempImages = $(gallerySelector).find("img");
+
+            for (var i = 0; i < tempImages.length; i++) {
+                $("<img/>") // Make in memory copy of image to avoid css issues
+                    .attr("src", tempImages[i].src)
+                    .load(function () {
+                        gallaryImages.push(this);
+                    });
+            }
+
+            // parse slide data (url, title, size ...) from DOM elements 
+            // (children of gallerySelector)
+            var parseThumbnailElements = function (el) {
+                var imgItems = gallaryImages;
+
+                var thumbElements = imgItems,
+                    numNodes = thumbElements.length,
+                    items = [],
+                    figureEl,
+                    linkEl,
+                    size,
+                    item;
+
+                for (var i = 0; i < numNodes; i++) {
+
+                    figureEl = thumbElements[i]; // <figure> element
+
+                    // include only element nodes 
+                    if (figureEl.nodeType !== 1) {
+                        continue;
+                    }
+
+                    linkEl = figureEl; // <a> element
+
+                    //size = linkEl.getAttribute('data-size').split('x');
+
+                    // create slide object
+                    item = {
+                        src: linkEl.getAttribute('src'),
+                        w: linkEl.width,
+                        h: linkEl.height
+                    };
+
+
+
+                    item.msrc = linkEl.getAttribute('src');
+
+                    item.el = figureEl; // save link to element for getThumbBoundsFn
+                    items.push(item);
+                }
+
+                return items;
+            };
+
+            // find nearest parent element
+            var closest = function closest(el, fn) {
+                return el && (fn(el) ? el : closest(el.parentNode, fn));
+            };
+
+            // triggers when user clicks on thumbnail
+            var onThumbnailsClick = function (e) {
+                e = e || window.event;
+                e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+                var eTarget = e.target || e.srcElement;
+
+
+
+                var imgItems = gallaryImages;
+
+
+                for (var i = 0; i < imgItems.length; i++) {
+                    if (imgItems[i].src == eTarget.src) {
+                        index = i;
+                        break;
+                    }
+                }
+
+
+                if (index >= 0) {
+                    // open PhotoSwipe if valid index found
+                    openPhotoSwipe(index, $(".baba")[0]);
+                }
+                return false;
+            };
+
+            // parse picture index and gallery index from URL (#&pid=1&gid=2)
+            var photoswipeParseHash = function () {
+                var hash = window.location.hash.substring(1),
+                params = {};
+
+                if (hash.length < 5) {
+                    return params;
+                }
+
+                var vars = hash.split('&');
+                for (var i = 0; i < vars.length; i++) {
+                    if (!vars[i]) {
+                        continue;
+                    }
+                    var pair = vars[i].split('=');
+                    if (pair.length < 2) {
+                        continue;
+                    }
+                    params[pair[0]] = pair[1];
+                }
+
+                if (params.gid) {
+                    params.gid = parseInt(params.gid, 10);
+                }
+
+                return params;
+            };
+
+            var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+                var pswpElement = document.querySelectorAll('.pswp')[0],
+                    gallery,
+                    options,
+                    items;
+
+                items = parseThumbnailElements(galleryElement);
+
+
+                // define options (if needed)
+                options = {
+
+                    // define gallery index (for URL)
+                    galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+
+                    getThumbBoundsFn: function (index) {
+                        // See Options -> getThumbBoundsFn section of documentation for more info
+                        var thumbnail = items[index].el, // find thumbnail
+                            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                            rect = thumbnail.getBoundingClientRect();
+
+                        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
+                    },
+                    captionEl: false,
+                    tapToClose: true
+
+                };
+
+                // PhotoSwipe opened from URL
+                if (fromURL) {
+                    if (options.galleryPIDs) {
+                        // parse real index when custom PIDs are used 
+                        // http://photoswipe.com/documentation/faq.html#custom-pid-in-url
+                        for (var j = 0; j < items.length; j++) {
+                            if (items[j].pid == index) {
+                                options.index = j;
+                                break;
+                            }
+                        }
+                    } else {
+                        // in URL indexes start from 1
+                        options.index = parseInt(index, 10) - 1;
+                    }
+                } else {
+                    options.index = parseInt(index, 10);
+                }
+
+                // exit if index not found
+                if (isNaN(options.index)) {
+                    return;
+                }
+
+                if (disableAnimation) {
+                    options.showAnimationDuration = 0;
+                }
+
+                // Pass data to PhotoSwipe and initialize it
+                gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                gallery.init();
+            };
+
+            // loop through all gallery elements and bind events
+            var galleryElements = document.querySelectorAll(gallerySelector);
+
+            for (var i = 0, l = galleryElements.length; i < l; i++) {
+                galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+                galleryElements[i].onclick = onThumbnailsClick;
+            }
+
+            // Parse URL and open gallery if it contains #&pid=3&gid=1
+            var hashData = photoswipeParseHash();
+            if (hashData.pid && hashData.gid) {
+                openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
+            }
+        };
+
+        // execute above function
+        initPhotoSwipeFromDOM('.baba');
+
+
+    </script>

@@ -1,0 +1,140 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.MasterMiqaatModel>
+
+
+    <li id="dataList" class="tbl-block clear projectListing">
+        <ul class="table ui-sortable" id="projectssortable" cellpadding="0" cellspacing="0">
+            <li class="labh">
+                <span class="colum">MiqaatID</span>
+                <span class="colum">Category</span>
+                <span class="colum">Name</span>
+                <span class="colum">City</span>
+                <span class="colum">Hijri</span>
+                <span class="colum">Gregorian</span>
+                <span class="colum">DayOfWeek</span>
+            </li>
+            @foreach (var item in Model)
+            {
+                <li class="row " id="@item.Calender_EventID">
+                    <span class="colum sn">@item.Calender_EventID</span>
+                    <span class="colum sn">@item.Ename</span>
+                    <span class="colum">@item.MiqaatName</span>
+                    <span class="colum">@item.FormatedLocation</span>
+                    <span class="colum">@item.FormatedIslamicDate</span>
+                    <span class="colum">@item.Gregorian.ToString("dd/MM/yyyy")</span>
+                    <span class="colum">@item.DayOfWeek</span>
+                    <span class="colum"><a href="/Miqaat/EditMiqaat/?MiqaatID=@item.Calender_EventID">Edit</a></span>
+                    <input type="button" value="QuickEdit" onclick="myfunction('@item.Calender_EventID')"/>
+                </li>
+                <li class="row" id="@string.Format("{0}{1}", item.Calender_EventID, "quickEdit")" style="background-color:#eeeeee; display:none">
+                    <span class="colum sn" style="margin-left:25px;"></span>
+                    
+                    <span class="colum sn">Select Day</span>
+                    <span class="colum sn">
+                         @Html.DropDownListFor(model => item.H_Day, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "01", Value= "01"},
+                                new SelectListItem() {Text = "02", Value= "02"},
+                                new SelectListItem() {Text = "03", Value= "03"},
+                                new SelectListItem() {Text = "04", Value= "04"},
+                                new SelectListItem() {Text = "05", Value= "05"},
+                                new SelectListItem() {Text = "06", Value= "06"},
+                                new SelectListItem() {Text = "07", Value= "07"},
+                                new SelectListItem() {Text = "08", Value= "08"},
+                                new SelectListItem() {Text = "09", Value= "09"},
+                                new SelectListItem() {Text = "10", Value= "10"},
+                                new SelectListItem() {Text = "11", Value= "11"},
+                                new SelectListItem() {Text = "12", Value= "12"},
+                                new SelectListItem() {Text = "13", Value= "13"},
+                                new SelectListItem() {Text = "14", Value= "14"},
+                                new SelectListItem() {Text = "15", Value= "15"},
+                                new SelectListItem() {Text = "16", Value= "16"},
+                                new SelectListItem() {Text = "17", Value= "17"},
+                                new SelectListItem() {Text = "18", Value= "18"},
+                                new SelectListItem() {Text = "19", Value= "19"},
+                                new SelectListItem() {Text = "20", Value= "20"},
+                                new SelectListItem() {Text = "21", Value= "21"},
+                                new SelectListItem() {Text = "22", Value= "22"},
+                                new SelectListItem() {Text = "23", Value= "23"},
+                                new SelectListItem() {Text = "24", Value= "24"},
+                                new SelectListItem() {Text = "25", Value= "25"},
+                                new SelectListItem() {Text = "26", Value= "26"},
+                                new SelectListItem() {Text = "27", Value= "27"},
+                                new SelectListItem() {Text = "28", Value= "28"},
+                                new SelectListItem() {Text = "29", Value= "29"},
+                                new SelectListItem() {Text = "30", Value= "30"},
+                                new SelectListItem() {Text = "31", Value= "31"}
+                            }, new {@id="day"+ item.Event_Hijri_MapID})
+                    </span>
+                    <span class="colum sn">Select Month</span>
+                    <span class="colum sn">@Html.DropDownListFor(model => item.H_Month, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Moharrum-ul-Haram", Value= "01"},
+                                new SelectListItem() {Text = "Safar-ul-Muzaffar", Value= "02"},
+                                new SelectListItem() {Text = "Rabi-ul-Awwal", Value= "03"},
+                                new SelectListItem() {Text = "Rabi-ul-Aakhar", Value= "04"},
+                                new SelectListItem() {Text = "Jumadil-Ula", Value= "05"},
+                                new SelectListItem() {Text = "Jumadil-Ukhra", Value= "06"},
+                                new SelectListItem() {Text = "Rajab-ul-Asab", Value= "07"},
+                                new SelectListItem() {Text = "Shaban-al-Karim", Value= "08"},
+                                new SelectListItem() {Text = "Ramadan-al-Moazzam", Value= "09"},
+                                new SelectListItem() {Text = "Shawwal-al-Mukarram", Value= "10"},
+                                new SelectListItem() {Text = "Zilqadatil-Haram", Value= "11"},
+                                new SelectListItem() {Text = "Zilhajjatil-Haram", Value= "12"}
+                            }, new {@id="month"+ item.Event_Hijri_MapID})</span>
+                    <span class="colum sn" style="margin-left:70px;">Select Year</span>
+                    <span class="colum sn" style="margin-left:25px;">
+
+                        @Html.DropDownListFor(model => item.H_Year, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "1437", Value= "1437"},
+                                new SelectListItem() {Text = "1438", Value= "1438"},
+                                new SelectListItem() {Text = "1439", Value= "1439"},
+                                new SelectListItem() {Text = "1440", Value= "1440"},
+                                new SelectListItem() {Text = "1441", Value= "1441"},
+                                new SelectListItem() {Text = "1442", Value= "1442"}
+                            }, new {@id="year"+ item.Event_Hijri_MapID})
+                    
+                    </span>
+                    <input type="button" value="Edit" onclick="updateHijri('@item.Event_Hijri_MapID')"/>
+                </li>
+            }
+
+        </ul>
+    </li>
+
+
+<script type="text/javascript">
+    function myfunction(val)
+    {
+        if($("#" +val +"quickEdit").css('display') == 'block')
+        {
+            $("#" +val).css('background-color', 'white');
+            $("#" +val +"quickEdit").css('display', 'none');
+        }else{
+            $("#" +val +"quickEdit").css('display', 'block');
+            
+            $("#" +val).css('background-color', '#eeeeee');
+        }
+       
+    }
+
+    function updateHijri(val)
+    {
+        var day = $("#day" +val +"").val();
+        var month = $("#month" +val +"").val();
+        var year = $("#year" +val +"").val();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Miqaat/UpdateHijriDate/?Id="+val +"&day=" +day +"&month="+month +"&year="+year,
+            success: function (data) {
+                alert("Hijri Date Updated Successfully");
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update');
+            }
+        });
+    }
+</script>

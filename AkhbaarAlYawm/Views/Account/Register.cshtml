@@ -1,0 +1,278 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserModel
+
+
+<style>
+
+    .tbl-block.projectListing .colum {
+    width: 6%;
+}
+    .tbl-block.projectListing .colum + .colum {
+    width: 11%;
+}
+    .tbl-block.projectListing .colum + .colum {
+    width: 11%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum {
+    width: 16%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum {
+    width: 11%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 7%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 9%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 11%;
+}
+    .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 9%;
+}
+</style>
+<div class="h1title sectors">
+    <h1>Register</h1>
+</div>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <p style="color:red; font-size:14px; font-weight:bold;">@ViewBag.Error</p>
+    <fieldset>
+        <div class="editor-label" style="display: none;">
+            @Html.LabelFor(model => model.UserID)
+        </div>
+        <div class="editor-field" style="display: none;">
+            @Html.EditorFor(model => model.UserID)
+            @Html.ValidationMessageFor(model => model.UserID)
+        </div>
+
+
+        <div class="ih">
+            @Html.LabelFor(model => model.EjamatID, "Ejamat ID")
+            <div>
+                @Html.EditorFor(model => model.EjamatID)
+                @Html.ValidationMessageFor(model => model.EjamatID)
+            </div>
+             <span class="field-validation-error" id="ejamatExistsId" style="display:none">This Ejamaat Id already exists</span>
+        </div>
+        <div class="ih">
+                @Html.LabelFor(model => model.Email)
+
+                <div>
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            <span class="field-validation-error" id="emailExistsId" style="display:none">This Email Id already exists</span>
+            </div>
+
+        <div class="ih">
+            @Html.LabelFor(model => model.Password)
+
+            <div>
+                @Html.EditorFor(model => model.Password)
+                <span class="field-validation-error" id="validationpass" style="display:none">Password is Required</span>
+            </div>
+        </div>
+
+        <div class="ih">
+            @Html.LabelFor(model => model.ConfirmPassword)
+
+
+            @Html.EditorFor(model => model.ConfirmPassword)
+           <span class="field-validation-error" id="validationConf" style="display:none">Confirm Password is Required</span>
+            <span class="field-validation-error" id="validationmatch" style="display:none">Confirm Password does not match</span>
+        </div>
+        
+
+            <div class="ih">
+                @Html.LabelFor(model => model.FirstName)
+
+                <div>
+                    @Html.EditorFor(model => model.FirstName)
+                     <span class="field-validation-error" id="validationfirstName" style="display:none">First Name is Required</span>
+                </div>
+            </div>
+
+            <div class="ih">
+                @Html.LabelFor(model => model.LastName)
+
+                <div>
+                    @Html.EditorFor(model => model.LastName)
+                    @Html.ValidationMessageFor(model => model.LastName)
+                </div>
+            </div>
+
+            
+
+            
+            <br />
+
+            <div class="ih" style="display:none" id="RoleID">
+                @Html.LabelFor(model => model.RoleID, "Select User Role")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.RoleID, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "SuperAdmin", Value= "01"},
+                                new SelectListItem() {Text = "Admin", Value= "02"},
+                                new SelectListItem() {Text = "User", Value= "03"}
+                            })
+                    @Html.ValidationMessageFor(model => model.RoleID)
+                </div>
+            </div>
+
+            <p>
+                <input type="submit" id="submit" value="Create" />
+            </p>
+    </fieldset>
+   <fieldset>
+
+
+        @*<div id="wrapper-searchbox" class="wrapper-searchbox m-bottom pull-left" style="margin-left:100px;">
+            <span class="pull-left btnpad" style="padding-top: 7px;">Search: </span>
+            <input type="text" id="AlbumList" name="AlbumList" placeholder="Search By Title" />
+        </div>*@
+
+        <div id="projectlisting">
+            @Html.Partial("UsersList", Model.UserList)
+        </div>
+
+
+    </fieldset>
+    
+}
+
+
+<script type="text/javascript">
+    $("#IsCPUser").click(function () {
+        if ($('#IsCPUser').is(':checked')) {
+            $("#RoleID").css('display', 'block');
+        }
+        else {
+            $("#RoleID").css('display', 'none');
+
+        }
+    });
+
+    $("#EjamatID").focusin(function () {
+        $("#ejamatExistsId").css("display", "none");
+        $("#submit").css('display', 'block');
+    });
+
+    $("#EjamatID").focusout(function () {
+        var ejamatId = $("#EjamatID").val();
+        $.ajax({
+            url: "/Account/IsEjamaatExist",
+            type: "GET",
+            dataType: "json",
+            data: { "ejamat": ejamatId },
+            success: function (data) {
+                if (data != "0") {
+
+                    $("#ejamatExistsId").css("display", "block");
+                    $("#submit").css('display', 'none');
+                    return false;
+                }
+
+            }
+        })
+    });
+
+    $("#Email").focusin(function () {
+        $("#emailExistsId").css("display", "none");
+        $("#submit").css('display', 'block');
+    });
+
+    $("#Email").focusout(function () {
+        var email = $("#Email").val();
+        $.ajax({
+            url: "/Account/IsEmailExist",
+            type: "GET",
+            dataType: "json",
+            data: { "email": email },
+            success: function (data) {
+                if (data != "0") {
+
+                    $("#emailExistsId").css("display", "block");
+                    $("#submit").css('display', 'none');
+                    return false;
+                }
+
+            }
+        })
+    });
+
+
+    $("#Password").focusin(function () {
+
+        $('#validationpass').css('display', 'none');
+        $("#submit").css('display', 'block');
+    });
+    $("#Password").focusout(function () {
+        if ($("#Password").val() == '') {
+            $('#validationpass').css('display', 'block');
+            $("#submit").css('display', 'none');
+        }
+    });
+
+
+    $("#ConfirmPassword").focusin(function () {
+        $("#validationmatch").css('display', 'none');
+        $('#validationConf').css('display', 'none');
+        $("#submit").css('display', 'block');
+    });
+    $("#ConfirmPassword").focusout(function () {
+        if ($("#ConfirmPassword").val() == '') {
+            $('#validationConf').css('display', 'block');
+            $("#submit").css('display', 'none');
+        }
+        else {
+            if ($("#ConfirmPassword").val() != $("#Password").val()) {
+                $("#validationmatch").css('display', 'block');
+                $("#submit").css('display', 'none');
+            }
+        }
+    });
+
+
+
+    $("#FirstName").focusin(function () {
+        $("#validationfirstName").css('display', 'none');
+        $("#submit").css('display', 'block');
+    });
+    $("#FirstName").focusout(function () {
+
+        if ($("#FirstName").val() == '') {
+            $("#validationfirstName").css('display', 'block');
+            $("#submit").css('display', 'none');
+        }
+    });
+
+
+    $("#submit").click(function () {
+        if ($("#Password").val() == '') {
+            $('#validationpass').css('display', 'block');
+            
+
+        }
+        if ($("#ConfirmPassword").val() == '') {
+            $('#validationConf').css('display', 'block');
+            
+        }
+        if ($("#FirstName").val() == '') {
+            $("#validationfirstName").css('display', 'block');
+            
+        }
+        if ($("#Password").val() == '' || $("#ConfirmPassword").val() == '' || $("#FirstName").val() == '') {
+            return false;
+
+        }
+
+        if ($("#Password").val() != $("#ConfirmPassword").val()) {
+            $("#validationmatch").css('display', 'block');
+            return false;
+        }
+    });
+</script>

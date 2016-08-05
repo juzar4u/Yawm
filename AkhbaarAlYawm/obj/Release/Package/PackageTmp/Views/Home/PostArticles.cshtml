@@ -1,0 +1,451 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.ArticleModel
+
+@{
+    ViewBag.Title = "PostArticles";
+}
+
+
+<style>
+    input[type="datetime"] {
+        border: 1px solid #e5e5e5;
+        padding: 8px;
+        margin: 0;
+        font-family: Arial;
+        font-size: 12px;
+        background: #fafafa;
+        border-radius: 3px;
+        transition: all 0.5s ease 0s;
+        -ms-transition: all 0.5s ease 0s;
+        -moz-transition: all 0.5s ease 0s;
+        -webkit-transition: all 0.5s ease 0s;
+        -o-transition: all 0.5s ease 0s;
+        outline: none;
+    }
+
+    .Error-general {
+        font-size: 15px;
+    font-weight: bold;
+    color: red;
+    padding:10px;
+    }
+    #Body {
+        width: 600px;height: 170px;
+    }
+
+
+    #gap {
+        margin-top: 100px;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#CountryID").chosen({ width: "100%" });
+        $("#AddMoreImages").click(function (e) {
+            e.preventDefault();
+            var $container = $("#ImagesContainer");
+
+            if ($container != undefined) {
+                var countImages = $container.find(".image").length;
+                var newImageId = 0;
+                var newImageRadioId = 0;
+                if (countImages == undefined || countImages <= 0) {
+                    newImageId = 1;
+                    newImageRadioId = 1;
+                }
+                else {
+                    newImageId = countImages + 1;
+                    newImageRadioId = countImages + 1
+                }
+
+                $container.append("<br/><input type='file' class='image' name='image" + newImageId + "' value='' />");
+                $container.append("<div class='RadioWrap'><input type='radio' class='radioClassImage' name='radioImage' id='radioImage" + newImageRadioId + "' value='' /><label for='radio1'>Mark as Featured</label></div>");
+                $container.parent().parent().find("#TotalUploadedImages").val(newImageId);
+            }
+
+            return false;
+        });
+
+        $("#AddMoreVideos").click(function (e) {
+
+
+            e.preventDefault();
+            var $container = $("#VideoContainer");
+
+            if ($container != undefined) {
+                var countVideos = $container.find(".video").length;
+                var newVideoId = 0;
+                var newRadioId = 0;
+                if (countVideos == undefined || countVideos <= 0) {
+                    newVideoId = 1;
+                    newRadioId = 1;
+                }
+                else {
+                    newVideoId = countVideos + 1;
+                    newRadioId = countVideos + 1;
+                }
+                if ($("#video" + newVideoId).val() == '') {
+                    alert("Please add Video url to add more");
+                } else {
+
+                    $container.append("<br /><input type='text' class='video' name='video" + newVideoId + "' id='video" + newVideoId + "' value='' />");
+                    $container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClass' name='radio' id='radio" + newRadioId + "' value='' />");
+                    $container.parent().parent().find("#TotalUploadedVideos").val(newVideoId);
+                }
+            }
+
+            return false;
+        });
+    });
+   
+    function CountryChange(countrydd, childDDID) {
+        var selectedItem = $(countrydd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+                
+                    $("#statesDiv").css("display", "block");
+                    $("#" + childDDID).html('');
+                    $("#" + childDDID).append($('<option></option>').html(""));
+                    $.each(data, function (id, option) {
+
+                        $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+
+
+                    });
+                    $("#StateID").trigger("chosen:updated");
+                    $("#StateID").chosen({ width: "100%" });
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+
+    function StateChange(statedd, childDDID) {
+        var selectedItem = $(statedd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetCities",
+            data: { "StateID": selectedItem },
+            success: function (data) {
+                
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                console.log(data);
+                if (data != '') {
+                    $.each(data, function (id, option) {
+                       
+                            $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+                        
+                    });
+                } else {
+                    $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
+
+                }
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+
+    }
+
+    
+</script>
+
+<h2>PostArticles</h2>
+
+@using (Html.BeginForm("PostArticles", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>ArticleModel</legend>
+
+        
+        <div class="ih" style="display: none">
+            @Html.LabelFor(model => model.ArticleID)
+
+            <div>
+                @Html.EditorFor(model => model.ArticleID)
+                @Html.ValidationMessageFor(model => model.ArticleID)
+            </div>
+        </div>
+        <center>
+            <span class="Error-general">@Model.ImageResolutionError</span>
+            <br />
+            </center>
+        <div class="ih">
+                    @Html.LabelFor(model => model.CategoryID, "Category")
+
+                    <div class="slhold">
+                        @Html.DropDownListFor(model => model.CategoryID, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Huzurala (TUS) Akhbaar", Value= "1"},
+                                new SelectListItem() {Text = "Saadat Kiram Akhbaar", Value= "2"},
+                                new SelectListItem() {Text = "Qasre Ali Akhbaar", Value= "3"},
+                                new SelectListItem() {Text = "Bilaad Imaniya Akhbaar", Value= "6"}
+                            })
+                        @Html.ValidationMessageFor(model => model.CategoryID)
+                    </div>
+                </div>
+
+        <div class="ih">
+                    @Html.LabelFor(model => model.IsVideo, "Article Type")
+
+                    <div class="slhold">
+                        @Html.DropDownListFor(model => model.IsVideo, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Image Article", Value= "false"},
+                                new SelectListItem() {Text = "Video Article", Value= "true"}
+                            })
+                        @Html.ValidationMessageFor(model => model.IsVideo)
+                    </div>
+                </div>
+        <div class="ih">
+            @Html.LabelFor(model => model.Title)
+
+            <div>
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+
+        <div class="ih">
+            @Html.LabelFor(model => model.Body)
+
+            <div>
+                @Html.TextAreaFor(model => model.Body,"Body")
+                @Html.ValidationMessageFor(model => model.Body)
+            </div>
+        </div>
+
+         <div class="ih">
+            @Html.LabelFor(model => model.SourceID, "Source")
+
+            <div class="slhold">
+                @Html.DropDownList("SourceID",
+                  new SelectList(Model.SourceList, "SourceID", "Name"), new { @class = "chosen-select" })
+
+
+            </div>
+
+            @Html.ActionLink("Create", "AddSource")
+        </div>
+
+        
+        <div class="ih">
+                    @Html.LabelFor(model => model.IslamicDay, "Day")
+
+                    <div class="slhold">
+                        @Html.DropDownListFor(model => model.IslamicDay, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "01", Value= "01"},
+                                new SelectListItem() {Text = "02", Value= "02"},
+                                new SelectListItem() {Text = "03", Value= "03"},
+                                new SelectListItem() {Text = "04", Value= "04"},
+                                new SelectListItem() {Text = "05", Value= "05"},
+                                new SelectListItem() {Text = "06", Value= "06"},
+                                new SelectListItem() {Text = "07", Value= "07"},
+                                new SelectListItem() {Text = "08", Value= "08"},
+                                new SelectListItem() {Text = "09", Value= "09"},
+                                new SelectListItem() {Text = "10", Value= "10"},
+                                new SelectListItem() {Text = "11", Value= "11"},
+                                new SelectListItem() {Text = "12", Value= "12"},
+                                new SelectListItem() {Text = "13", Value= "13"},
+                                new SelectListItem() {Text = "14", Value= "14"},
+                                new SelectListItem() {Text = "15", Value= "15"},
+                                new SelectListItem() {Text = "16", Value= "16"},
+                                new SelectListItem() {Text = "17", Value= "17"},
+                                new SelectListItem() {Text = "18", Value= "18"},
+                                new SelectListItem() {Text = "19", Value= "19"},
+                                new SelectListItem() {Text = "20", Value= "20"},
+                                new SelectListItem() {Text = "21", Value= "21"},
+                                new SelectListItem() {Text = "22", Value= "22"},
+                                new SelectListItem() {Text = "23", Value= "23"},
+                                new SelectListItem() {Text = "24", Value= "24"},
+                                new SelectListItem() {Text = "25", Value= "25"},
+                                new SelectListItem() {Text = "26", Value= "26"},
+                                new SelectListItem() {Text = "27", Value= "27"},
+                                new SelectListItem() {Text = "28", Value= "28"},
+                                new SelectListItem() {Text = "29", Value= "29"},
+                                new SelectListItem() {Text = "30", Value= "30"},
+                                new SelectListItem() {Text = "31", Value= "31"}
+                            })
+                        @Html.ValidationMessageFor(model => model.IslamicDay)
+                    </div>
+                </div>
+         <div class="ih">
+                    @Html.LabelFor(model => model.IslamicMonth, "Month")
+
+                    <div class="slhold">
+                        @Html.DropDownListFor(model => model.IslamicMonth, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Moharrum-ul-Haram", Value= "01"},
+                                new SelectListItem() {Text = "Safar-ul-Muzaffar", Value= "02"},
+                                new SelectListItem() {Text = "Rabi-ul-Awwal", Value= "03"},
+                                new SelectListItem() {Text = "Rabi-ul-Aakhar", Value= "04"},
+                                new SelectListItem() {Text = "Jumadil-Ula", Value= "05"},
+                                new SelectListItem() {Text = "Jumadil-Ukhra", Value= "06"},
+                                new SelectListItem() {Text = "Rajab-ul-Asab", Value= "07"},
+                                new SelectListItem() {Text = "Shaban-al-Karim", Value= "08"},
+                                new SelectListItem() {Text = "Ramadan-al-Moazzam", Value= "09"},
+                                new SelectListItem() {Text = "Shawwal-al-Mukarram", Value= "10"},
+                                new SelectListItem() {Text = "Zilqadatil-Haram", Value= "11"},
+                                new SelectListItem() {Text = "Zilhajjatil-Haram", Value= "12"}
+                            })
+                        @Html.ValidationMessageFor(model => model.IslamicMonth)
+                    </div>
+                </div>
+        <div class="ih">
+                    @Html.LabelFor(model => model.IslamicYear, "Year")
+
+                    <div class="slhold">
+                        @Html.DropDownListFor(model => model.IslamicYear, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "1437", Value= "1437"}
+                            })
+                        @Html.ValidationMessageFor(model => model.IslamicYear)
+                    </div>
+                </div>
+
+        <div class="ih">
+            @Html.LabelFor(model => model.CountryList, "Country")
+
+            <div class="slhold">
+                <select class="chosen-select" data-placeholder="Select an Option" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" style="width:302px;">
+                    <option></option>
+                    @{
+                                
+    foreach (var countries in Model.CountryList)
+    { 
+                        <option value="@countries.CountryID">@countries.Name</option>
+    }
+                    }
+
+
+
+                </select>
+
+            </div>
+
+           
+        </div>
+        <div class="ih" id="statesDiv" style="display: none">
+                    <label>States</label>
+
+
+                    <div class="slhold">
+                        <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="chosen-select" style="width:302px;"></select>
+                    </div>
+                </div>
+                <div class="ih" id="cityDivHolder" style="display: none;">
+                    <label>Cities</label>
+
+                    <div class="slhold">
+                        <select id="CityID" name="CityID" class="chosen-select" style="width:302px;"></select>
+                    </div>
+                </div>
+
+        <div class="ih clearfix">
+                    <label>--Video URL--</label>
+
+                    <div class="editor-field">
+                        <div id="VideoContainer" class="VideoContainer pull-left">
+                            <div class="holder" style="display:none">
+                                <input type="text" class="video" name="video1" id="video1" value="" />
+                                <div class="RadioWrap">
+                                    <input type="radio" class="radioClass" name="radio" id="radio1" value="" /><label for="radio1">Mark as Featured</label></div>
+                            </div>
+
+                            <div>
+                                <input type="button" name="AddMoreVideos" value="Add More" id="AddMoreVideos" class="btn-blue m-bottom" />
+                            </div>
+                            <input type="hidden" name="TotalUploadedVideos" id="TotalUploadedVideos" value="" />
+                            <input type="hidden" name="IsFeaturedNameVideos" id="IsFeaturedNameVideos" value="" />
+                        </div>
+                    </div>
+                </div>
+        <div class="ih">
+                    <label>--Upload Images--</label>
+
+                    <div class="editor-field">
+                        <div id="ImagesContainer" class="ImageContainer pull-left">
+                            <div class="holder clearfix" style="display:none">
+                                <input type="file" class="image" name="image1" value="" />
+                                <div class="RadioWrap">
+                                    <input type="radio" class="radioClassImage" name="radioImage" id="radioImage1" value="" /><label for="radioImage1">Mark as Featured</label></div>
+                            </div>
+                            <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
+                            <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
+                            <input type="hidden" name="IsFeaturedNameImage" id="IsFeaturedNameImage" value="" />
+                        </div>
+                    </div>
+                </div>
+        <p id="gap">
+            <input type="submit" value="Create" id="submit" />
+        </p>
+    </fieldset>
+}
+
+<script type="text/javascript">
+    $("#submit").click(function () {
+
+        if ($("#IsVideo").val() == "false") {
+            if ($("#TotalUploadedImages").val() == "") {
+                alert("Image Not Uploaded for Image Article");
+                return false;
+            }
+        }
+        else {
+            if ($("#TotalUploadedVideos").val() == "") {
+                alert("Video Not Uploaded for Video Article");
+                return false;
+            }
+        }
+        var name = $('input[type=radio][name=radio]:checked').attr('id');
+        //console.log(name);
+        var nameImage = $('input[type=radio][name=radioImage]:checked').attr('id');
+        $("#IsFeaturedNameVideos").val(name);
+        $("#IsFeaturedNameImage").val(nameImage);
+    });
+
+
+    $("#DateSpecific").on("change", function () {
+        alert("Juzar");
+    });
+    
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

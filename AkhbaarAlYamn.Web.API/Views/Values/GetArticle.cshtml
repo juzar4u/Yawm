@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Article";
+}
+
+<style>
+    #center {
+        text-align:center;
+        font-family:Calibri;
+        font-size:14px;
+    }
+</style>
+<h2>Article Get Api</h2>
+<div id="center">
+<br />
+<br />
+<br />
+<label>Header: 
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+</label>
+<label>Api Name : GetArticleDetailByArticleID</label>
+   
+    Parameter : Article Id for whom the related articles need to be shown 
+    Parameter : Category ID in which the article id belongs.
+<label>URL: </label><a href="/api/Article/GetArticleDetailByArticleID/?articleId=2107&categoryID=1">@string.Format("{0}{1}",Request.Url.Authority,"/api/Article/GetArticleDetailByArticleID/?articleId=2107&categoryID=1")</a>
+
+
+<br />
+<br />
+<br />
+<label>Header: 
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+</label>
+<label>Api Name : GetAllArticleListing</label>
+    <p>
+        Parameters: IsFeatured true = This will return all featured articles and category id will not be considered.
+        Parameters: IsFeatured false = This will return all non featured articles based on category and category id is mandatory.
+        Information: 4 categories <br />
+        (categoryid 1 = Huzurala (TUS) Akhbaar),(categoryid 2 = Saadat Kiram Akhbaar),(categoryid 3 = Qasre Ali Akhbaar),(categoryid 6 = Bilaad Imaniya Akhbaar)
+
+        <a href="http://akhbaarpp.juzarnooraniprojects.com">Reference</a>
+
+
+    </p>
+<label>URL: </label><a href="/api/Article/GetAllArticleListing/?IsFeatured=false&categoryId=1&pageNo=1&records=10">@string.Format("{0}{1}",Request.Url.Authority,"/api/Article/GetAllArticleListing/?IsFeatured=false&categoryId=1&pageNo=1&records=10")</a>
+    
+
+    
+
+<br />
+<br />
+<br />
+<label>Header: 
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+</label>
+<label>Api Name : GetEntityMediaListByArticleID</label>
+    <p>
+        creativeType id = 1 means Images
+        creativeType id = 2 means videos
+    </p>
+<label>URL: </label><a href="/api/Article/GetEntityMediaListByArticleID/?articleId=2107&creativeTypeId=1">@string.Format("{0}{1}",Request.Url.Authority,"/api/Article/GetEntityMediaListByArticleID/?articleId=2107&creativeTypeId=1")</a>
+    
+
+
+<br />
+<br />
+<br />
+<label>Header: 
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+</label>
+<label>Api Name : GetHomePage</label>
+    <p>
+       CurrentQiyaam is the Location shown as scroll text in home page
+
+          <a href="http://akhbaarpp.juzarnooraniprojects.com">More Info Refer PP Mobile website</a>
+    </p>
+<label>URL: </label><a href="/api/Article/GetHomePage">@string.Format("{0}{1}",Request.Url.Authority,"/api/Article/GetHomePage")</a>
+    
+
+
+
+
+
+</div>

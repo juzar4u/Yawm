@@ -1,0 +1,13 @@
+﻿@model IEnumerable<AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.featuredArticleModel>
+
+
+ @foreach(var items in fea)
+        {
+		<div id="topstory">
+		
+			<a href="#" onclick="return link(this)"><img src='@string.Format("{0}{1}", "http://localhost:62291", items.ImageUrl)' alt="" /></a>
+			
+			<div><h1><a href="#" onclick="return link(this)">@items.Title</a></h1></div>
+			
+		</div> <!-- /topstory -->
+		}

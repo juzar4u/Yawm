@@ -1,0 +1,48 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoAlbumListModel>
+
+@foreach(var items in Model)
+{
+    <li id="dataList" class="tbl-block clear projectListing">
+        <ul class="table ui-sortable" id="projectssortable" cellpadding="0" cellspacing="0">
+            
+            
+            <li class="labh" onclick="myfunction('@items.PhotoAlbumID')">
+                <span class="colum"><img src="@string.Format("{0}{1}{2}", @AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, "/", items.CoverPhotoThumbnailImg)" width="50px;" height="50px;"/></span>
+                <span class="colum" style="color:red; font-size:16px; font-weight:bold; font-style:italic;">@Html.DisplayFor(model => items.PhotoGalleryCount)</span>
+                <span class="colum">@Html.DisplayFor(model => items.Title)</span>
+                <span class="colum"><a href="/Photo/EditPhotoAlbum/?PhotoAlbumID=@items.PhotoAlbumID">Edit</a></span>
+            </li>
+            <div id="data-display-@items.PhotoAlbumID" style="display:none"></div>
+               
+            
+
+        </ul>
+    </li>
+    
+}
+
+<script type="text/javascript">
+    function myfunction(val) {
+        var value = val;
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Photo/GetPhotoGallery",
+            data: { "Id": val },
+            success: function (data) {
+                if ($("#data-display-" + value).css('display') == 'none') 
+                    $("#data-display-" + value).css('display', 'block');
+                else
+                    $("#data-display-" + value).css('display', 'none');
+                
+                
+                $("#data-display-"+value).html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update PhotoGallery.');
+            }
+        });
+    }
+</script>

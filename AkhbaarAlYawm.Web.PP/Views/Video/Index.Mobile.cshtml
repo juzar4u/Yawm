@@ -1,0 +1,87 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.VideoIndexModel>
+
+
+<style>
+    #topstory {
+        padding: 10px 10px;
+        border: 10px #e9e3e3 solid;
+        /* margin: 5px; */
+        background: #fff;
+    }
+</style>
+@*<div id="content">
+    <!-- RECENT ARTICLES -->
+
+    @foreach (var video in Model)
+    {
+        <h2 class="separator">@video._category.CategoryNameEn - @video.AllVideosCount</h2>
+
+        <section class="hmeContent">
+            @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml", video._categoryWiseVideos)
+                
+        </section>
+        
+        <input type="button" value="Load More" class="btn-blue m-bottom" onclick="myfunction('@video._category.CategoryID')">
+    }
+</div>*@
+
+<div id="content">
+    @foreach (var video in Model)
+    {
+        <h2 class="separator" id="@string.Format("{0}{1}", "BG", video._category.CategoryID)" onclick="myfunction('@video._category.CategoryID')">@video._category.CategoryNameEn - @video.AllVideosCount</h2>
+        <div class="swiper-container" id="@string.Format("{0}{1}", "div", video._category.CategoryID)">
+            <div class="swiper-wrapper">
+                <section class="hmeContent">
+                    @{
+        foreach (var items in video._categoryWiseVideos)
+        {
+                        <div class="swiper-slide" id="@items.ArticleID">
+                            <div id="topstory">
+                                <a href="/Home/Detail/@items.ArticleID">
+                                    <img src='@items.Entity.Thumbnail' id="image-width" alt="" style="height: 208px;" /><i class="fa fa-play-circle fa-4x" aria-hidden="true" style="margin: -127px 147px; position: absolute; color: darkred;"></i>
+                                    <div class="list-txt">
+                                        <h1><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h1>
+                                    </div>
+                                </a>
+                                 
+                                <div class="info-main">
+                                    <p style="float: left; float: left; margin-left: 9px; text-align: left;">
+                                        @items.IslamicDate
+                                    </p>
+                                    <p style="float: left; margin-left: 130px;">
+                                        @items.mappedDate.ToString("dd/MM/yyyy")
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+        }
+       <!-- TOPSTORY --><!-- TOPSTORY -->
+<!-- TOPSTORY -->                    }
+                </section>
+
+            </div>
+
+        </div>
+        if (video.AllVideosCount > 5)
+        {
+        <input type="button" value="Load More" class="btn-blue m-bottom" onclick="myfunction('@video._category.CategoryID')">
+        }
+    }
+</div>
+<script type="text/javascript">
+    function myfunction(val) {
+        window.open("/Home/AkhbaarList/" + val + "/true/1", "_self");
+    }
+
+    function myfunction(val)
+    {
+        if($("#div" + val).css('display') == 'block')
+        {
+            $("#div" +val).css('display', 'none');
+        }
+        else
+        {
+            $("#div" +val).css('display', 'block');
+        }
+    }
+</script>

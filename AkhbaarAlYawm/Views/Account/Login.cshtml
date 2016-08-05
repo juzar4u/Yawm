@@ -1,0 +1,54 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<link href="~/Content/screen.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+ <div class="popup-container hide" id="pop-up">
+<div class="container c-p">
+            <a class="close-btn" href="/"><span>&times;</span></a>
+            <div class="form">
+                <h2>Login</h2>
+                @if(!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                <div class="error clearfix" id="error"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>@ViewBag.Error</div>
+                }
+                <input type="email" class="input-text" placeholder="Email" name="Email" id="Email">
+                <input type="password" class="input-text" placeholder="Password" name="Password" id="Password">
+                
+                <div id="hidden" style="display:none"></div>
+                <button class="submit" id="submit">Login</button>
+            </div>
+            @*<div class="success-msg text-center hide" id="success">
+                <p>Your password has been reset successfully.</p>
+            </div>*@
+        </div>
+    </div>
+    
+    
+    
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+    });
+
+    //$("#submit").click(function () {
+    //    //if (($("#newPassword").val() != $("#confirmPassword").val()) || $("#newPassword").val() == '' || $("#confirmPassword").val() == '') {
+    //    //    $("#error").removeClass('hide');
+    //    //    return false;
+    //    //}
+
+        
+    //});
+
+    
+</script>

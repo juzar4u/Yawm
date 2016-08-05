@@ -1,0 +1,12 @@
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarBGS.exe.config
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarBGS.exe
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarBGS.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarBGSLIb.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarAlYawm.Application.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarBGSLIb.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\bin\Debug\AkhbaarAlYawm.Application.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\obj\Debug\AkhbaarBGS.csprojResolveAssemblyReference.cache
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\obj\Debug\AkhbaarBGS.exe
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGS\obj\Debug\AkhbaarBGS.pdb

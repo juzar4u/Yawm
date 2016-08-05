@@ -1,0 +1,5 @@
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\Akhbaar.Shared\bin\Release\Akhbaar.Shared.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\Akhbaar.Shared\bin\Release\Akhbaar.Shared.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\Akhbaar.Shared\obj\Release\Akhbaar.Shared.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\Akhbaar.Shared\obj\Release\Akhbaar.Shared.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\Akhbaar.Shared\obj\Release\Akhbaar.Shared.csprojResolveAssemblyReference.cache

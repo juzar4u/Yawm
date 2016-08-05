@@ -1,0 +1,106 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoGalleryModel
+
+@{
+    ViewBag.Title = "CreateGallery";
+}
+
+<h2>CreateGallery</h2>
+
+<style>
+    #gap {
+        margin-top: 100px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#AddMoreImages").click(function (e) {
+            e.preventDefault();
+            var $container = $("#ImagesContainer");
+
+            if ($container != undefined) {
+                var countImages = $container.find(".image").length;
+                var newImageId = 0;
+                var newImageRadioId = 0;
+                if (countImages == undefined || countImages <= 0) {
+                    newImageId = 1;
+                    newImageRadioId = 1;
+                }
+                else {
+                    newImageId = countImages + 1;
+                    newImageRadioId = countImages + 1
+                }
+
+                $container.append("<br/><input type='file' class='image' name='image" + newImageId + "' value='' />");
+                //$container.append("<div class='RadioWrap'><input type='radio' class='radioClassImage' name='radioImage' id='radioImage" + newImageRadioId + "' value='' /><label for='radio1'>Mark as Featured</label></div>");
+                $container.parent().parent().find("#TotalUploadedImages").val(newImageId);
+            }
+
+            return false;
+        });
+
+    });
+</script>
+<h2>Create Gallery</h2>
+
+@using (Html.BeginForm("CreateGallery", "Photo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Photo Album</legend>
+
+        
+        <div class="ih" style="display: none">
+            @Html.LabelFor(model => model.PhotoGalleryID)
+
+            <div>
+                @Html.EditorFor(model => model.PhotoGalleryID)
+                @Html.ValidationMessageFor(model => model.PhotoGalleryID)
+            </div>
+        </div>
+
+
+        <div class="ih">
+            @Html.LabelFor(model => model, "Photo Album")
+
+            <div class="slhold">
+                <select class="chosen-select" data-placeholder="Select an Option" id="PhotoAlbumID" name="PhotoAlbumID" style="width:302px;">
+                    <option></option>
+                    @{
+                                
+    foreach (var album in Model.AlbumList)
+    { 
+                        <option value="@album.PhotoAlbumID">@album.Title</option>
+    }
+                    }
+
+
+
+                </select>
+
+            </div>
+
+           
+        </div>
+
+        <div class="ih">
+                    <label>--Upload Images--</label>
+
+                    <div class="editor-field">
+                        <div id="ImagesContainer" class="ImageContainer pull-left">
+                            <div class="holder clearfix" style="display:none">
+                                <input type="file" class="image" name="image1" value="" />
+                                </div>
+                            <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
+                            <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
+                        </div>
+                    </div>
+                </div>
+        <p id="gap">
+            <input type="submit" value="Create" id="submit" />
+        </p>
+
+        </fieldset>
+    
+}

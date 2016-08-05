@@ -1,0 +1,65 @@
+﻿@model PagerHelper
+
+<div class="page-component-frame" @((Model.TotalPages == 1) ? "style='display:none;'" : "") >
+
+
+    <div class="pager-frame-new"> 
+        @{  
+            if (Model.ShowFirstPrevLinks)
+            {
+            <text>
+                <div>
+                    @Html.Raw(Html.PagerPageLink(1, Url.RequestContext, "««", Model))
+                </div>
+                <div>
+                    @Html.Raw(Html.PagerPageLink(Model.StartPageNumber - 1, Url.RequestContext, "«", Model))
+                </div>
+                
+            </text>
+            }
+        }
+    </div>
+    
+
+        <ul>
+            @{
+                for (int linkForPgCounter = Model.StartPageNumber; linkForPgCounter <= Model.EndPageNumber; linkForPgCounter++)
+                {
+                    if (linkForPgCounter == Model.CurrentPage)
+                    { 
+                        @:<li class="page-component-frame-active">@linkForPgCounter</li>
+                    }
+                    else
+                    {
+                        @:<li> @Html.Raw(Html.PagerPageLink(linkForPgCounter, Url.RequestContext, Model))</li>
+                    }
+                } 
+            }
+        </ul>
+    
+        <div class="pager-frame-new">
+            @{ if (Model.ShowNextLastLinks)
+               {
+                   <text>
+                    <div>
+                        @Html.Raw(Html.PagerPageLink(Model.EndPageNumber + 1, Url.RequestContext, "»", Model))
+                    </div>
+                    <div>
+                        @Html.Raw(Html.PagerPageLink(Model.TotalPages, Url.RequestContext, "»»", Model))
+                    </div>
+                    
+                    </text>
+                    }
+                }
+        </div>
+    
+            <span class="pager-page-indicator">
+        @{
+            if (Model.TotalPages > 0 && Model.CurrentPage > 0)
+            {
+                @: Page <strong>@Model.CurrentPage</strong> of <strong>@Model.TotalPages</strong>
+                }
+            }
+        </span>
+
+</div>

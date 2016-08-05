@@ -1,0 +1,24 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CategoryModel
+
+
+    <li id="dataList" class="tbl-block clear projectListing">
+        <ul class="table ui-sortable" id="projectssortable" cellpadding="0" cellspacing="0">
+            <li class="labh">
+                <span class="colum">CatgeoryID</span>
+                <span class="colum">Name</span>
+                <span class="colum">Created On</span>
+            </li>
+            @foreach (var item in Model.LowerListCategories)
+            {
+                <li class="row " id="@item.CategoryID">
+                    <span class="colum sn">@Html.DisplayFor(model => item.CategoryID)</span>
+                   
+                    <span class="colum">@Html.DisplayFor(model => item.CategoryNameEn)</span>
+                    <span class="colum">@Html.DisplayFor(model => item.CreatedOn)</span>
+                    <span class="colum"><a href="/Category/EditCategory/?CategoryID=@item.CategoryID">Edit</a></span>
+                    <span class="colum"><a href="/Category/DeleteCategory/?CategoryID=@item.CategoryID">Delete</a></span>
+                </li>
+            }
+
+        </ul>
+    </li>

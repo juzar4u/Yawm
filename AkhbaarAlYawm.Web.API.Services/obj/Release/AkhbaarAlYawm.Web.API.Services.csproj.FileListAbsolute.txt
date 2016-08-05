@@ -1,0 +1,7 @@
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\bin\Release\AkhbaarAlYawm.Web.API.Services.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\bin\Release\AkhbaarAlYawm.Web.API.Services.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\bin\Release\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\bin\Release\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\obj\Release\AkhbaarAlYawm.Web.API.Services.csprojResolveAssemblyReference.cache
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\obj\Release\AkhbaarAlYawm.Web.API.Services.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Web.API.Services\obj\Release\AkhbaarAlYawm.Web.API.Services.pdb

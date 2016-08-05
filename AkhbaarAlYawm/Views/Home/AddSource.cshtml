@@ -1,0 +1,54 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.SourceModel
+
+@{
+    ViewBag.Title = "AddSource";
+}
+
+<h2>AddSource</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>SourceModel</legend>
+
+        <div class="ih" style="display: none">
+            @Html.LabelFor(model => model.SourceID)
+
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SourceID)
+                @Html.ValidationMessageFor(model => model.SourceID)
+            </div>
+        </div>
+        <div class="ih">
+            @Html.LabelFor(model => model.Name)
+
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="ih">
+            @Html.LabelFor(model => model.Website)
+
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Website)
+                @Html.ValidationMessageFor(model => model.Website)
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

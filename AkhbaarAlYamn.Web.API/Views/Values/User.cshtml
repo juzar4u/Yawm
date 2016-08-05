@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "User";
+}
+
+<style>
+    #center {
+        text-align: center;
+        font-family: Calibri;
+        font-size: 14px;
+    }
+</style>
+<h1 style="text-align: center">Get User API List</h1>
+<div id="center">
+    <br />
+    <br />
+    <br />
+    <label>
+        Header: 
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+    </label>
+    <label>Api Name : GetDeviceRegistrationAndInsert</label>
+    <label>URL: </label>
+    <a href="/api/User/GetDeviceRegistrationAndInsert/?type=type&version=version&osVersion=osVersion">@string.Format("{0}{1}", Request.Url.Authority, "/api/User/GetDeviceRegistrationAndInsert/?type=type&version=version&osVersion=osVersion")</a>
+
+</div>
+<h1 style="text-align: center">Post User API List</h1>
+<div id="center">
+    <br />
+    <br />
+    <br />
+    <label>Api Name : PostUserDataAndRegister</label>
+
+    <label>URL: </label>
+    <a href="/api/user-PostUserDataAndRegister">@string.Format("{0}{1}", Request.Url.Authority, "/api/user-PostUserDataAndRegister")</a>
+
+    <p>
+        Header: Content-Type: application/json 
+    data: json
+    DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+    </p>
+    <p>Json: {"UserName":"Rahul","UserPassword":"raooooool", "FirstName":"kaliya", "LastName":"Gora","UserDescription":"KiyaBaatHai", "PictureUrl":"","IsSocialPluginUser":"false", "ProviderName":"", "ProviderID":"" }</p>
+
+
+    <br />
+    <br />
+    <br />
+    <label>Api Name : PostLogin</label>
+
+    <label>URL: </label>
+    <a href="/api/user-PostLogin">@string.Format("{0}{1}", Request.Url.Authority, "/api/user-PostLogin")</a>
+
+    <p>
+        Header:Content-Type: application/json 
+dataType: json
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+    </p>
+    <p>Json: {"UserName":"Juzar","UserPassword":"95934600"}</p>
+
+
+    <br />
+    <br />
+    <br />
+    <label>Api Name : PostLogout</label>
+    <label>URL: </label>
+    <a href="/api/user-PostLogout">@string.Format("{0}{1}", Request.Url.Authority, "/api/user-PostLogout")</a>
+
+    <p>
+        Header:Content-Type: application/json 
+dataType: json
+DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+    </p>
+    <p>Json: {"UserID":"8"}</p>
+
+    <br />
+    <br />
+    <br />
+    <label>Api Name : PostForgotPassword</label>
+
+    <label>URL: </label>
+    <a href="/api/user-PostForgotPassword">@string.Format("{0}{1}", Request.Url.Authority, "/api/user-PostForgotPassword")</a>
+
+    <p>
+        Header:Content-Type: application/json 
+dataType: json
+    DeviceToken: 57CD516C96DDDE86EDCF26735D3BC10D
+    </p>
+    <p>Json: {"UserName":"Juzar"}</p>
+
+
+</div>

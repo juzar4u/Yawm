@@ -1,0 +1,71 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CategoryModel
+
+@{
+    ViewBag.Title = "DeleteCategory";
+}
+
+<h2>DeleteCategory</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CategoryModel</legend>
+
+    <div class="ih" style="display: none">
+        @Html.DisplayNameFor(model => model.CategoryDetails.CategoryID)
+    </div>
+    <div class="display-field" style="display: none">
+        @Html.DisplayFor(model => model.CategoryDetails.CategoryID)
+    </div>
+
+    <div class="display-label" style="display: none">
+        @Html.DisplayNameFor(model => model.CategoryDetails.ParentCategoryID)
+    </div>
+    <div class="display-field" style="display: none">
+        @Html.DisplayFor(model => model.CategoryDetails.ParentCategoryID)
+    </div>
+
+
+    <div class="display-label" style="font-size:14px; font-weight:bold">
+        <label>Category Name</label>
+    </div>
+    <br />
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CategoryDetails.CategoryNameEn)
+    </div>
+    <br />
+    <br />
+    <div class="display-label" style="font-size:14px; font-weight:bold">
+         <label>Description</label>
+    </div>
+    <br />
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CategoryDetails.DescriptionEn)
+    </div>
+    @*<div class="ih">
+        <label>Category Name</label>
+        <div>
+            @Html.DisplayFor(model => model.CategoryDetails.CategoryNameEn)
+            @Html.ValidationMessageFor(model => model.CategoryDetails.CategoryNameEn)
+        </div>
+    </div>
+
+
+    <div class="ih">
+        <label>Description</label>
+        <div>
+            @Html.DisplayFor(model => model.CategoryDetails.DescriptionEn)
+            @Html.ValidationMessageFor(model => model.CategoryDetails.CategoryNameEn)
+        </div>
+    </div>*@
+
+
+</fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" />
+        |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

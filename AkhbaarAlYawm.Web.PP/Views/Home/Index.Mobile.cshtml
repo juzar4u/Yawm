@@ -1,0 +1,138 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.AkhbaarMasterModel
+
+<script src="~/Content/js/jwplayer.js"></script>
+<script>jwplayer.key = "XqJa9FXleBOTwBWKKMUWovUfCdkGpk7c7TLYsw==";</script>
+<link href="~/FeaturedPanel/dist/css/swiper.min.css" rel="stylesheet" />
+<div id="content">
+    <div id="scroll-text">
+        <marquee behavior="scroll" direction="left">Current Qiyaam Shareef of Huzurala is in: @Model.CurrentQiyaam</marquee>
+
+    </div>
+
+    <!-- TOPSTORY -->
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+
+            @foreach (var items in Model.FeaturedList)
+            {
+                <div class="swiper-slide">
+                    <div id="topstory">
+
+                        <a href="/Home/Detail/@items.ArticleID">
+                            @if (items.IsVideo == false)
+                            {
+                                <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.Entity.URL)' id="image-width" alt="@items.Entity.URL" style="height:250px;"/>
+                            }
+                            else
+                            {
+                                <div id="@items.ArticleID">Loading the player...</div> 
+                            }
+                        </a>
+
+                        <p>
+                            <h1><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h1>
+                            <p class="source-main" style="margin-bottom: -14px;">@items.sourceName</p>
+
+                        </p>
+                        <div class="info-main">
+                            <p style="float: left; float: left; margin-left: 9px; text-align: left;">
+                                @items.IslamicDate
+                            </p>
+                            <p style="float: left; margin-left: 130px;">
+                                @items.mappedDate.ToString("dd/MM/yyyy")
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <script type="text/javascript">
+                    var playerInstance = jwplayer("@items.ArticleID");
+                    playerInstance.setup({
+                        file: "@items.Entity.URL",
+                        width: $(window).width(),
+                        image: "@items.Entity.Thumbnail",
+                        height: 250
+                    });
+
+                </script>
+                <!-- /topstory -->
+            }
+
+        </div>
+        <br />
+        <div class="swiper-pagination" style="position: relative"></div>
+    </div>
+
+
+    <!-- RECENT ARTICLES -->
+    @foreach (var items in Model.nonfeatured)
+    {
+        <h2 class="separator" id="@string.Format("{0}{1}", "click", items.CategoryID)"> @items.AkhbaarName - (@items.AkhbaarCount)</h2>
+        <ul class="list box" id="@string.Format("{0}{1}", "collapse", items.CategoryID)">
+            @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml", items.nonFeaturedList)
+        </ul>
+        <input type="button" name="AkhbaarButton" value="Load More" class="btn-blue m-bottom" onclick="AkhbaarButtonFunction('@items.CategoryID')">
+    }
+
+
+</div>
+<!-- /content -->
+
+<script src="~/FeaturedPanel/dist/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true
+    });
+</script>
+<script type="text/javascript">
+    function AkhbaarButtonFunction(val)
+    {
+        url = "/Home/AkhbaarList/" + val + "/false/1";
+        window.open(url, "_self");
+    }
+    $("#click1").click(function () {
+
+        if ($("#collapse1").css('display') == 'block') {
+            $("#collapse1").css('display', 'none');
+        }
+        else {
+            $("#collapse1").css('display', 'block');
+        }
+    });
+
+    $("#click2").click(function () {
+
+        if ($("#collapse2").css('display') == 'block') {
+            $("#collapse2").css('display', 'none');
+        }
+        else {
+            $("#collapse2").css('display', 'block');
+        }
+    });
+    $("#click3").click(function () {
+
+        if ($("#collapse3").css('display') == 'block') {
+            $("#collapse3").css('display', 'none');
+        }
+        else {
+            $("#collapse3").css('display', 'block');
+        }
+    });
+
+    $("#click6").click(function () {
+
+        if ($("#collapse6").css('display') == 'block') {
+            $("#collapse6").css('display', 'none');
+        }
+        else {
+            $("#collapse6").css('display', 'block');
+        }
+    });
+
+    $(document).ready(function () {
+        $("#topstory img").css('width', $(window).width());
+        $("#topstory iframe").css('width', $(window).width());
+    });
+</script>

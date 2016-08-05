@@ -1,0 +1,316 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.ClassifiedModel
+@{
+    ViewBag.Title = "PostNow.Mobile";
+}
+@*<link href="~/Content/chosen-31-01-2016.css" rel="stylesheet" />*@
+<link href="~/Content/screen.css" rel="stylesheet" />
+<style>
+      .postBtn {
+	-moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+	box-shadow:inset 0px 1px 0px 0px #caefab;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811));
+	background:-moz-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+	background:-webkit-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+	background:-o-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+	background:-ms-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+	background:linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811',GradientType=0);
+	background-color:#77d42a;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #268a16;
+	display:inline-block;
+	cursor:pointer;
+	color:#306108;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #aade7c;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.postBtn:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a));
+	background:-moz-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+	background:-webkit-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+	background:-o-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+	background:-ms-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+	background:linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a',GradientType=0);
+	background-color:#5cb811;
+}
+.postBtn:active {
+	position:relative;
+	top:1px;
+}
+    .drpcls {
+        border-radius: 3px;
+        height: 58px;
+        display: block;
+        clear: both;
+        border: 0;
+        background-color: #fff;
+        font-size: 18px;
+        margin: 0 0 22px;
+        padding: 0 15px;
+        width: 100%;
+    }
+   
+</style>
+@*<script src="~/Scripts/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        
+    });
+    function CountryChange(countrydd, childDDID) {
+        var selectedItem = $(countrydd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+
+                $("#statesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html("Select State"));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+
+
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+
+    function StateChange(statedd, childDDID) {
+        var selectedItem = $(statedd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetCities",
+            data: { "StateID": selectedItem },
+            success: function (data) {
+
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html("Select City"));
+                console.log(data);
+                if (data != '') {
+                    $.each(data, function (id, option) {
+
+                        $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+
+                    });
+                } else {
+                    $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
+
+                }
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+
+    }
+
+
+    function ClassifiedCategoryChange(parentdd, childDDID) {
+        var selectedItem = $(parentdd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Classifieds/GetChildClassifiedCategories",
+            data: { "parentCategoryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+
+                $("#categoriesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html("Select Sub Categories*"));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.ClassifiedAdCategoryID).html(option.Name));
+
+
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+
+
+</script>
+@using (Html.BeginForm("PostNow", "Classifieds", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="popup-container hide" id="pop-up">
+    <div class="container c-p">
+        <a class="close-btn" href="/"><span>&times;</span></a>
+        <div class="form">
+            <h2>Post Classified Ad</h2>
+            <div class="error clearfix" id="error" style="display:none"><i class="fa fa-exclamation-triangle" id="errText" aria-hidden="true"></i></div>
+
+                @if(!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                <div class="error clearfix" id="error"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>@ViewBag.Error</div>
+                }
+            <input type="text" class="input-text" placeholder="Title*" name="Title" id="Title">
+            <textarea type="text" class="input-text" placeholder="Description" name="Description" id="Description" style="height: 105px;"></textarea>
+             <select class="drpcls" data-placeholder="Select an Option" id="ParentClassifiedAdCategoryID" name="ParentClassifiedAdCategoryID" onchange="ClassifiedCategoryChange(this, 'ChildClassifiedAdCategoryID')" >
+                     <option selected disabled>Select Category*</option>
+                    @{
+                                
+    foreach (var categories in Model.ClassifiedAdParentList)
+    { 
+                        <option value="@categories.ClassifiedAdCategoryID">@categories.Name</option>
+    }
+                    }
+
+
+
+                </select>
+
+             <div class="ih" id="categoriesDiv" style="display: none">
+            <select id="ChildClassifiedAdCategoryID" name="ChildClassifiedAdCategoryID" class="drpcls"></select>
+                </div>
+
+            <select class="drpcls" data-placeholder="Select an Option" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" >
+                     <option selected disabled>Select Country*</option>
+                    @{
+                                
+    foreach (var countries in Model.CountryList)
+    { 
+                        <option value="@countries.CountryID">@countries.Name</option>
+    }
+                    }
+
+
+
+                </select>
+
+            <div class="ih" id="statesDiv" style="display: none">
+            <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="drpcls"></select>
+                </div>
+
+            <div class="ih" id="cityDivHolder" style="display: none;">
+             <select id="CityID" name="CityID" class="drpcls"></select>
+                </div>
+            <select name="PhoneCode" id="PhoneCode" class="drpcls">
+                <option selected disabled>Select PhoneCode*</option>
+                @Html.Partial("~/Views/Shared/PartialCountryPhoneCode.cshtml")
+            </select>
+            <input type="text" class="input-text" placeholder="PhoneNo*" name="PhoneNo" id="PhoneNo">
+            <select name="CurrencyID" id="CurrencyID" class="drpcls">
+                <option selected disabled>Select Currency*</option>
+            @foreach (var item in Model.CurrencyList)
+            {
+                <option value="@item.CurrencyID">@item.Code</option>
+            }   
+                </select>
+            <input type="text" class="input-text" placeholder="Price*" name="price" id="price">
+            <textarea type="text" class="input-text" placeholder="Address" name="address" id="address" style="height: 105px;"></textarea>
+
+            <input type="file" class="postBtn" name="Img" id="Img" multiple />
+            <input type="text" id="UserID" name="UserID" value="@Model.UserID" style="display:none"/>
+            <button type="submit" class="submit" id="submit">Post Ad</button>
+        </div>
+    </div>
+    </div>
+}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#overlay").removeClass('hide');
+            $("#pop-up").removeClass('hide');
+        });
+
+        $("#submit").click(function () {
+            if ($("#Title").val() == '') {
+                $("#error").css('display', 'block');
+                $("#errText").text('Title is not Entered.');
+                return false;
+            }
+           
+            else if ($("#CityID").val() == '' || $("#CityID").val() == null || $("#CityID").val() == 'Select City') {
+                if ($("#StateID").val() == '' || $("#StateID").val() == null || $("#StateID").val() == 'Select State') {
+                    if ($("#CountryID").val() == '' || $("#CountryID").val() == null || $("#CountryID").val() == 'Select Country*') {
+                        $("#error").css('display', 'block');
+                        $("#errText").text('Country is not Selected.');
+                        return false;
+                    }
+                    else {
+                        $("#error").css('display', 'block');
+                        $("#errText").text('State is not Selected.');
+                        return false;
+                    }
+                }
+                else {
+                    $("#error").css('display', 'block');
+                    $("#errText").text('City is not Selected.');
+                    return false;
+                }
+            }
+            else if ($("#PhoneCode").val() == '' || $("#PhoneCode").val() == 'Select PhoneCode*') {
+                $("#error").css('display', 'block');
+                $("#errText").text('PhoneCode is not Selected.');
+                return false;
+            }
+            else if ($("#PhoneNo").val() == '') {
+                $("#error").css('display', 'block');
+                $("#errText").text('PhoneNo is not Entered.');
+                return false;
+            } 
+            else if ($("#CurrencyID").val() == '' || $("#CurrencyID").val() == 'Select Currency*') {
+                $("#error").css('display', 'block');
+                $("#errText").text('Currency is not Selected.');
+                return false;
+            }
+            else if ($("#price").val() == '') {
+                $("#error").css('display', 'block');
+                $("#errText").text('price is not Selected.');
+                return false;
+            }
+        });
+
+
+    </script>

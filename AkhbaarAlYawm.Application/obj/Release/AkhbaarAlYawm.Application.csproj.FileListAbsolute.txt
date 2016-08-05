@@ -1,0 +1,9 @@
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\AkhbaarAlYawm.Application.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\AkhbaarAlYawm.Application.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\obj\Release\AkhbaarAlYawm.Application.csprojResolveAssemblyReference.cache
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\obj\Release\AkhbaarAlYawm.Application.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\obj\Release\AkhbaarAlYawm.Application.pdb
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\Akhbaar.Shared.dll
+C:\Users\juzar\Documents\Visual Studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.Application\bin\Release\Akhbaar.Shared.pdb

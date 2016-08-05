@@ -1,0 +1,434 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.MiqaatIndexModel
+
+@{
+    ViewBag.Title = "Create Miqaat";
+}
+
+
+
+<style>
+    .tbl-block.projectListing .colum {
+    width: 5%;
+}
+
+        .tbl-block.projectListing .colum + .colum {
+    width: 10%;
+}
+
+        .tbl-block.projectListing .colum + .colum {
+    width: 10%;
+}
+
+            .tbl-block.projectListing .colum + .colum + .colum + .colum {
+    width: 11%;
+}
+            .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum {
+    width: 12%;
+}
+            .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 16%;
+}
+            .tbl-block.projectListing .colum + .colum + .colum + .colum + .colum + .colum + .colum {
+    width: 11%;
+}
+</style>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        lookuptagsUrl = "/Miqaat/TitleDataAutocomplete";
+
+        $("#AlbumList").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: lookuptagsUrl,
+                    type: "GET",
+                    dataType: "json",
+                    data: { "name": $("#AlbumList").val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.ArticleData, value: item.ArticleData, element: item.ArticleID };
+                        }))
+
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            },
+            select: function (e, ui) {
+                // alert(ui.item.value);
+                var name = ui.item.element;
+                console.log(name);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    dataType: 'html',
+                    url: "/Miqaat/UpdateListing",
+                    data: { "elementId": name },
+                    success: function (data) {
+                        $("#projectlisting").html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Article Details');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#CountryID").chosen({ width: "100%" });
+    });
+    function CountryChange(countrydd, childDDID) {
+        var selectedItem = $(countrydd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+
+                $("#statesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+
+
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+
+    function StateChange(statedd, childDDID) {
+        var selectedItem = $(statedd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetCities",
+            data: { "StateID": selectedItem },
+            success: function (data) {
+
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                console.log(data);
+                if (data != '') {
+                    $.each(data, function (id, option) {
+
+                        $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+
+                    });
+                } else {
+                    $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
+
+                }
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+
+    }
+
+
+</script>
+<div class="h1title sectors">
+    <h1>Create Miqaat</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label" style="display: none;">
+            @Html.LabelFor(model => model.Calender_EventID)
+        </div>
+        <div class="editor-field" style="display: none;">
+            @Html.EditorFor(model => model.Calender_EventID)
+            @Html.ValidationMessageFor(model => model.Calender_EventID)
+        </div>
+
+
+        <div id="wrapper">
+
+            <div class="ih">
+                @Html.LabelFor(model => model.MiqaatCategoryList, "Miqaat Categories")
+
+                <div class="slhold">
+                    <select class="chosen-select" data-placeholder="Select an Option" id="ECategoryID" name="ECategoryID" style="width: 302px;">
+                        <option disabled selected>--Select An Option--</option>
+                        @{
+                                
+    foreach (var category in Model.MiqaatCategoryList)
+    { 
+                            <option value="@category.ECategoryID">@category.EName</option>
+    }
+                        }
+
+
+
+                    </select>
+                   
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <div class="ih">
+                <label>Miqaat Name</label>
+                <div>
+                    @Html.EditorFor(model => model.EName)
+                    @Html.ValidationMessageFor(model => model.EName)
+                </div>
+            </div>
+
+            <div class="ih">
+                <label>Rank</label>
+                <div>
+                    @Html.EditorFor(model => model.Rank)
+                    @Html.ValidationMessageFor(model => model.Rank)
+                </div>
+            </div>
+
+            <div class="ih">
+                @Html.LabelFor(model => model.CountryList, "Country")
+
+                <div class="slhold">
+                    <select class="chosen-select" data-placeholder="Select an Option" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" style="width: 302px;">
+                        <option></option>
+                        @{
+                                
+    foreach (var countries in Model.CountryList)
+    { 
+                            <option value="@countries.CountryID">@countries.Name</option>
+    }
+                        }
+
+
+
+                    </select>
+
+                </div>
+
+
+            </div>
+            <div class="ih" id="statesDiv" style="display: none">
+                <label>States</label>
+
+
+                <div class="slhold">
+                    <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="chosen-select" style="width: 302px;"></select>
+                </div>
+            </div>
+            <div class="ih" id="cityDivHolder" style="display: none;">
+                <label>Cities</label>
+
+                <div class="slhold">
+                    <select id="CityID" name="CityID" class="chosen-select" style="width: 302px;"></select>
+                </div>
+            </div>
+            <div class="ih" id="DateSpecific">
+                @Html.LabelFor(model => model.DateSpecific, "Year")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.DateSpecific, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "not year specific", Value= "false"},
+                                new SelectListItem() {Text = "year specific", Value= "true"}
+                                
+                            })
+                    @Html.ValidationMessageFor(model => model.DateSpecific)
+                </div>
+            </div>
+
+            <div class="ih">
+                @Html.LabelFor(model => model.H_Day, "Day")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.H_Day, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "01", Value= "01"},
+                                new SelectListItem() {Text = "02", Value= "02"},
+                                new SelectListItem() {Text = "03", Value= "03"},
+                                new SelectListItem() {Text = "04", Value= "04"},
+                                new SelectListItem() {Text = "05", Value= "05"},
+                                new SelectListItem() {Text = "06", Value= "06"},
+                                new SelectListItem() {Text = "07", Value= "07"},
+                                new SelectListItem() {Text = "08", Value= "08"},
+                                new SelectListItem() {Text = "09", Value= "09"},
+                                new SelectListItem() {Text = "10", Value= "10"},
+                                new SelectListItem() {Text = "11", Value= "11"},
+                                new SelectListItem() {Text = "12", Value= "12"},
+                                new SelectListItem() {Text = "13", Value= "13"},
+                                new SelectListItem() {Text = "14", Value= "14"},
+                                new SelectListItem() {Text = "15", Value= "15"},
+                                new SelectListItem() {Text = "16", Value= "16"},
+                                new SelectListItem() {Text = "17", Value= "17"},
+                                new SelectListItem() {Text = "18", Value= "18"},
+                                new SelectListItem() {Text = "19", Value= "19"},
+                                new SelectListItem() {Text = "20", Value= "20"},
+                                new SelectListItem() {Text = "21", Value= "21"},
+                                new SelectListItem() {Text = "22", Value= "22"},
+                                new SelectListItem() {Text = "23", Value= "23"},
+                                new SelectListItem() {Text = "24", Value= "24"},
+                                new SelectListItem() {Text = "25", Value= "25"},
+                                new SelectListItem() {Text = "26", Value= "26"},
+                                new SelectListItem() {Text = "27", Value= "27"},
+                                new SelectListItem() {Text = "28", Value= "28"},
+                                new SelectListItem() {Text = "29", Value= "29"},
+                                new SelectListItem() {Text = "30", Value= "30"},
+                                new SelectListItem() {Text = "31", Value= "31"}
+                            })
+                    @Html.ValidationMessageFor(model => model.H_Month)
+                </div>
+            </div>
+            <div class="ih">
+                @Html.LabelFor(model => model.H_Month, "Month")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.H_Month, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Moharrum-ul-Haram", Value= "01"},
+                                new SelectListItem() {Text = "Safar-ul-Muzaffar", Value= "02"},
+                                new SelectListItem() {Text = "Rabi-ul-Awwal", Value= "03"},
+                                new SelectListItem() {Text = "Rabi-ul-Aakhar", Value= "04"},
+                                new SelectListItem() {Text = "Jumadil-Ula", Value= "05"},
+                                new SelectListItem() {Text = "Jumadil-Ukhra", Value= "06"},
+                                new SelectListItem() {Text = "Rajab-ul-Asab", Value= "07"},
+                                new SelectListItem() {Text = "Shaban-al-Karim", Value= "08"},
+                                new SelectListItem() {Text = "Ramadan-al-Moazzam", Value= "09"},
+                                new SelectListItem() {Text = "Shawwal-al-Mukarram", Value= "10"},
+                                new SelectListItem() {Text = "Zilqadatil-Haram", Value= "11"},
+                                new SelectListItem() {Text = "Zilhajjatil-Haram", Value= "12"}
+                            })
+                    @Html.ValidationMessageFor(model => model.H_Month)
+                </div>
+            </div>
+
+            <div class="ih" id="YearSelectList" style="display:none">
+                @Html.LabelFor(model => model.H_Year, "Year")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.H_Year, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "1437", Value= "1437"},
+                                new SelectListItem() {Text = "1438", Value= "1438"},
+                                new SelectListItem() {Text = "1439", Value= "1439"},
+                                new SelectListItem() {Text = "1440", Value= "1440"},
+                                new SelectListItem() {Text = "1441", Value= "1441"},
+                                new SelectListItem() {Text = "1442", Value= "1442"}
+                            })
+                    @Html.ValidationMessageFor(model => model.H_Year)
+                </div>
+            </div>
+
+            <p>
+                <input type="submit" id="submit" value="Create" />
+            </p>
+        </div>
+
+
+
+
+    </fieldset>
+    
+    <fieldset>
+
+
+        <div id="wrapper-searchbox" class="wrapper-searchbox m-bottom pull-left" style="margin-left:100px;">
+            <span class="pull-left btnpad" style="padding-top: 7px;">Search: </span>
+            <input type="text" id="AlbumList" name="AlbumList" placeholder="Search By Title" />
+        </div>
+
+        <div id="projectlisting">
+            @Html.Partial("MiqaatList", Model.events)
+        </div>
+
+
+    </fieldset>
+}
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<div class="wp-pagenavi">
+        @{
+            PagerHelper ph = new PagerHelper();
+            ph.CurrentPage = ViewBag.currentPage;
+            ph.TotalRecords = ViewBag.totalCount;
+            Html.RenderPartial("~/Views/Shared/_Pager.cshtml", ph);
+        }
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+
+}
+
+<script type="text/javascript">
+
+    $("#DateSpecific").change(function () {
+        
+
+        if ($("#DateSpecific option:selected").val() == "true") {
+            $("#YearSelectList").css('display', 'block')
+        }
+        else {
+            $("#YearSelectList").css('display', 'none')
+
+        }
+
+    });
+</script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchselect").chosen({ width: "100%" });
+    });
+</script>

@@ -1,0 +1,228 @@
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+HTML
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+body {margin:0; background:#FFF url("../design/bg.png") 0 0 repeat-x; line-height:20px; font-size:17px; font-family:"helvetica", sans-serif; color:#000;}
+address, blockquote, dl, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, table, ul {margin:15px 0;}
+a {color:#000; text-decoration:none;    font-size: 17px; font-size: 17px;font-family: calibri;}
+h1 {margin:0; font-size:24px; font-weight:bold;}
+h2 {font-size:20px;}
+h3 {font-size:17px;}
+h4, h5, h6 {font-size:17px; font-weight:bold;}
+ul li {padding-left:17px; /*background:url("../design/arrow.png") 0 0 no-repeat;*/}
+ul ul {margin:0; font-size:15px;}
+table {border:2px solid #89CA33;}
+table th {padding:5px; border:1px solid #89CA33; font-weight:bold; text-align:center;}
+table td {padding:5px; border:1px solid #89CA33;}
+img.f-left {margin-right:9px;}
+img.f-right {margin-left:9px;}
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+LAYOUT
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+#wrapper {position:relative; min-height:100%; overflow:auto;}
+#header {position:relative; height:40px; overflow:hidden; padding:0 8px;}
+#header #logo {margin:0; margin-top:10px; text-align:center;}
+#header #info {position:absolute; top:6px; left:8px; margin:0;}  
+#header #info a {display:block; width:28px; height:28px; overflow:hidden; background:url("../design/info.png") 0 0 no-repeat;}
+#header #search {position:absolute; top:6px; right:8px; margin:0;}
+#header #search a {display:block; width:28px; height:28px; margin:0; overflow:hidden; background:url("../design/search.png") 0 0 no-repeat;}
+#content .separator {margin:0; padding:8px; background:url("../design/separator.png"); text-align:center; text-shadow:1px 1px 0px #000; font-size:20px; font-weight:bold; color:#FFF;}
+#content .padding {padding:0px;}
+#content .title {margin:7px 0; font-size:20px;font-family: calibri;font-weight: bold; margin-left:10px; }
+#content .body {font-size: 17px;font-family:Calibri;padding: 20px;text-align: justify;}
+#footer {padding:8px; border-top:1px solid #CCC; color:#777;}
+#footer p {margin:0;}
+#footer a {color:#777;}
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+PAGE: HOMEPAGE
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+#topstory {position:relative;    width: 100%;}
+#topstory img {display:block; width:100%; height:auto;}
+#topstory p {position:absolute; bottom:0; left:0; width:100%;}
+#topstory p h1 {margin:0; padding:8px; background:url("../design/transparent.png") 0 0 repeat-x; font-size:20px; line-height:24px;}
+#topstory p h1 a {text-decoration:none; color:#FFF; text-shadow:1px 1px 0px #000;}
+.list {margin:0;}
+.list li {display:block; padding:8px; border-bottom:1px solid #CCC; background:url("../design/gradient.png") 0 100% repeat-x;}
+.list li .list-img {float:left; width:88px;}
+.list li .list-img img {display:block; width:80px; height:98px;}
+.list li .list-txt {}
+.list li .list-txt h3 {margin:0; font-weight:bold;}
+#scroll-text {
+        font-size: 14px;
+        font-weight: bold;
+        color: #051249;
+    }
+.info-article {
+        color: darkgray;
+        float: left;
+        font-size: 12px;
+        margin-top: -16px;
+        margin-left: 0px;
+        font-weight: bold;
+        font-family: calibri;
+    }
+.miqaat-article {
+        color: darkgray;
+        float: right;
+        font-size: 12px;
+    }
+    .info {
+        color: red;
+        float: left;
+        font-size: 12px;
+        margin-top: -16px;
+        margin-left: 0px;
+        font-weight: bold;
+    }
+    .info-main {
+    color: red;
+    float: left;
+    font-size: 15px;
+    margin-top: 26px;
+    margin-left: 0px;
+    font-weight: bold;
+    }
+    .source a{
+        color: #f8b801;
+        font-size: 14px;
+        float: left;
+        margin: 0;
+        font-weight:bold;
+    }
+     .source {
+        color: #f8b801;
+        font-size: 14px;
+        float: left;
+        margin: 0;
+        font-weight:bold;
+    }
+
+    .source-main {
+        color: #f8b801;
+        font-size: 14px;
+        float: right;
+        margin: 0px;
+        margin-right: 10px;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+.btn-blue, .ui-datepicker-buttonpane .ui-datepicker-close {
+    background: #4cbb91;
+    border: 1px solid #3f73b5;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font: bold 13px/32px 'OpenSansRegular';
+    height: 31px;
+    padding: 0 12px 1px;
+    border-radius: 3px;
+    outline: none;
+    width: 100%;
+    margin: 2px;
+}
+
+ #Head-section {
+        padding: 10px;
+        border-bottom: 1px #000 solid;
+    }
+
+    .source-detail-1 {
+        color: #f8b801;
+        font-size: 15px;
+        margin: 0;
+        float:left;
+        font-weight: bold;
+    }
+    .source-detail-2 {
+        color: #f8b801;
+        font-size: 14px;
+        margin: 0;
+    }
+    .source-detail-2 span{
+        font-style:italic;
+    }
+
+    .title-detail {
+        font-size: 20px;
+        font-family:Cambria;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+    
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+PAGE: CATEGORY
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.categories {margin:0;}
+.categories li {display:block; padding:8px; border-bottom:1px solid #CCC; /*background:url("../design/arrow.png") 100% 50% no-repeat;*/}
+.categories li a {font-weight:bold; text-decoration:none;}
+.categories li:last-child {border:0;}
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+PAGE: IMAGE GALLERY
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.gallery {margin:15px -9px;}
+.gallery li {display:block; float:left; margin-left:16px; margin-bottom:10px; padding:0; background:none;}
+.gallery li img {display:block;width: 104px;}
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------
+PORTLET: PAGINATION
+-------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.pagination {clear:both; margin:25px 0; text-align:center;}
+.pagination a {margin:0 3px; padding:5px 10px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; background:#000; text-align:center; text-decoration:none; font-weight:bold; color:#FFF;}
+.pagination strong {margin:0 3px; padding:5px 10px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; background:#C00; text-align:center; color:#FFF;}
+
+.grey {color:#777; font-size:14px; padding:10px;border-bottom: 1px #000 solid;}
+
+/*auto complete style start here*/
+.ui-autocomplete {
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    cursor: default;
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 0 7px #ccc;
+}
+
+    .ui-autocomplete .ui-menu-item + .ui-menu-item {
+        border-top: 1px solid #ccc;
+    }
+
+    .ui-autocomplete .ui-menu-item a {
+        color: #000000;
+        display: block;
+        padding: 8px 12px;
+    }
+
+        .ui-autocomplete .ui-menu-item a:hover {
+            background: #f7f7f7;
+        }
+/*auto complete style end here*/
+

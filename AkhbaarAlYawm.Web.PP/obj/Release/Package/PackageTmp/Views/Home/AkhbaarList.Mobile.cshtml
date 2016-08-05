@@ -1,0 +1,43 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.AkhbaarIndexModel>
+
+
+
+
+<div id="content">
+    <h2 class="separator" id="click1">@ViewBag.CategoryName - (@ViewBag.ArticleCount)</h2>
+
+    <ul class="list box" id="collapse1">
+        <section class="hmeContent">
+             @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml",Model)
+        </section>
+    </ul>
+    
+</div>
+@*<input type="button" name="AddMoreHuzurala" value="Add More" id="AddMoreHuzurala" class="btn-blue m-bottom">*@
+ 
+@if (ViewBag.currentPage <= ViewBag.TotalPages)
+{
+    
+        string isVideo = "false";
+        if (Request.Url != null && Request.Url.ToString().ToLower().Contains("/true"))
+        {
+            isVideo = "true";
+        }
+<center><div class="loaderDiv">
+                <img id="imgloader" src="/Content/Images/loader.gif" style="width:40px; height:40px;" />
+            </div></center>
+<a id="lnkReadMore" style="display: none;" class="rdmre ancrReadMore" callurl="/Home/AkhbaarList/?categoryId=@ViewBag.categoryID&isVideo=@isVideo&pageNo=" pageid="2" totalpageno="@ViewBag.TotalPages" onclick="return GetNextPage();">Read More</a>
+    
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ($(".box").size() <= 10) {
+            $(".loaderDiv").css('display', 'none');
+        }
+
+
+    });
+</script>

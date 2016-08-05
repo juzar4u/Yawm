@@ -1,0 +1,92 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CategoryModel
+
+@{
+    ViewBag.Title = "Edit Category";
+}
+
+<h2>EditCategory</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Edit Category</legend>
+
+        <div class="editor-label" style="display:none">
+            @Html.LabelFor(model => model.CategoryID)
+        </div>
+        <div class="editor-field" style="display:none">
+            @Html.EditorFor(model => model.CategoryID)
+            @Html.ValidationMessageFor(model => model.CategoryID)
+        </div>
+
+       <div class="ih">
+           <label>Name</label>
+           <div>
+               @Html.EditorFor(model => model.CategoryNameEn, new { @id = "CategoryNameEn"})
+            @Html.ValidationMessageFor(model => model.CategoryNameEn)
+               <p class="field-validation-error" id="categorynamevalidation" style="display:none">Please Enter Category Name</p>
+
+           </div>
+       </div>
+
+        <div class="ih">
+           <label>Description</label>
+           <div>
+               @Html.EditorFor(model => model.DescriptionEn)
+            @Html.ValidationMessageFor(model => model.DescriptionEn)
+
+           </div>
+       </div>
+
+        <p>
+            <input type="submit" value="Save" id="submit" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+
+    $("#ParentCategoryID").change(function () {
+
+        var categoryId = $("#ParentCategoryID option:selected").val();
+        var Url = '/campaign/EditCategory/?CategoryID =' + categoryId;
+        $.ajax({
+            type: 'GET',
+            url: window.open(Url, "_self"),
+            success: function () {
+
+
+            }
+        });
+
+    });
+
+    $("#submit").click(function () {
+        if ($("#CategoryNameEn").val() == '') {
+            $("#categorynamevalidation").css("display", "block");
+            return false;
+        }
+    });
+    $("#CategoryNameEn").keyup(function () {
+        if ($("#CategoryNameEn").val() != '') {
+            if ($("#categorynamevalidation").css("display") == "block") {
+                $("#categorynamevalidation").css("display", "none");
+            }
+        }
+        else {
+            if ($("#categorynamevalidation").css("display") == "none") {
+                $("#categorynamevalidation").css("display", "block");
+            }
+        }
+    });
+</script>

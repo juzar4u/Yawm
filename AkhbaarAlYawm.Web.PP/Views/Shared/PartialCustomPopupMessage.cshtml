@@ -1,0 +1,22 @@
+﻿<link href="~/Content/screen.css" rel="stylesheet" />
+
+<div class="popup-container hide" id="pop-up">
+<div class="container c-p">
+            <a class="close-btn" href="/"><span>&times;</span></a>
+            <div class="form">
+               
+            </div>
+             <h4 style="color:green;font-size: 20px;margin: 10px;padding: 5px;">@ViewBag.message</h4>
+        </div>
+    </div>
+    
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+    });
+
+
+ </script>

@@ -1,0 +1,108 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserModel
+
+<style>
+    .postBtn {
+        -moz-box-shadow: inset 0px 1px 0px 0px #caefab;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #caefab;
+        box-shadow: inset 0px 1px 0px 0px #caefab;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811));
+        background: -moz-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+        background: -webkit-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+        background: -o-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+        background: -ms-linear-gradient(top, #77d42a 5%, #5cb811 100%);
+        background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811',GradientType=0);
+        background-color: #77d42a;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #268a16;
+        display: inline-block;
+        cursor: pointer;
+        color: #306108;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 6px 24px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #aade7c;
+    }
+
+        .postBtn:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a));
+            background: -moz-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+            background: -webkit-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+            background: -o-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+            background: -ms-linear-gradient(top, #5cb811 5%, #77d42a 100%);
+            background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a',GradientType=0);
+            background-color: #5cb811;
+        }
+
+        .postBtn:active {
+            position: relative;
+            top: 1px;
+        }
+
+    .comment {
+        margin: 0;
+    }
+
+        .comment li {
+            display: block;
+            padding: 8px;
+            border-bottom: 1px solid #CCC;
+            background: url("../design/gradient.png") 0 100% repeat-x;
+        }
+
+            .comment li .comment-img {
+                float: left;
+                width: 88px;
+            }
+
+                .comment li .comment-img img {
+                    display: block;
+                    width: 70px;
+                    height: 70px;
+                    margin-left: 8px;
+                    border-radius: 50%;
+                }
+
+            .comment li .comment-txt {
+            }
+
+            .comment li .post-txt {
+                margin: 20px;
+            }
+
+            .comment li .comment-txt p {
+                margin: 0;
+                font-size: 12px;
+            }
+
+            .comment li .post-txt a {
+                margin-left: 30px;
+                color: grey;
+                font-weight: bold;
+            }
+</style>
+
+<ul class="comment box" style="background-color: cornsilk;">
+    <li class="box" id="">
+        <div class="comment-img">
+            <a>
+                <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, Model.ThumbnailProfileImg)" alt=@Model.FirstName /></a>
+        </div>
+
+        <div class="post-txt">
+            <span style="color: orange; font-family: calibri; font-style: italic;">E-Jamaat</span><a>@Model.EjamatID</a><br />
+            <span style="color: orange; font-family: calibri; font-style: italic;">Email</span><a>@Model.Email</a>
+
+        </div>
+        <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
+            <h3 style="font-weight: bold; margin: 0; font-style: italic; color: orange; font-size: 20px">@Model.FirstName</h3>
+        </div>
+        <!-- /comment-txt -->
+        <input type="button" class="postBtn" value="Logout" />
+    </li>
+</ul>

@@ -1,0 +1,195 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.AkhbaarMasterModel
+
+<script src="~/Content/js/jwplayer.js"></script>
+<script>jwplayer.key = "XqJa9FXleBOTwBWKKMUWovUfCdkGpk7c7TLYsw==";</script>
+<link href="~/FeaturedPanel/dist/css/swiper.min.css" rel="stylesheet" />
+<style>
+    .swiper-container {
+        border: 15px #e9e3e3 solid;
+        /* margin: 5px; */
+        background: #fff;
+        width: 92%;
+    }
+
+    .comment {
+        margin: 0;
+    }
+
+        .comment li {
+            display: block;
+            padding: 8px;
+            border-bottom: 1px solid #CCC;
+            background: url("../design/gradient.png") 0 100% repeat-x;
+        }
+
+            .comment li .comment-img {
+                float: left;
+                width: 88px;
+            }
+
+                .comment li .comment-img img {
+                    display: block;
+                    width: 70px;
+                    height: 70px;
+                    margin-left: 8px;
+                    border-radius: 50%;
+                }
+
+            .comment li .comment-txt {
+            }
+
+            .comment li .post-txt {
+                margin-left: 170px;
+            }
+
+            .comment li .comment-txt p {
+                margin: 0;
+                font-size: 12px;
+            }
+
+            .comment li .post-txt a {
+                margin: 10px;
+                color: blue;
+            }
+
+    #bodymain h1 {
+        padding: 0px 7px;
+    }
+
+    #bodymain a {
+        font-size: 21px;
+    }
+</style>
+<div id="content">
+    <h2 class="separator" id="BG">Newsfeed/Classifieds</h2>
+
+    <!-- TOPSTORY -->
+
+    <div class="swiper-container">
+        <ul class="comment box">
+
+            <li class="box" id="">
+                <div class="comment-img">
+                    <a>
+                        <img src="~/Images/Profile/1.jpg" alt="" /></a>
+                </div>
+                <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
+                    <h3 style="font-weight: bold; margin: 0;">Juzar</h3>
+                </div>
+
+                <!-- /comment-txt -->
+            </li>
+        </ul>
+        <div id="bodymain">
+
+            <h1><a href="">The population growth rate in the Middle East is among the highest in the world. </a></h1>
+
+
+
+            <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgray;">15/May/2015</span>
+            <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">AED 2000</span>
+            <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgrey;">Dubai, United Arab Emirates</span>
+
+        </div>
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+                <div id="topstory">
+
+                    <a href="">
+
+                        <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, "/Images/Articles/17678612-md.jpg")' id="image-width" alt="" style="height:250px;"/>
+
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="swiper-slide">
+                <div id="topstory">
+
+                    <a href="">
+
+                        <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, "/Images/Articles/17681479-md.jpg")' id="image-width" alt="" style="height:250px;"/>
+
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="swiper-slide">
+                <div id="topstory">
+
+                    <a href="">
+
+                        <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, "/Images/Articles/17683738-md.jpg")' id="image-width" alt="" style="height:250px;"/>
+
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        <br />
+        <div class="swiper-pagination" style="position: relative"></div>
+
+        <span style="float: left; font-family: calibri; padding: 5px; font-size: 20px;">Phone No.</span>
+        <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">+971525904751</span><br />
+        <div id="body-section">
+            @{
+                string content = "A content management system (CMS)[1][2][3] is a computer application that supports the creation and modification of digital content using a common user interface[4] and thus usually supporting multiple users working in a collaborative environment.[5] CMSes have been available since the late 1990s. CMS features vary widely. Most CMSes include Web-based publishing, format management, edit history and version control, indexing, search, and retrieval. By their nature, content management systems support the separation of content and presentation. A web content management system (WCM or WCMS) is a CMS designed to support the management of the content of Web pages. Most popular CMSes are also WCMSes. Web content includes text and embedded graphics, photos, video, audio, and code (e.g., for applications) that displays content or interacts with the user.A content management system (CMS)[1][2][3] is a computer application that supports the creation and modification of digital content using a common user interface[4] and thus usually supporting multiple users working in a collaborative environment.[5] CMSes have been available since the late 1990s. CMS features vary widely. Most CMSes include Web-based publishing, format management, edit history and version control, indexing, search, and retrieval. By their nature, content management systems support the separation of content and presentation. A web content management system (WCM or WCMS) is a CMS designed to support the management of the content of Web pages. Most popular CMSes are also WCMSes. Web content includes text and embedded graphics, photos, video, audio, and code (e.g., for applications) that displays content or interacts with the user.";
+                
+            
+                <p class="body" id="content-less">
+
+                    @string.Format("{0}{1}", content.Substring(0, 150), "...")
+                    <a onclick="readmore()" style="font-family: Calibri; color: darkgray;">ReadMore</a>
+                </p>
+                
+                <p class="body" id="content-more" style="display: none;">
+
+                    @content
+
+                </p>
+            }
+        </div>
+        <div id="info-section" style="float: right;">
+            <div id="people-comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px;">
+                <span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray; float: right;">2 comments</span>
+            </div>
+        </div>
+        <div id="people-like-section" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
+
+            @*<span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">2 more people like this</span>*@
+
+        </div>
+
+
+        <div id="share-section" style="float: left;">
+            <div id="like-section" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true" style="color: darkgray;"><span style="font-style: italic; font-family: Calibri; margin-left: 5px; color: darkgray; font-weight: bold;">Like</span>
+                    @*<i class="fa fa-thumbs-up" aria-hidden="true" style="color:blue;"><span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">Like</span>*@
+
+                </i>
+            </div>
+
+            <div id="comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px; margin-left: 147px;"><i class="fa fa-comment-o" aria-hidden="true" style="color: darkgray;"><span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray;">comment</span></i></div>
+        </div>
+    </div>
+    <!-- /content -->
+
+    <script src="~/FeaturedPanel/dist/js/swiper.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        function readmore() {
+            $("#content-less").css("display", 'none');
+            $("#content-more").css("display", 'block');
+        }
+    </script>

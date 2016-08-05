@@ -1,0 +1,304 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.CategoryModel
+
+@{
+    ViewBag.Title = "CreateCategory";
+}
+
+
+
+<style>
+    .tbl-block.projectListing .colum {
+        width: 15%;
+    }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 21%;
+        }
+
+        .tbl-block.projectListing .colum + .colum {
+            width: 21%;
+        }
+
+            .tbl-block.projectListing .colum + .colum + .colum + .colum {
+                width: 26%;
+            }
+</style>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchselect").chosen({ width: "100%" });
+    });
+</script>
+<div class="h1title sectors">
+    <h1>CreateCategory</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label" style="display: none;">
+            @Html.LabelFor(model => model.CategoryID)
+        </div>
+        <div class="editor-field" style="display: none;">
+            @Html.EditorFor(model => model.CategoryID)
+            @Html.ValidationMessageFor(model => model.CategoryID)
+        </div>
+
+
+        <div id="wrapper">
+            
+            <div class="ih">
+                <label>Category Name *</label>
+                <div>
+                    @Html.EditorFor(model => model.CategoryNameEn, new { @id = "CategoryNameEn" })
+                    <br />
+                    @*@Html.ValidationMessageFor(model => model.CategoryNameEn)*@
+                    <p class="field-validation-error" id="CategoryNameEnvalidation" style="display: none">Please Enter Category Name</p>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="ih">
+                <label>Description</label>
+                <div>
+                    @Html.EditorFor(model => model.DescriptionEn)
+                    @Html.ValidationMessageFor(model => model.DescriptionEn)
+                </div>
+            </div>
+            <p>
+                <input type="submit" id="submit" value="Create" />
+            </p>
+        </div>
+
+
+
+
+    </fieldset>
+    
+    <fieldset>
+
+       
+        <div id="wrapper-searchbox" class="wrapper-searchbox m-bottom pull-left">
+    <span class="pull-left btnpad"></span>
+
+    <div class="ih">
+        <label>Search By:</label>
+        <div class="slhold" style="width: 410px;">
+            <select id="searchselect" name="CategoryID" class="chosen-select" data-placeholder="Select an Option" onchange="searchfunction()">
+                @{
+                                
+                    <option></option>
+                    foreach (var category in Model.ParentListCategories)
+                    { 
+                    <option value="@category.CategoryID">@category.CategoryNameEn</option>
+                    }
+                }
+
+
+
+            </select>
+
+        </div>
+        <div>
+            @Html.ValidationMessageFor(model => model.CategoryID)
+        </div>
+    </div>
+</div>
+
+        <div id="projectlisting">
+        @Html.Partial("categoryList")
+</div>
+
+
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+
+}
+
+<script type="text/javascript">
+
+
+    $("#CategoryCreator").click(function () {
+        $("#wrapper").css("display", "block");
+        $("#parentcategoryholder").css("display", "none");
+    });
+
+    $("#SubCategoryCreator").click(function () {
+        $("#wrapper").css("display", "block");
+        $("#parentcategoryholder").css("display", "block");
+    });
+
+    $("#submit").click(function () {
+
+
+        if ($('#wrapper').css('display') == 'none') {
+            alert("Please Select Category Type");
+        } else {
+            if ($("#selectcategoryvalidation").css('display') == 'block') {
+                $("#selectcategoryvalidation").css('display', 'none');
+            }
+            if ($("#CategoryNameEnvalidation").css('display') == 'block') {
+                $("#CategoryNameEnvalidation").css('display', 'none');
+            }
+            if ($('#parentcategoryholder').css('display') == 'block') {
+                if ($('#ParentCategoryID option:selected').text() == '--Please Select--') {
+                    //alert("Please Select Parent Category");
+                    $("#selectcategoryvalidation").css("display", "block");
+                    if ($("#CategoryNameEn").val() == '') {
+                        $("#CategoryNameEnvalidation").css("display", "block");
+                        return false;
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+                else {
+                    if ($("#CategoryNameEn").val() == '') {
+                        $("#CategoryNameEnvalidation").css("display", "block");
+                        return false;
+                    }
+                }
+            }
+            else {
+                if ($("#CategoryNameEn").val() == '') {
+                    $("#CategoryNameEnvalidation").css("display", "block");
+                    return false;
+                }
+            }
+        }
+    });
+
+    $("#CategoryNameEn").keyup(function () {
+        if ($("#CategoryNameEn").val() != '') {
+            if ($("#CategoryNameEnvalidation").css("display") == "block") {
+                $("#CategoryNameEnvalidation").css("display", "none");
+            }
+        }
+        else {
+            if ($("#CategoryNameEnvalidation").css("display") == "none") {
+                $("#CategoryNameEnvalidation").css("display", "block");
+            }
+        }
+    });
+
+    function validationRemoval() {
+        if ($("#ParentCategoryID").val() != '') {
+            if ($("#selectcategoryvalidation").css('display') == 'block') {
+                $("#selectcategoryvalidation").css('display', 'none');
+            }
+        }
+
+    }
+
+
+    function categorise() {
+        if ($("#parentCategoryList").css('display') == 'block') {
+            $("#parentCategoryList").css('display', 'none');
+            $("#Pless").css("display", "none");
+            $("#Pmore").css("display", "block");
+
+        }
+        else {
+            $("#Pless").css("display", "block");
+            $("#Pmore").css("display", "none");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: 'html',
+                url: "/Category/CategoryList",
+
+                success: function (data) {
+                    $("#parentCategoryList").css("display", "block");
+                    $("#parentCategoryList").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Categories.');
+                }
+            });
+        }
+    }
+
+    function subcategorise() {
+        if ($("#subCategoryList").css('display') == 'block') {
+            $("#subCategoryList").css('display', 'none');
+            $("#Cless").css("display", "none");
+            $("#Cmore").css("display", "block");
+        }
+        else {
+            $("#Cless").css("display", "block");
+            $("#Cmore").css("display", "none");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: 'html',
+                url: "/Category/SubCategoryList",
+
+                success: function (data) {
+                    $("#subCategoryList").css("display", "block");
+                    $("#subCategoryList").html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Categories.');
+                }
+            });
+        }
+    }
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+    function searchfunction() {
+
+
+        var value = $("#searchselect option:selected").val();
+        //var Url = '/campaign/SearchCategory/?id=' + value;
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Category/SearchCategory",
+            data: { "id": value },
+            success: function (data) {
+                //$("#categorycontainer").css("display", "none");
+                $("#projectlisting").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Categories.');
+            }
+        });
+
+    }
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchselect").chosen({ width: "100%" });
+    });
+</script>

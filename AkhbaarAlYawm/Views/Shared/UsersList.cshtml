@@ -1,0 +1,166 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.UserList>
+
+
+<li id="dataList" class="tbl-block clear projectListing">
+    <ul class="table ui-sortable" id="projectssortable" cellpadding="0" cellspacing="0">
+        <li class="labh">
+            <span class="colum">UserId</span>
+            <span class="colum">E-jamaatID</span>
+            <span class="colum">First Name</span>
+            <span class="colum">Email</span>
+            <span class="colum">CreatedOn</span>
+            <span class="colum">IsVerified</span>
+            <span class="colum">Status</span>
+            <span class="colum">Role</span>
+        </li>
+        @foreach (var item in Model)
+        {
+            string formattedStatus = "";
+            if (item.UserStatus == "Active")
+            {
+                formattedStatus = "Deactivate";
+            }
+            else
+            {
+                formattedStatus = "Activate";
+            }
+            <li class="row " id="@item.UserID">
+                <span class="colum sn">@item.UserID</span>
+                <span class="colum sn">@item.EjamatID</span>
+                <span class="colum">@item.FirstName</span>
+                <span class="colum">@item.Email</span>
+                <span class="colum">@item.CreatedOn.ToString("dd/MM/yyyy")</span>
+                <span class="colum">@Html.CheckBoxFor(model => item.IsVerified, new { @onclick = "verifyfunction(" + item.UserID + ")" })</span>
+                <span class="colum"><a onclick="statusfunction(@item.UserID)">@formattedStatus</a></span>
+                <span class="colum">@Html.DropDownListFor(model => item.RoleID, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = item.RoleName,Value=item.RoleID.ToString() },
+                                new SelectListItem() {Text = "SuperAdmin", Value= "1"},
+                                new SelectListItem() {Text = "Admin", Value= "2"},
+                                new SelectListItem() {Text = "User", Value= "3"}
+                            }, new {@onchange="RoleChange("+item.UserID+")" })</span>
+                <input type="button" value="QuickEdit" onclick="myfunction('@item.UserID')"/>
+
+
+            </li>
+            
+            
+            
+            
+            <li class="row" id="@string.Format("{0}{1}", item.UserID, "quickEdit")" style="background-color:#eeeeee; display:none">
+                <span style="margin-left: 10px;">
+                    <input type="text" id="@string.Format("{0}{1}","ejamat", item.UserID)" placeholder="E-jamaat ID" /></span>
+
+                <span style="margin-left: 10px;">
+                    <input type="text" id="@string.Format("{0}{1}","name", item.UserID)" placeholder="First Name"  /></span>
+                <span style="margin-left: 10px;">
+                    <input type="text" id="@string.Format("{0}{1}","email", item.UserID)" placeholder="Email"  /></span>
+
+                <input type="button" value="Edit" onclick="updateUser('@item.UserID')" id="@string.Format("{0}{1}", "quickedit", item.UserID)"/>
+            </li>
+
+
+        }
+
+    </ul>
+</li>
+
+<script type="text/javascript">
+    function myfunction(val)
+    {
+        if($("#" +val +"quickEdit").css('display') == 'block')
+        {
+            $("#" +val).css('background-color', 'white');
+            $("#" +val +"quickEdit").css('display', 'none');
+        }else{
+            $("#" +val +"quickEdit").css('display', 'block');
+
+            $("#" +val).css('background-color', '#eeeeee');
+        }
+
+    }
+    function RoleChange(val)
+    {
+        var RoleID = $("#item_RoleID").val();
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            data: { "UserId": val, "RoleID": RoleID },
+            url: "/Account/RoleChange",
+            success: function (data) {
+                alert("User Role Updated Successfully");
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update');
+            }
+        });
+    }
+    function statusfunction(val) {
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            data: { "UserId": val },
+            url: "/Account/Status",
+            success: function (data) {
+                alert("User Status Updated Successfully");
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update');
+            }
+        });
+    }
+    function verifyfunction(val) {
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            data: { "UserId": val},
+            url: "/Account/UserVerification",
+            success: function (data) {
+                alert("User Verification Updated Successfully");
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update');
+            }
+        });
+    }
+   
+
+    function updateUser(val)
+    {
+        var ejamaat = $("#ejamat" +val).val();
+        
+        var name = $("#name" +val).val();
+        var email = $("#email" +val).val();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: 'html',
+            url: "/Account/UpdateUser/?Id="+val +"&ejamaat=" +ejamaat +"&name="+name +"&email="+email,
+            success: function (data) {
+                if(data == 1)
+                {
+                    alert("User Records Updated Successfully");
+                    location.reload();
+                }
+                else{
+                    alert("Email ID or E-jamaat ID exists");
+                    return false;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Update');
+            }
+        });
+       
+          
+    }
+</script>

@@ -1,0 +1,201 @@
+﻿.sticky-share-wrapper {
+        width: 100%;
+        height: 60px;
+        background-color: #f0f1f0;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+        opacity: 0;
+        filter: alpha(opacity=0); /* For IE8 and earlier */
+        visibility: hidden;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .sticky-share-wrapper.show {
+            opacity: 1;
+            filter: alpha(opacity=1000); /* For IE8 and earlier */
+            visibility: visible;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sticky-share-wrapper.hide {
+            opacity: 0;
+            filter: alpha(opacity=0); /* For IE8 and earlier */
+            visibility: hidden;
+            -webkit-transition: all 0.2s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+    .sticky-share-container {
+        display: inline-block;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+        .sticky-share-container .social-holder {
+            float: left;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            text-align: initial;
+        }
+
+            .sticky-share-container .social-holder + .social-holder {
+                margin-left: 15px;
+            }
+
+            .sticky-share-container .social-holder .hide {
+                width: 34px;
+                height: 18px;
+                overflow: hidden;
+                border-radius: 3px;
+                display: inline-block;
+                margin-left: 3px;
+                margin-top: 11px;
+                float: none;
+            }
+
+                .sticky-share-container .social-holder .hide.ios {
+                    width: 40px;
+                    height: 40px;
+                    overflow: hidden;
+                    border-radius: 100px;
+                    display: inline-block;
+                    margin-left: 0px;
+                    margin-top: 0px;
+                }
+
+                .sticky-share-container .social-holder .hide > * {
+                    /*transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            -webkit-transform: scale(1.5);
+            -o-transform: scale(1.5);
+            -moz-transform: scale(1.5);
+            transform-origin: top left;
+            -ms-transform-origin: top left;
+            -webkit-transform-origin: top left;
+            -moz-transform-origin: top left;
+            -webkit-transform-origin: top left;*/
+                    margin-top: 10px;
+                }
+
+                .sticky-share-container .social-holder .hide.ios > a {
+                    display: inline-block;
+                    margin-left: 10px;
+                }
+
+    .hide.ios > span {
+        margin-left: -7px;
+    }
+
+    .hide.android > span {
+        margin-left: -10px;
+        margin-top: 0px !important;
+    }
+
+    .twitter-holder .hide > span {
+        margin-top: 10px;
+        display: block;
+    }
+
+    .whatsapp-holder .android iframe {
+        margin-left: -2px;
+        margin-top: -5px !important;
+    }
+
+    .whatsapp-holder .ios iframe {
+        margin-top: 4px !important;
+    }
+
+    .sticky-share-container .circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 100px;
+        display: block;
+        text-align: center;
+        position: absolute;
+        z-index: 9;
+        pointer-events: none;
+        /*display:none;*/
+    }
+
+    .sticky-share-container a + a {
+    }
+
+    .sticky-share-container .circle i {
+        width: 25px;
+        height: 25px;
+        margin: 0 auto;
+        margin-top: 7px;
+        display: inline-block;
+        background-size: 80px;
+    }
+
+    .sticky-share-container .s-facebook {
+        background-color: #4965b5;
+    }
+
+        .sticky-share-container .s-facebook i {
+            background-position: -59px 3px;
+        }
+
+    .sticky-share-container .s-twitter {
+        background-color: #02adee;
+    }
+
+        .sticky-share-container .s-twitter i {
+            background-position: -31px 3px;
+        }
+
+    .sticky-share-container .s-whatsapp {
+        background-color: #46b825;
+    }
+
+        .sticky-share-container .s-whatsapp i {
+            background-position: 0px 1px;
+        }
+
+    .mobile-sprite {
+        background-image: url(/Content/Images/sprite24082015.png);
+        background-repeat: no-repeat;
+    }
+
+    .sticky-social-outer {
+        width: 100%;
+        clear: both;
+        overflow: hidden;
+        padding-top: 65px;
+    }
+
+    .social-holder.hide-plugin {
+        display: none;
+    }
+    /*sticky-share-end*/
+
+    .divMostReadsNews {
+        clear: both;
+    }
+
+        .divMostReadsNews article.underline {
+            border-bottom: none;
+        }
+
+            .divMostReadsNews article.underline + article.underline {
+                border-top: 1px solid #b4b4b4;
+            }
+
+    .fb_iframe_widget iframe {
+        right: 0;
+    }

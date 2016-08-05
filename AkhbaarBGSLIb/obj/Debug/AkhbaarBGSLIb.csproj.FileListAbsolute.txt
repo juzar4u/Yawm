@@ -1,0 +1,9 @@
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarBGSLIb.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarBGSLIb.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarAlYawm.Application.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarAlYawm.Application.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\bin\Debug\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\obj\Debug\AkhbaarBGSLIb.csprojResolveAssemblyReference.cache
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\obj\Debug\AkhbaarBGSLIb.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarBGSLIb\obj\Debug\AkhbaarBGSLIb.pdb

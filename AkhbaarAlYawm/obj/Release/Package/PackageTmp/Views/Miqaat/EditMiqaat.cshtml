@@ -1,0 +1,298 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.MiqaatIndexModel
+
+@{
+    ViewBag.Title = "Edit Miqaat";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //hideProgress();
+        
+       
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/getcities",
+            data: { "StateID": '@Model.StateID' },
+            success: function (data) {
+                $("#CityID").html('');
+                $("#CityID").append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
+                    $("#CityID").append($('<option></option>').val(option.CityID).html(option.CityName));
+                });
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+        
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": '@Model.CountryID' },
+            success: function (data) {
+                console.log(data[0]);
+               
+                $("#statesDiv").css("display", "block");
+                $("#StateID").html('');
+                $("#StateID").append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
+
+                    $("#StateID").append($('<option></option>').val(option.StateID).html(option.StateName));
+
+
+                });
+                $("#statesDiv").css("display", "block");
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve data.');
+            }
+
+        });
+        
+    });
+    </script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#CountryID").chosen({ width: "100%" });
+        $("#StateID").chosen({ width: "100%" });
+        $("#CityID").chosen({ width: "100%" });
+    });
+    function CountryChange(countrydd, childDDID) {
+        var selectedItem = $(countrydd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+
+                $("#statesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+
+
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+
+    function StateChange(statedd, childDDID) {
+        var selectedItem = $(statedd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetCities",
+            data: { "StateID": selectedItem },
+            success: function (data) {
+
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                console.log(data);
+                if (data != '') {
+                    $.each(data, function (id, option) {
+
+                        $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+
+                    });
+                } else {
+                    $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
+
+                }
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+
+    }
+
+
+</script>
+<div class="h1title sectors">
+    <h1>Edit Miqaat</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label" style="display: none;">
+            @Html.LabelFor(model => model.Calender_EventID)
+        </div>
+        <div class="editor-field" style="display: none;">
+            @Html.EditorFor(model => model.Calender_EventID)
+            @Html.ValidationMessageFor(model => model.Calender_EventID)
+        </div>
+
+
+        <div id="wrapper">
+
+            <div class="ih">
+                @Html.LabelFor(model => model.MiqaatCategoryList, "Miqaat Categories")
+
+                <div class="slhold">
+                    <select class="chosen-select" data-placeholder="Select an Option" id="ECategoryID" name="ECategoryID" style="width: 302px;">
+                        <option disabled selected>@Model.DefaultMiqaatCategory</option>
+                        @{
+                                
+    foreach (var category in Model.MiqaatCategoryList)
+    { 
+                            <option value="@category.ECategoryID">@category.EName</option>
+    }
+                        }
+
+
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <div class="ih">
+                <label>Miqaat Name</label>
+                <div>
+                    @Html.EditorFor(model => model.EName)
+                    @Html.ValidationMessageFor(model => model.EName)
+                </div>
+            </div>
+
+            <div class="ih">
+                <label>Rank</label>
+                <div>
+                    @Html.EditorFor(model => model.Rank)
+                    @Html.ValidationMessageFor(model => model.Rank)
+                </div>
+            </div>
+
+            <div class="ih">
+                @Html.LabelFor(model => model.CountryList, "Country")
+
+                <div class="slhold">
+                    <select class="chosen-select" data-placeholder="@Model.CountryName" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" style="width: 302px;">
+                        <option></option>
+                        @{
+                                
+    foreach (var countries in Model.CountryList)
+    { 
+                            <option value="@countries.CountryID">@countries.Name</option>
+    }
+                        }
+
+
+
+                    </select>
+
+                </div>
+
+
+            </div>
+            <div class="ih" id="statesDiv">
+                <label>States</label>
+
+
+                <div class="slhold">
+                    <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="chosen-select" style="width: 302px;" data-placeholder="@Model.StateName"></select>
+                </div>
+            </div>
+            <div class="ih" id="cityDivHolder">
+                <label>Cities</label>
+
+                <div class="slhold">
+                    <select id="CityID" name="CityID" class="chosen-select" style="width: 302px;" data-placeholder="@Model.CityName"></select>
+                </div>
+            </div>
+
+
+            <p>
+                <input type="submit" id="submit" value="Edit" />
+            </p>
+        </div>
+
+
+
+
+    </fieldset>
+    
+  
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+
+}
+
+<script type="text/javascript">
+
+
+
+
+
+    $("#DateSpecific").change(function () {
+        $("#DateSpecific").val();
+
+        if ($("#DateSpecific").val() == "true") {
+            $("#YearSelectList").css('display', 'block')
+        }
+        else {
+            $("#YearSelectList").css('display', 'none')
+
+        }
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchselect").chosen({ width: "100%" });
+    });
+</script>

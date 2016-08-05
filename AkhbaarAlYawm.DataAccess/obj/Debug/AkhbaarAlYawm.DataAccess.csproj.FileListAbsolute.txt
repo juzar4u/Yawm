@@ -1,0 +1,7 @@
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Debug\AkhbaarAlYawm.DataAccess.dll.config
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Debug\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Debug\AkhbaarAlYawm.DataAccess.pdb
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Debug\EntityFramework.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\bin\Debug\EntityFramework.xml
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\obj\Debug\AkhbaarAlYawm.DataAccess.dll
+C:\Users\juzar\documents\visual studio 2012\Projects\AkhbaarAlYawm\AkhbaarAlYawm.DataAccess\obj\Debug\AkhbaarAlYawm.DataAccess.pdb

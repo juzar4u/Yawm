@@ -1,0 +1,30 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.PhotoModel.PhotoAlbumModel>
+
+
+<style>
+    #topstory {
+        padding: 10px 10px;
+        border: 10px #e9e3e3 solid;
+        /* margin: 5px; */
+        background: #fff;
+    }
+</style>
+
+@{
+    foreach (var items in Model)
+    {
+    <div class="swiper-slide" id="@items.PhotoAlbumID">
+        <div id="topstory">
+            <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
+                <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' id="image-width" alt="" style="height: 208px;" />
+                <span style="float:left;font-style: italic;padding-top: 10px;">@items.publishedDate.ToString("dd/MMM/yyyy")</span>
+                            <span style="float: right;font-style: italic;padding-top: 10px;">@items.IslamicDate.Hijri</span>
+                <div class="list-txt">
+                    <h1><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h1>
+                    <i class="fa fa-picture-o" aria-hidden="true" style="color:gray;"><span style=" font-weight:bold">@string.Format("{0}{1}", " ", items.photoCount)</span></i>
+                </div>
+            </a>
+        </div>
+    </div>
+    }
+}
