@@ -102,7 +102,7 @@ namespace AkhbaarAlYawm.Web.API.Services.Services
 
                 if (_article.IsVideo == true)
                 {
-                    _article.FeaturedUrl = string.Format("{0}{1}", url, context.Fetch<string>("select thumbnail from entitymedia where articleid = @0 and isfeatured = 1 and creativetypeid = 2", articleId).FirstOrDefault());
+                    _article.FeaturedUrl = string.Format("{0}", context.Fetch<string>("select thumbnail from entitymedia where articleid = @0 and isfeatured = 1 and creativetypeid = 2", articleId).FirstOrDefault());
                 }
                 else
                 {

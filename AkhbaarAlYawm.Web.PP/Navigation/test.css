@@ -50,16 +50,16 @@ body,
 .subnav-section-title {
   text-transform: uppercase;
   color: #85888d;
-  font-weight: 200;
+  font-weight: bold;
   font-size: 13px;
   letter-spacing: 1px;
-  padding: 0 20px;
+  padding: 0 9px;
   margin:0;
 }
 
 .subnav-section-list {
   padding:0;
-  margin: 10px 0;
+  margin: 5px 40px;
   list-style:none;
 }
 

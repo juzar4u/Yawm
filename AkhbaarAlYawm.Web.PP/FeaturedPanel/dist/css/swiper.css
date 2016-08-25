@@ -165,6 +165,7 @@
 }
 /* Pagination Styles */
 .swiper-pagination {
+    margin-top:20px;
   position: absolute;
   text-align: center;
   -webkit-transition: 300ms;

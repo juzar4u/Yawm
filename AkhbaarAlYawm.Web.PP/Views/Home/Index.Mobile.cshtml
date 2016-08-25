@@ -1,5 +1,9 @@
 ﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model.AkhbaarMasterModel
 
+
+<style>
+   
+</style>
 <script src="~/Content/js/jwplayer.js"></script>
 <script>jwplayer.key = "XqJa9FXleBOTwBWKKMUWovUfCdkGpk7c7TLYsw==";</script>
 <link href="~/FeaturedPanel/dist/css/swiper.min.css" rel="stylesheet" />
@@ -18,7 +22,7 @@
             {
                 <div class="swiper-slide">
                     <div id="topstory">
-
+                        <div class="title-topstory"><a href="/Home/Detail/@items.ArticleID">@items.Title</a></div>
                         <a href="/Home/Detail/@items.ArticleID">
                             @if (items.IsVideo == false)
                             {
@@ -29,12 +33,7 @@
                                 <div id="@items.ArticleID">Loading the player...</div> 
                             }
                         </a>
-
-                        <p>
-                            <h1><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h1>
-                            <p class="source-main" style="margin-bottom: -14px;">@items.sourceName</p>
-
-                        </p>
+                        <div class="badge source-top"><span class="glyphicon glyphicon-tag"></span>@items.sourceName</div>
                         <div class="info-main">
                             <p style="float: left; float: left; margin-left: 9px; text-align: left;">
                                 @items.IslamicDate
@@ -68,11 +67,11 @@
     <!-- RECENT ARTICLES -->
     @foreach (var items in Model.nonfeatured)
     {
-        <h2 class="separator" id="@string.Format("{0}{1}", "click", items.CategoryID)"> @items.AkhbaarName - (@items.AkhbaarCount)</h2>
+        <h2  class="badge-separator" id="@string.Format("{0}{1}", "click", items.CategoryID)"> @items.AkhbaarName - <span class="badge-count"><i class="fa fa-hand-o-right" aria-hidden="true" style="margin-right:5px;"></i>@items.AkhbaarCount</span></h2>
         <ul class="list box" id="@string.Format("{0}{1}", "collapse", items.CategoryID)">
             @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml", items.nonFeaturedList)
         </ul>
-        <input type="button" name="AkhbaarButton" value="Load More" class="btn-blue m-bottom" onclick="AkhbaarButtonFunction('@items.CategoryID')">
+        <span><button type="button" name="AkhbaarButton" class="btn btn-success full-width" onclick="AkhbaarButtonFunction('@items.CategoryID')"><i class="fa fa-download fa-lg" aria-hidden="true" style="color:#000;"></i> Load More</button></span>
     }
 
 

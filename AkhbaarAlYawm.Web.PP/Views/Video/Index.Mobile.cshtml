@@ -28,7 +28,8 @@
 <div id="content">
     @foreach (var video in Model)
     {
-        <h2 class="separator" id="@string.Format("{0}{1}", "BG", video._category.CategoryID)" onclick="myfunction('@video._category.CategoryID')">@video._category.CategoryNameEn - @video.AllVideosCount</h2>
+        <h2 class="separator" id="@string.Format("{0}{1}", "BG", video._category.CategoryID)" onclick="myfunction('@video._category.CategoryID')">@video._category.CategoryNameEn - <span class="badge-count"><i class="fa fa-hand-o-right" aria-hidden="true" style="margin-right:5px;"></i>@video.AllVideosCount</span></h2>
+        <ul>
         <div class="swiper-container" id="@string.Format("{0}{1}", "div", video._category.CategoryID)">
             <div class="swiper-wrapper">
                 <section class="hmeContent">
@@ -62,14 +63,16 @@
             </div>
 
         </div>
+            </ul>
         if (video.AllVideosCount > 5)
         {
-        <input type="button" value="Load More" class="btn-blue m-bottom" onclick="myfunction('@video._category.CategoryID')">
+        @*<input type="button" value="Load More" class="btn-blue m-bottom" onclick="myfunction('@video._category.CategoryID')">*@
+        <span><button type="button" class="btn btn-success full-width" onclick="loadMore('@video._category.CategoryID')"><i class="fa fa-download fa-lg" aria-hidden="true" style="color:#000;"></i> Load More</button></span>
         }
     }
 </div>
 <script type="text/javascript">
-    function myfunction(val) {
+    function loadMore(val) {
         window.open("/Home/AkhbaarList/" + val + "/true/1", "_self");
     }
 

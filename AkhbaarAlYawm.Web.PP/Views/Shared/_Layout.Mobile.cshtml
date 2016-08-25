@@ -9,20 +9,26 @@
 
     <link rel="apple-touch-icon" href="Content/images/icon.png" />
     <link rel="apple-touch-startup-image" href="Content/images/splash.png">
-
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" media="screen" type="text/css" href="/Content/css/reset.css" />
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" media="screen" type="text/css" href="/Content/css/main.css" />
     <link href="~/Navigation/test.css" rel="stylesheet" />
     <script type="text/javascript" src="/Content/js/main.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <title>Akhbaar</title>
     @RenderSection("MetaSection", required: false)
     <link rel="shortcut icon" href="@Url.Content("~/Content/Images/logoakhbaar.png")" />
+
+    <style>
+        .subnav-section-title a {
+            font-family:calibri;
+        }
+    </style>
 </head>
 
-
+    
 <body>
     <header>
         <div id="wrapper">
@@ -49,29 +55,29 @@
 
         @{Html.RenderAction("UserInfo", "Account");}
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/">Akhbaar</a> </h3>
+            <h3 class="subnav-section-title"><a href="/"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Akhbaar</a> </h3>
             <ul class="subnav-section-list">
-                <li><a href="/Home/AkhbaarList/1/false/1" target="_self">Huzurala (TUS) Akhbaar</a></li>
-                <li><a href="/Home/AkhbaarList/2/false/1" target="_self">Saadat Kiram Akhbaar</a></li>
-                <li><a href="/Home/AkhbaarList/3/false/1" target="_self">Qasre Ali Akhbaar</a></li>
-                <li><a href="/Home/AkhbaarList/6/false/1" target="_self">Bilaad Imaniya Akhbaar</a></li>
+                <li><a href="/Home/AkhbaarList/1/false/1" target="_self"><i class="fa fa-caret-right" aria-hidden="true" style="margin-right:8px;"></i>Huzurala (TUS) Akhbaar</a></li>
+                <li><a href="/Home/AkhbaarList/2/false/1" target="_self"><i class="fa fa-caret-right" aria-hidden="true" style="margin-right:8px;"></i>Saadat Kiram Akhbaar</a></li>
+                <li><a href="/Home/AkhbaarList/3/false/1" target="_self"><i class="fa fa-caret-right" aria-hidden="true" style="margin-right:8px;"></i>Qasre Ali Akhbaar</a></li>
+                <li><a href="/Home/AkhbaarList/6/false/1" target="_self"><i class="fa fa-caret-right" aria-hidden="true" style="margin-right:8px;"></i>Bilaad Imaniya Akhbaar</a></li>
             </ul>
         </section>
 
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/photo/?pageNo=1">Photo Albums</a> </h3>
+            <h3 class="subnav-section-title"><a href="/photo/?pageNo=1"><i class="fa fa-picture-o fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Photo Albums</a> </h3>
 
         </section>
 
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/Video">All Videos</a> </h3>
+            <h3 class="subnav-section-title"><a href="/Video"><i class="fa fa-youtube-play fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>All Videos</a> </h3>
         </section>
 
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/Miqaat/?pageNo=1">Miqaat</a> </h3>
+            <h3 class="subnav-section-title"><a href="/Miqaat/?pageNo=1"><i class="fa fa-calendar fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Miqaat</a> </h3>
         </section>
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/classifieds/index/1">Classified Ads</a> </h3>
+            <h3 class="subnav-section-title"><a href="/classifieds/index/1"><i class="fa fa-list-alt fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Classified Ads</a> </h3>
         </section>
     </nav>
     <div class="overlay-bg-popup hide" id="overlay"></div>
@@ -81,9 +87,10 @@
             @RenderBody()
         </section>
     </div>
-    <div id="footer">
-
-        <i class="fa fa-copyright" aria-hidden="true">@DateTime.Now.Year Akhbaar-Al-Mumineen</i>
+    <hr />
+    <div id="footSpacefill">
+        
+        <span class="footer"><p><i class="fa fa-copyright" aria-hidden="true"></i>@DateTime.Now.Year Akhbaar-Al-Mumineen</p></span>
 
     </div>
 
