@@ -148,20 +148,36 @@
         <li class="box" id="@string.Format("{0}{1}", "box", parentcomment.ParentComment.ArticleID)">
             <div class="comment-img">
                 <a>
-                    <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, parentcomment.ParentComment.ThumbnailProfileImg)" alt="" /></a>
+                    @{
+                        string userImg = "";
+                        string rootUrl = "";
+                        if (!string.IsNullOrEmpty(parentcomment.ParentComment.ThumbnailProfileImg))
+                        {
+                            rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL;
+                            userImg = parentcomment.ParentComment.ThumbnailProfileImg;
+                        }
+                        else
+                        {
+                            rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_CP_URL;
+                            userImg = "/Images/UserProfile/defaultUser.jpg";
+                        }
+                    @: <img src="@string.Format("{0}{1}",rootUrl, userImg)" alt="" /></a>
+                        
+                    }
+                   
             </div>
             <div class="comment-txt" style="text-align: justify;margin: 10px;padding: 5px;">
                 <h3 style="font-weight: bold; margin: 0;">@parentcomment.ParentComment.UserName</h3>
                 <p><a>@parentcomment.ParentComment.Content</a></p>
             </div>
             <div class="post-txt">
-                <a onclick="replyComment('@parentcomment.ParentComment.CommentID', 'true')">Reply</a>
+                <a class="btn btn-default" onclick="replyComment('@parentcomment.ParentComment.CommentID', 'true')"><i class="fa fa-reply" aria-hidden="true"></i> Reply</a>
                 @{
         if (Model.User != null)
         {
             if (parentcomment.ParentComment.CreatedBy == Model.User.UserID)
             {
-                    <a onclick="deleteComment('@parentcomment.ParentComment.CommentID')">Delete</a>
+                    <a class="btn btn-default" onclick="deleteComment('@parentcomment.ParentComment.CommentID')"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
             }
         }
                 }
@@ -175,20 +191,36 @@
                 <li class="box" id="@string.Format("{0}{1}", "box", childcomment.CommentID)">
                     <div class="chldcomment-img">
                         <a>
-                            <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, childcomment.ThumbnailProfileImg)" alt="" /></a>
+                            @{
+                                string userImgChild = "";
+                                string rootUrlChild = "";
+                                if (!string.IsNullOrEmpty(parentcomment.ParentComment.ThumbnailProfileImg))
+                                {
+                                    rootUrlChild = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL;
+                                    userImgChild = parentcomment.ParentComment.ThumbnailProfileImg;
+                                }
+                                else
+                                {
+                                    rootUrlChild = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_CP_URL;
+                                    userImgChild = "/Images/UserProfile/defaultUser.jpg";
+                                }
+                            @:<img src="@string.Format("{0}{1}", rootUrlChild, userImgChild)" alt="" /></a>
+                        
+                            }
+                            
                     </div>
                     <div class="chldcomment-txt" style="text-align: justify;margin: 8px;padding: 2px;">
                         <h3 style="font-weight: bold; margin: 0;">@childcomment.UserName</h3>
                         <p><a>@childcomment.Content</a></p>
                     </div>
                     <div class="chldpost-txt">
-                        <a onclick="replyComment('@childcomment.CommentID', 'false')">Reply</a>
+                        <a class="btn btn-default" onclick="replyComment('@childcomment.CommentID', 'false')"><i class="fa fa-reply" aria-hidden="true"></i> Reply</a>
                         @{
                 if (Model.User != null)
                 {
                     if (childcomment.CreatedBy == Model.User.UserID)
                     {
-                            <a onclick="deleteComment('@childcomment.CommentID')">Delete</a>
+                            <a class="btn btn-default" onclick="deleteComment('@childcomment.CommentID')"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
                     }
                 }
                         }
@@ -211,9 +243,9 @@
     $(document).ready(function () {
 
         if (window.location.href.indexOf("Home/Detail") > -1) {
-            $(".chldpost-txt").css("margin-left", "170px");
+            //$(".chldpost-txt").css("margin-left", "114px");
 
-            $(".post-txt").css("margin-left", "170px");
+            //$(".post-txt").css("margin-left", "170px");
         }
         else {
             $(".chldcomment li").css("background-color", "transparent");

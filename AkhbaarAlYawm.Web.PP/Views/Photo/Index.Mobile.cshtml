@@ -14,25 +14,33 @@
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <section class="hmeContent">
-            @{
-                foreach (var items in Model)
-                {
-                <div class="swiper-slide" id="@items.PhotoAlbumID">
-                    <div id="topstory">
-                        <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
-                            <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' id="image-width" alt="" style="height: 208px;" />
-                            <span style="float:left;font-style: italic;padding-top: 10px;">@items.publishedDate.ToString("dd/MMM/yyyy")</span>
-                            <span style="float: right;font-style: italic;padding-top: 10px;">@items.IslamicDate.Hijri</span>
-                            <div class="list-txt">
-                                <h1><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h1>
-                                <i class="fa fa-picture-o" aria-hidden="true" style="color:gray;"><span style=" font-weight:bold">@string.Format("{0}{1}", " ", items.photoCount)</span></i>
-                            </div>
-                        </a>
+                @{
+                    foreach (var items in Model)
+                    {
+                    <div class="swiper-slide" id="@items.PhotoAlbumID">
+                        <div id="topstory">
+                            <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
+                                <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' id="image-width" alt="" style="height: 208px;" />
+
+                                <div class="row">
+                                    <div class="col-xs-5 dateBadge">
+                                        <p>@items.publishedDate.ToString("dd/MMM/yyyy")</p>
+                                    </div>
+                                    <div class="col-xs-2"></div>
+                                    <div class="col-xs-5 dateBadge">
+                                        <p>@items.IslamicDate.Hijri</p>
+                                    </div>
+                                </div>
+                                <div class="list-txt">
+                                    <h1 class="title-topstory"><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h1>
+                                    <i class="fa fa-picture-o" aria-hidden="true" style="color: gray;"><span style="font-weight: bold">@string.Format("{0}{1}", " ", items.photoCount)</span></i>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                    }
                 }
-            }
-                </section>
+            </section>
 
         </div>
 
@@ -41,8 +49,8 @@
 
 @if (ViewBag.currentPages <= ViewBag.TotalPages)
 {
-<center><div class="loaderDiv">
+    <center><div class="loaderDiv">
                 <img id="imgloader" src="/Content/Images/loader.gif" style="width:40px; height:40px;" />
             </div></center>
-<a id="lnkReadMore" style="display: none;" class="rdmre ancrReadMore" callurl="/Photo/Index/?pageNo=" pageid="2" totalpageno="@ViewBag.TotalPages" onclick="return GetNextPage();">Read More</a>
+    <a id="lnkReadMore" style="display: none;" class="rdmre ancrReadMore" callurl="/Photo/Index/?pageNo=" pageid="2" totalpageno="@ViewBag.TotalPages" onclick="return GetNextPage();">Read More</a>
 }

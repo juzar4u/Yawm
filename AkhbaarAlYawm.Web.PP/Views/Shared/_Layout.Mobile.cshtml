@@ -74,11 +74,12 @@
         </section>
 
         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a href="/Miqaat/?pageNo=1"><i class="fa fa-calendar fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Miqaat</a> </h3>
+            <h3 class="subnav-section-title"><a href="/Miqaat/Index"><i class="fa fa-calendar fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Miqaat</a> </h3>
         </section>
         <section class="subnav-section">
             <h3 class="subnav-section-title"><a href="/classifieds/index/1"><i class="fa fa-list-alt fa-2x" aria-hidden="true" style="margin-right:8px;color: red;"></i>Classified Ads</a> </h3>
         </section>
+        <br />
     </nav>
     <div class="overlay-bg-popup hide" id="overlay"></div>
     <div id="body">
@@ -87,11 +88,9 @@
             @RenderBody()
         </section>
     </div>
-    <hr />
-    <div id="footSpacefill">
-        
-        <span class="footer"><p><i class="fa fa-copyright" aria-hidden="true"></i>@DateTime.Now.Year Akhbaar-Al-Mumineen</p></span>
-
+    
+    <div class="footerCopyright">
+        <span><p><i class="fa fa-copyright" aria-hidden="true"></i>@DateTime.Now.Year Akhbaar-Al-Mumineen</p></span>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

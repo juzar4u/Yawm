@@ -4,10 +4,10 @@
 <style>
     .fa fa-play-circle fa-3x {
         margin-top: -43px;
-    color: red;
-    float: left;
-    /* z-index: -1; */
-    position: absolute;
+        color: red;
+        float: left;
+        /* z-index: -1; */
+        position: absolute;
     }
 </style>
 <script src="~/Content/js/jwplayer.js"></script>
@@ -26,38 +26,73 @@
             </div>
         </div>
         <div id="Head-section">
-            <h2 class="title-detail">@Model.Title</h2>
+            <h2 class="title-topstory"><a>@Model.Title</a></h2>
             <div id="innerDiv">
-                <p class="source-detail-1">
-                    <i class="fa fa-file-text-o" aria-hidden="true" style="color: darkgray; margin-right: 30px;"><span style="color: #ff9900; margin-left: 10px;">@Model.SourceName</span></i>
-                    @if(Model.CityID > 0)
+
+                <div class="row">
+
+                    <div class="col-xs-6">
+                        <div class="badge detail-source">
+                            <span class="glyphicon glyphicon-tag"></span>@Model.SourceName
+
+                        </div>
+
+                    </div>
+                    @if (Model.CityID > 0)
                     {
-                    <i class="fa fa-map-marker" aria-hidden="true" style="color: darkgray; margin-right: 30px;"><span style="color: #ff9900; margin-left: 10px;">@Model.Mauze</span></i>
+                        <div class="col-xs-6">
+                            <div class="badge detail-source">
+                                <span class="fa fa-map-marker fa-lg" aria-hidden="true"></span>@Model.Mauze
+
+                            </div>
+
+                        </div>
                     }
-                </p>
 
-
-                <div class="source-detail-2">
-                    <p><span style="color: #993300; float: left; margin-right: 26px;">@Model.IslamicDate</span></p>
-                    <p><span style="color: #993300; float: left;">@Model._newMappedDate</span></p>
 
                 </div>
-                <br />
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="badgecounts">
+                            <span class="fa fa-eye fa-lg" aria-hidden="true"></span>@Model.ViewCount
+
+                        </div>
+
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="badgecounts">
+                            <span class="fa fa-comment fa-lg" aria-hidden="true"></span>@Model.CommentCount
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="dateBadge" style="padding: 12px;">
+                            @Model._newMappedDate
+                        </div>
+
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="dateBadge" style="padding: 12px;">
+                            @Model.IslamicDate
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
-            <br />
-            <br />
-            <div class="info-detail">
-               <i class="fa fa-eye" aria-hidden="true" style="color: darkgray;"><span style="padding: 10px;">@Model.ViewCount</span></i>
-                <i class="fa fa-comment" aria-hidden="true" style="color: darkgray; padding-left: 50px;"><span style="padding: 10px;">@Model.CommentCount</span></i>
-             </div>
+
         </div>
         <div id="body-section">
             <p class="body">@Model.Body</p>
         </div>
-        @foreach(var items in Model.VideoURL)
+        @foreach (var items in Model.VideoURL)
         {
-        <div id="@items.EntityMediaID">Loading the player...</div><br /><br />
+            <div id="@items.EntityMediaID">Loading the player...</div>
+            <br />
+            <br />
         }
         @foreach (var items in Model.VideoURL)
         {
@@ -71,47 +106,46 @@
 
             </script>
         }
-    </div>
+        @if (Model.ListUploadedPictures.Count > 0)
+        {
+            <h4 style="border-bottom: 1px #000 solid; padding: 12px;">Akhbaar Photos:</h4>
+            <div class="swiper-container">
+                <div class="swiper-wrapper baba">
 
-    @if (Model.ListUploadedPictures.Count > 0)
-    {
-        <h4 style="border-bottom: 1px #000 solid; padding: 12px;">Akhbaar Photos:</h4>
-        <div class="swiper-container">
-            <div class="swiper-wrapper baba">
+                    @foreach (var items in Model.ListUploadedPictures)
+                    {
+                        <div class="swiper-slide">
+                            <figure>
 
-                @foreach (var items in Model.ListUploadedPictures)
-                {
-                    <div class="swiper-slide">
-                        <figure>
-
-                            <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.URL)' alt="@items.URL" style="height:180px;"/>
-                        </figure>
-                    </div>
+                                <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.URL)' alt="@items.URL" style="height:180px;"/>
+                            </figure>
+                        </div>
                 
-                    <!-- /topstory -->
-                }
+                        <!-- /topstory -->
+                    }
 
+                </div>
+                <br />
+                <div class="swiper-pagination" style="position: relative"></div>
             </div>
-            <br />
-            <div class="swiper-pagination" style="position: relative"></div>
-        </div>
-    }
-    <hr / style="border: 1px solid #ccc;">
-     @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model.ArticleComment);
-    <!-- RECENT ARTICLES -->
-    <h2 class="separator">Top Viewed Related Articles</h2>
+        }
+
+        <div class="breaker"></div>
+        @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model.ArticleComment)
+        <!-- RECENT ARTICLES -->
+        <h2 class="separator">Top Viewed Related Articles</h2>
         <ul class="list box">
             @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml", Model._RelatedArticles)
-           </ul>
-</div>
+        </ul>
+    </div>
 
 
-<script type="text/javascript">
-    var playerInstance = jwplayer("myElement");
-    playerInstance.setup({
-        file: "@Model.FeaturedVideo",
+    <script type="text/javascript">
+        var playerInstance = jwplayer("myElement");
+        playerInstance.setup({
+            file: "@Model.FeaturedVideo",
         width: $(window).width(),
         image: "@Model.FeaturedImage"
     });
 
-</script>
+    </script>

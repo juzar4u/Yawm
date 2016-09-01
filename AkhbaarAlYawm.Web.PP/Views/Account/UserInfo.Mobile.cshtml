@@ -96,7 +96,24 @@
         </div>
         <div class="user-img">
             <a>
-                <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, Model.ThumbnailProfileImg)" alt=@Model.FirstName /></a>
+                 @{
+                    string userImg = "";
+                    string rootUrl= "";
+                    if (!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
+                    {
+                        rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL;
+                        userImg = Model.ThumbnailProfileImg;
+                    }
+                    else
+                    {
+                        rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_CP_URL;
+                        userImg = "/Images/UserProfile/defaultUser.jpg";
+                    }
+                @:<img src="@string.Format("{0}{1}", rootUrl, userImg)" alt=@Model.FirstName /></a>
+                 
+                        
+                }
+               
         </div>
 
         <div class="post-txt">

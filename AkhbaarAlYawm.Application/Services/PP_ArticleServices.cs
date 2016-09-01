@@ -87,7 +87,12 @@ namespace AkhbaarAlYawm.Application.Services
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
             {
                 _videos = context.Fetch<AkhbaarIndexModel>("select top 5 article.ArticleID, article.Body, article.CategoryID, article.CityID, article.CommentCount, article.IsActive, article.isFeatured,article.IslamicDate, article.IsVideo, article.mappedDate, article.PublishedOn as PublishedDate, article.ShortUrl, article.SourceID, article.Title, article.ViewCount,source.Name as sourceName,source.Website as SourceWebsite,category.CategoryNameEn as AkhbaarName, city.Name as Cityname, country.Name as CountryName from articles article left join Sources source on article.SourceID = source.SourceID left join Categories category on article.CategoryID = category.CategoryID left join Cities city on article.CityID = city.CityID left join States states on city.StateID = states.StateID left join Countries country on states.CountryID = country.CountryID where article.IsVideo = 1 and category.IsDeleted = 0 and article.IsActive = 1 and category.CategoryID = @0 order by article.PublishedOn desc", categoryId);
+                
                 _videos = UpdateCommonCodeAkhbaarIndexModel(_videos);
+                foreach (var item in _videos)
+                {
+                    item.shortIslamicDate = context.Fetch<string>("select Hijri from HijriBohra_Gregorian_Calendar where G_Day = @0 and G_Month = @1 and G_Year=@2", item.mappedDate.Day, item.mappedDate.Month, item.mappedDate.Year).FirstOrDefault();
+                }
             }
 
             return _videos;

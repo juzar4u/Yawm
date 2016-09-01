@@ -15,28 +15,60 @@
         <div id="Head-section">
             <h2 class="title-detail">@Model.Title</h2>
             <div id="innerDiv">
-                <p class="source-detail-1">
-                    <i class="fa fa-file-text-o" aria-hidden="true" style="color: darkgray; margin-right: 30px;"><span style="color: #ff9900; margin-left: 10px;">@Model.SourceName</span></i>
-                    @if(Model.CityID > 0)
+
+                <div class="row">
+                    
+                     <div class="col-xs-6">
+                         <div class="badge detail-source">
+                             <span class="glyphicon glyphicon-tag"></span>@Model.SourceName
+
+                         </div>
+
+                     </div>
+                    @if (Model.CityID > 0)
                     {
-                    <i class="fa fa-map-marker" aria-hidden="true" style="color: darkgray; margin-right: 30px;"><span style="color: #ff9900; margin-left: 10px;">@Model.Mauze</span></i>
+                    <div class="col-xs-6">
+                        <div class="badge detail-source">
+                            <span class="fa fa-map-marker fa-lg" aria-hidden="true"></span>@Model.Mauze
+
+                        </div>
+
+                    </div>
                     }
-                </p>
+                   
+                    
+                    </div>
+                <div class="row">
+                     <div class="col-xs-4">
+                        <div class="badgecounts">
+                            <span class="fa fa-eye fa-lg" aria-hidden="true"></span>@Model.ViewCount
 
+                        </div>
 
-                <div class="source-detail-2">
-                    <p><span style="color: #993300; float: left; margin-right: 26px;">@Model.IslamicDate</span></p>
-                    <p><span style="color: #993300; float: left;">@Model._newMappedDate</span></p>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="badgecounts">
+                            <span class="fa fa-comment fa-lg" aria-hidden="true"></span>@Model.CommentCount
 
+                        </div>
+
+                    </div>
                 </div>
-                <br />
+                 <div class="row">
+                     <div class="col-xs-4">
+                        <div class="dateBadge" style="padding:12px;">
+                            @Model._newMappedDate
+                        </div>
 
-            </div>
-            <br />
-            <br />
-            <div class="info-detail">
-                <i class="fa fa-eye" aria-hidden="true" style="color: darkgray;"><span style="padding: 10px;">@Model.ViewCount</span></i>
-                <i class="fa fa-comment" aria-hidden="true" style="color: darkgray; padding-left: 50px;"><span style="padding: 10px;">@Model.CommentCount</span></i>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="dateBadge" style="padding:12px;">
+                           @Model.IslamicDate
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
         <div id="body-section">
@@ -68,8 +100,8 @@
             <div class="swiper-pagination" style="position: relative"></div>
         </div>
     }
-    <hr / style="border: 1px solid #ccc;">
-    @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model.ArticleComment);
+    <div class="breaker"></div>
+    @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model.ArticleComment)
 
     <!-- RECENT ARTICLES -->
     <h2 class="separator">Top Viewed Related Articles</h2>

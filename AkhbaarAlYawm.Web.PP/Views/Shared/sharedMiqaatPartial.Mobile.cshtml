@@ -5,14 +5,14 @@
         @foreach(var items in Model)
             {
             string formattedMiqaatName = "";
-            if (items.MiqaatName.Length > 68)
-                            {
-                                formattedMiqaatName =string.Format("{0}{1}",items.MiqaatName.Substring(0,68), "...");
-                            }
-                            else
-                            {
-                                formattedMiqaatName = items.MiqaatName;
-                            }            
+                if (items.MiqaatName.Length > 68)
+                {
+                    formattedMiqaatName =string.Format("{0}{1}",items.MiqaatName.Substring(0,68), "...");
+                }
+                else
+                {
+                    formattedMiqaatName = items.MiqaatName;
+                }            
                                   
             <ul class="list box" id="@items.Event_Hijri_MapID">
                 <li class="box" id="">

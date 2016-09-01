@@ -17,11 +17,18 @@
         <div id="topstory">
             <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
                 <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' id="image-width" alt="" style="height: 208px;" />
-                <span style="float:left;font-style: italic;padding-top: 10px;">@items.publishedDate.ToString("dd/MMM/yyyy")</span>
-                            <span style="float: right;font-style: italic;padding-top: 10px;">@items.IslamicDate.Hijri</span>
+                <div class="row">
+                    <div class="col-xs-5 photoBadge">
+                        <p>@items.publishedDate.ToString("dd/MMM/yyyy")</p>
+                    </div>
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-5 photoBadge">
+                        <p>@items.IslamicDate.Hijri</p>
+                    </div>
+                </div>
                 <div class="list-txt">
-                    <h1><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h1>
-                    <i class="fa fa-picture-o" aria-hidden="true" style="color:gray;"><span style=" font-weight:bold">@string.Format("{0}{1}", " ", items.photoCount)</span></i>
+                    <h1 class="title-topstory"><a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">@items.Title</a></h1>
+                    <i class="fa fa-picture-o" aria-hidden="true" style="color: gray;"><span style="font-weight: bold">@string.Format("{0}{1}", " ", items.photoCount)</span></i>
                 </div>
             </a>
         </div>

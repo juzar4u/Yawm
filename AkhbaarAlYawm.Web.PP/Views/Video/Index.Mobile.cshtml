@@ -41,19 +41,22 @@
                                 <a href="/Home/Detail/@items.ArticleID">
                                     <img src='@items.Entity.Thumbnail' id="image-width" alt="" style="height: 208px;" /><i class="fa fa-play-circle fa-4x" aria-hidden="true" style="margin: -127px 147px; position: absolute; color: darkred;"></i>
                                     <div class="list-txt">
-                                        <h1><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h1>
+                                        <h1 class="title-topstory"><a href="/Home/Detail/@items.ArticleID">@items.Title</a></h1>
                                     </div>
                                 </a>
-                                 
-                                <div class="info-main">
-                                    <p style="float: left; float: left; margin-left: 9px; text-align: left;">
-                                        @items.IslamicDate
-                                    </p>
-                                    <p style="float: left; margin-left: 130px;">
-                                        @items.mappedDate.ToString("dd/MM/yyyy")
-                                    </p>
+                               
+                                    <div class="row">
+                                        <div class="col-xs-5 dateBadge">
+                                            <p> @items.shortIslamicDate</p>
+                                        </div>
+                                        <div class="col-xs-2"></div>
+                                        <div class="col-xs-5 dateBadge">
+                                            <p> @items.mappedDate.ToString("dd/MM/yyyy")</p>
+                                        </div>
+                                    </div>
+                                   
                                 </div>
-                            </div>
+                            
                         </div>
         }
        <!-- TOPSTORY --><!-- TOPSTORY -->

@@ -14,16 +14,17 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         //
         // GET: /Miqaat/
 
-        public ActionResult Index(int pageNo)
+        public ActionResult Index()
         {
-            int pageSize = 10;
-            PPMiqaatListModel _model = new PPMiqaatListModel();
-            PetaPoco.Page<MasterMiqaatModel> entity = MiqaatServices.GetInstance.GetAllMiqaats(pageNo, pageSize);
+            //int pageSize = 10;
+            //PPMiqaatListModel _model = new PPMiqaatListModel();
+            //PetaPoco.Page<MasterMiqaatModel> entity = MiqaatServices.GetInstance.GetAllMiqaats(pageNo, pageSize);
             
-            if (pageNo > 1)
-                return PartialView("~/Views/Shared/sharedMiqaatPartial.Mobile.cshtml", entity.Items);
-            else
-                return View("~/Views/Shared/sharedMasterMiqaatView.cshtml", entity);
+            //if (pageNo > 1)
+            //    return PartialView("~/Views/Shared/sharedMiqaatPartial.Mobile.cshtml", entity.Items);
+            //else
+            //    return View("~/Views/Shared/sharedMasterMiqaatView.cshtml", entity);
+            return View("~/Views/Shared/sharedMasterMiqaatView.cshtml");
         }
 
         [HttpGet]

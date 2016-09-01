@@ -221,6 +221,7 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities.PP_Entities_Model
         public bool IsVideo { get; set; }
         public string SourceWebsite { get; set; }
         public EntityMedia Entity  { get; set; }
+        public string shortIslamicDate { get; set; }
     }
 
     public class AkhbaarMasterModel
