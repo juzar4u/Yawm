@@ -306,6 +306,8 @@
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\Akhbaar-Al-Mumineen-3-09-2016.pubxml" />
+    <None Include="Properties\PublishProfiles\Akhbaar-Al-MumineenPP-3-09-2016.pubxml" />
     <None Include="Properties\PublishProfiles\AkhbaarAlMunineen_DesignUpdate.pubxml" />
     <None Include="Properties\PublishProfiles\akhbaarpp_new_20_04_2016.pubxml" />
     <None Include="Properties\PublishProfiles\Akhbaar_AL_Mumineen_24_07_2016.pubxml" />

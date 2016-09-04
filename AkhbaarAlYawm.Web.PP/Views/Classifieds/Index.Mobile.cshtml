@@ -7,9 +7,11 @@
         border: 15px #e9e3e3 solid;
         /* margin: 5px; */
         background: #fff;
-        width: 92%;
+        
     }
-
+    .postnow {
+        width:100%;
+    }
     .comment {
         margin: 0;
     }
@@ -115,16 +117,13 @@
         width: 100%;
     }
 
-    #fixedbutton {
-        padding: 25px;
-    margin-top: 20px;
-    }
+    
 </style>
 <div id="content">
     
     
     <h2 class="separator" >Classifieds</h2>
-    <input type="button" class="postBtn" id="fixedbutton" value="Post Ad" />
+    <button type="button" class="postnow btn btn-success" value="Post Ad" id="fixedbutton"><i class="fa fa-upload fa-lg" aria-hidden="true" style="padding:5px; color:#000;"></i>Post Ad</button>
     <!-- TOPSTORY -->
 
     @foreach(var item in Model)
@@ -181,22 +180,23 @@
 
         </div>
         <br />
-
+        @if(item.mediaList.Count > 0)
+        {
         <div class="swiper-pagination" style="position: relative"></div>
-
+        }
         <span style="float: left; font-family: calibri; padding: 5px; font-size: 20px;">Phone No.</span>
         <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">@string.Format("{0}{1}{2}{3}", "+", item.PhoneCode, " ", item.PhoneNo)</span><br />
         <div id="body-section">
             @{
         
             
-                <p class="body" id="content-less">
+                <p class="body" id="@string.Format("{0}{1}", "content-less",item.ClassifiedID)">
 
                     @if(item.Description.Length  > 150)
                     {
                      string content = string.Format("{0}{1}", item.Description.Substring(0,150), "...");
                      @content   
-                    <a onclick="readmore()" style="font-family: Calibri; color: darkgray;">ReadMore</a>
+                    <a onclick="readmore('@item.ClassifiedID')" style="font-family: Calibri; color: darkgray;">ReadMore</a>
                     }
                     else
                     {
@@ -205,14 +205,14 @@
                     
                 </p>
                 
-                <p class="body" id="content-more" style="display: none;">
+                <p class="body" id="@string.Format("{0}{1}", "content-more",item.ClassifiedID)" style="display: none;">
 
                     @item.Description
 
                 </p>
             }
         </div>
-        <div id="info-section" style="float: right;">
+        @*<div id="info-section" style="float: right;">
             <div id="people-comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px;">
                 <span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray; float: right;">
                     @{
@@ -229,15 +229,15 @@
                     <a onclick="commentFunction('@item.ClassifiedID')" style="color:darkgray;">@commmentText</a>
                 </span>
             </div>
-        </div>
-        <div id="people-like-section-@item.ClassifiedID" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
+        </div>*@
+       @* <div id="people-like-section-@item.ClassifiedID" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
 
             <span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">@item.userlikescount</span>
 
-        </div>
+        </div>*@
 
 
-        <div id="share-section" style="float: left;">
+       @* <div id="share-section" style="float: left;">
             <div id="like-section" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
                 
                 <div style="display:none" id="HiddenUnlikeID-@item.ClassifiedID"><i class="fa fa-thumbs-o-up" aria-hidden="true" style="color: darkgray;" onclick="LikeFuntion('@item.UserID', '@item.ClassifiedID', true)"><span style="font-style: italic; font-family: Calibri; margin-left: 5px; color: darkgray; font-weight: bold;">Like</span></i></div>
@@ -253,7 +253,7 @@
 
             <div id="comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px; margin-left: 147px;"><i class="fa fa-comment-o" aria-hidden="true" style="color: darkgray;"><span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray;"><a onclick="commentFunction('@item.ClassifiedID')" style="color:darkgray;">comment</a></span></i></div>
         </div>
-        
+        *@
     </div>
        
     }
@@ -283,13 +283,12 @@
                 }
             });
         }
-        function readmore() {
-            $("#content-less").css("display", 'none');
-            $("#content-more").css("display", 'block');
+        function readmore(classifiedID) {
+            $("#content-less" + classifiedID).css("display", 'none');
+            $("#content-more" + classifiedID).css("display", 'block');
         }
 
-        function LikeFuntion(userId, entityId, IsLike)
-        {
+        function LikeFuntion(userId, entityId, IsLike) {
             var entityCategoryID;
             if (window.location.href.indexOf("Classifieds") > -1) {
                 entityCategoryID = 2;
@@ -304,7 +303,7 @@
                         $("#UnlikeID-" + entityId).css("display", "none");
                         $("#LikedID-" + entityId).css("display", "none");
                         $("#HiddenUnlikeID-" + entityId).css("display", "none");
-                        $("#HiddenLikedID-"+entityId).css("display", "block");
+                        $("#HiddenLikedID-" + entityId).css("display", "block");
 
                     } else {
                         $("#LikedID-" + entityId).css("display", "none");
@@ -321,7 +320,7 @@
                     }
                 }
 
-                
+
             });
         }
 
