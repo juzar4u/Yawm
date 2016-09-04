@@ -66,6 +66,7 @@ body,
 .subnav-section-list a {
   display: block;
   padding: 10px 20px;
+  color:#ccc;
 }
 
 /*.panel {
