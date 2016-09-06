@@ -1,0 +1,43 @@
+﻿<style>
+    .form-control {
+        width: 70%;
+        margin: 20px;
+    }
+
+    .subnav {
+        margin-top: -25px;
+    }
+</style>
+<div id="content">
+    <h2 class="separator">Filter</h2>
+    <nav id="subnavConfig" class="subnav">
+        <br />
+        <section class="subnav-section">
+            <h3 class="subnav-section-title"><a>Select Category</a></h3>
+            <select id="selectCategory" class="form-control">
+                <option>option 1</option>
+                <option>option 2</option>
+                <option>option 3</option>
+            </select>
+        </section>
+
+        <section class="subnav-section">
+            <h3 class="subnav-section-title"><a>Price</a> </h3>
+            <input type="text" placeholder="MIN" class="form-control" />
+            <input type="text" placeholder="MAX" class="form-control" />
+        </section>
+
+         <section class="subnav-section">
+            <h3 class="subnav-section-title"><a>Location</a></h3>
+            <select id="selectLocation" class="form-control">
+                <option>option 1</option>
+                <option>option 1</option>
+                <option>option 1</option>
+                <option>option 1</option>
+            </select>
+        </section>
+
+        <button type="submit" class="form-control btn btn-primary"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Update Search</button>
+        <br />
+    </nav>
+</div>

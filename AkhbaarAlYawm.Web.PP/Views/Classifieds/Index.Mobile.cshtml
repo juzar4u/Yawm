@@ -168,9 +168,7 @@
                 <div id="topstory">
 
                     <a>
-
                         <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, media.Thumbnail)' id="image-width" alt="" style="height:250px;"/>
-
                     </a>
                 </div>
                 }
@@ -258,7 +256,12 @@
        
     }
     
+
+    
     <div id="commentView"></div>
+    </div>
+<div id="FilterClassifieds" style="display:none;">
+        @Html.Partial("~/Views/Classifieds/PartialFilterClassifieds.cshtml")
     </div>
     <!-- /content -->
 
@@ -272,6 +275,19 @@
 
     
     <script type="text/javascript">
+
+        $("#FilterClassifiedIcon").click(function () {
+            if ($("#FilterClassifieds").css('display') == 'none') {
+                $("#content").css('display', 'none');
+                $("#subnavConfig").css('margin-top', '-25px;');
+                $("#FilterClassifieds").css('display', 'block');
+            }
+            else {
+                $("#content").css('display', 'block');
+                $("#FilterClassifieds").css('display', 'none');
+            }
+
+        });
         function commentFunction(val) {
             $.ajax({
                 url: "/Classifieds/Comment",

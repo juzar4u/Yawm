@@ -50,6 +50,7 @@ else{
 
 
 
+
 @*<script src="//content.jwplatform.com/libraries/S2xWVQ9r.js"></script>*@
 <script src="/Content/PhotoSwipe/dist/photoswipe.js"></script>
 <script src="/Content/PhotoSwipe/dist/photoswipe-ui-default.js"></script>
@@ -60,8 +61,11 @@ else{
         paginationClickable: true
     });
     $(document).ready(function () {
-        $(".swiper-slide img").css('width', $(window).width());
-        $(".swiper-slide iframe").css('width', $(window).width());
+        //$(".swiper-slide img").css('width', $(window).width());
+        //$(".swiper-slide iframe").css('width', $(window).width());
+
+        $(".swiper-slide img").css('width', '100%');
+        $(".swiper-slide iframe").css('width', '100%');
     });
     //function ImagePopupBindForArticlePage() {
     //    $(function () {
