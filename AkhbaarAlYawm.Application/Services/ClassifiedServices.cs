@@ -94,7 +94,7 @@ namespace AkhbaarAlYawm.Application.Services
             {
                 using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
                 {
-                    var ppsql = "select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.UserID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID order by ads.PublishedDate desc";
+                    var ppsql = "select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID order by ads.PublishedDate desc";
                     result = context.Page<ClassifiedIndexModel>(pageNo, pageSize, ppsql);
                     foreach (var item in result.Items)
                     {
@@ -188,6 +188,147 @@ namespace AkhbaarAlYawm.Application.Services
 
         }
 
+        public List<ClassifiedIndexModel> GetFilterClassifiedList(FilterClassifiedModel model, int elements)
+        {
+            List<ClassifiedIndexModel> CompleteClassifiedList = new List<ClassifiedIndexModel>();
+            List<ClassifiedIndexModel> ClassifiedList = new List<ClassifiedIndexModel>();
+            List<ClassifiedIndexModel> models = new List<ClassifiedIndexModel>();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                if (elements == 4)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price >= @1 and ads.Price <= @2 and ads.ClassifiedAdCategoryID = @3 order by ads.PublishedDate desc", model.CountryID, model.MinPrice, model.MaxPrice, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+                else if (elements == 3)
+                {
+                    ClassifiedList = FilterClassifiedByThreeFilter(model);
+                }
+                else if (elements == 2)
+                {
+                    ClassifiedList = FilterClassifiedByTwoFilter(model);
+                }
+                else
+                {
+                    ClassifiedList = FilterClassifiedByOneItem(model);
+                }
+                foreach (var item in ClassifiedList)
+                {
+                    item.mediaList = context.Fetch<NewsfeedClassifiedMedia>("select * from NewsfeedClassifiedMedia where EntityTypeID = 1 and EntityID = @0", item.ClassifiedID);
+                    
+                }
+            }
+            return ClassifiedList;
+        }
 
+        private List<ClassifiedIndexModel> FilterClassifiedByThreeFilter(FilterClassifiedModel model)
+        {
+            List<ClassifiedIndexModel> ClassifiedList = new List<ClassifiedIndexModel>();
+            List<ClassifiedIndexModel> models = new List<ClassifiedIndexModel>();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                if (model.ChildClassifiedAdCategoryID > 0 && model.MinPrice > 0 && model.MaxPrice > 0 && model.CountryID <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price >= @0 and ads.ClassifiedAdCategoryID = @1 and ads.Price <= @2 order by ads.PublishedDate desc", model.MinPrice, model.ChildClassifiedAdCategoryID, model.MaxPrice);
+                    ClassifiedList = models;
+                }
+                else if (model.CountryID > 0 && model.MinPrice > 0 && model.MaxPrice > 0 && model.ChildClassifiedAdCategoryID <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price >= @1 and ads.Price <= @2 order by ads.PublishedDate desc", model.CountryID, model.MinPrice, model.MaxPrice);
+                    ClassifiedList = models;
+                }
+                else if (model.CountryID > 0 && model.ChildClassifiedAdCategoryID > 0 && model.MaxPrice > 0 && model.MinPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price <= @1 and ads.ClassifiedAdCategoryID = @2 order by ads.PublishedDate desc", model.CountryID, model.MaxPrice, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+                else if (model.CountryID > 0 && model.ChildClassifiedAdCategoryID > 0 && model.MinPrice > 0 && model.MaxPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price >= @1 and ads.ClassifiedAdCategoryID = @2 order by ads.PublishedDate desc", model.CountryID, model.MinPrice, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+            }
+            return ClassifiedList;
+        }
+
+        private List<ClassifiedIndexModel> FilterClassifiedByTwoFilter(FilterClassifiedModel model)
+        {
+            List<ClassifiedIndexModel> ClassifiedList = new List<ClassifiedIndexModel>();
+            List<ClassifiedIndexModel> models = new List<ClassifiedIndexModel>();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                if (model.CountryID > 0 && model.ChildClassifiedAdCategoryID > 0 && model.MinPrice <= 0 && model.MaxPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.ClassifiedAdCategoryID = @1 order by ads.PublishedDate desc", model.CountryID, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+                else if (model.CountryID > 0 && model.MinPrice > 0 && model.ChildClassifiedAdCategoryID <= 0 && model.MaxPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price >= @1 order by ads.PublishedDate desc", model.CountryID, model.MinPrice);
+                    ClassifiedList = models;
+                }
+                else if (model.CountryID > 0 && model.MaxPrice > 0 && model.ChildClassifiedAdCategoryID <= 0 && model.MinPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 and ads.Price <= @1 order by ads.PublishedDate desc", model.CountryID, model.MaxPrice);
+                    ClassifiedList = models;
+                }
+                else if (model.ChildClassifiedAdCategoryID > 0 && model.MinPrice > 0 && model.CountryID <= 0 && model.MaxPrice <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price >= @0 and ads.ClassifiedAdCategoryID = @1 order by ads.PublishedDate desc", model.MinPrice, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+                else if (model.ChildClassifiedAdCategoryID > 0 && model.MaxPrice > 0 && model.MinPrice <= 0 && model.CountryID <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price <= @0 and ads.ClassifiedAdCategoryID = @1 order by ads.PublishedDate desc", model.MaxPrice, model.ChildClassifiedAdCategoryID);
+                    ClassifiedList = models;
+                }
+                else if (model.MinPrice > 0 && model.MaxPrice > 0 && model.ChildClassifiedAdCategoryID <= 0 && model.CountryID <= 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price >= @0 and ads.Price <= @1 order by ads.PublishedDate desc", model.MinPrice, model.MaxPrice);
+                    ClassifiedList = models;
+                }
+            }
+            return ClassifiedList;
+
+        }
+        private List<ClassifiedIndexModel> FilterClassifiedByOneItem(FilterClassifiedModel model)
+        {
+            List<ClassifiedIndexModel> ClassifiedList = new List<ClassifiedIndexModel>();
+            List<ClassifiedIndexModel> models = new List<ClassifiedIndexModel>();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                if (model.CountryID > 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where country.CountryID = @0 order by ads.PublishedDate desc", model.CountryID);
+                    ClassifiedList = models;
+                }
+                else if (model.ChildClassifiedAdCategoryID > 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.ClassifiedAdCategoryID = @0 order by ads.PublishedDate desc", model.ChildClassifiedAdCategoryID);
+                    foreach (var each in models.Where(x => !ClassifiedList.Exists(a => a.ClassifiedID == x.ClassifiedID)))
+                    {
+                        ClassifiedList = models;
+                    }
+                }
+                else if (model.MinPrice > 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price >= @0 order by ads.PublishedDate desc", model.MinPrice);
+                    foreach (var each in models.Where(x => !ClassifiedList.Exists(a => a.ClassifiedID == x.ClassifiedID)))
+                    {
+                        ClassifiedList = models;
+                    }
+                }
+                else if (model.MaxPrice > 0)
+                {
+                    models = context.Fetch<ClassifiedIndexModel>("select ads.ClassifiedID, ads.Title, ads.CommentCount, ads.Description, ads.CityID, ads.Address, ads.PhoneCode, ads.PhoneNo, ads.CurrencyID, ads.Price, ads.UserID, ads.PublishedDate, cr.Code as CurrencyCode, city.Name as CityName, country.Name as CountryName, users.FirstName, users.LastName, users.ThumbnailProfileImg as UserProfileImg, cat.Name as ClassifiedCategoryName from Classified ads left join Currency cr on cr.CurrencyID = ads.CurrencyID left join Cities city on city.CityID = ads.CityID left join States states on states.StateID = city.StateID left join Countries country on country.CountryID = states.CountryID left join Users users on users.UserID = ads.UserID left join ClassifiedAdCategories cat on cat.ClassifiedAdCategoryID = ads.ClassifiedAdCategoryID where ads.Price <= @0 order by ads.PublishedDate desc", model.MaxPrice);
+                    foreach (var each in models.Where(x => !ClassifiedList.Exists(a => a.ClassifiedID == x.ClassifiedID)))
+                    {
+                        ClassifiedList = models;
+                    }
+                }
+            }
+
+            return ClassifiedList;
+        }
     }
 }

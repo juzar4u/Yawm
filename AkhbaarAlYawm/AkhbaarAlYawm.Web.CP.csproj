@@ -290,6 +290,7 @@
     <Content Include="Content\AwesomeFonts\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\AwesomeFonts\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\AkhbaarAlYawm-19-05-2016.pubxml" />
+    <None Include="Properties\PublishProfiles\AkhbaarAlYawmCP-03-09-2016.pubxml" />
     <None Include="Properties\PublishProfiles\AkhbaarAlYawmCP-07-04-2016.pubxml" />
     <None Include="Properties\PublishProfiles\AkhbaarAlYawmCP.pubxml" />
     <None Include="Properties\PublishProfiles\akhbaar_cp_19_04_2016.pubxml" />

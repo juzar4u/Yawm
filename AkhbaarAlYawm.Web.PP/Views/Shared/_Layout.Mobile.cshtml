@@ -47,13 +47,13 @@
         <div id="wrapper">
             <div id="header">
 
-                <h3 id="logo"><a href="/">
+                @*<h3 id="logo"><a href="/">
 
-                    <img src="/Content/Images/logomainakhbaar.png" alt="" /></a></h3>
+                    <img src="/Content/Images/logomainakhbaar.png" alt="" /></a></h3>*@
 
                 <p id="info"><i class="fa fa-align-justify fa-2x" aria-hidden="true"></i></p>
 
-                @if (Request.Url.ToString().ToLower().Contains("/classifieds/index/"))
+                @if (Request.Url.ToString().ToLower().Contains("/classifieds/index/") || Request.Url.ToString().ToLower().Contains("/classifieds/filterclassified"))
                 {
                     <p id="FilterClassifiedIcon"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></p>
                 }

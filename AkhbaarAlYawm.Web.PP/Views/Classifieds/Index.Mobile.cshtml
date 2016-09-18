@@ -261,7 +261,8 @@
     <div id="commentView"></div>
     </div>
 <div id="FilterClassifieds" style="display:none;">
-        @Html.Partial("~/Views/Classifieds/PartialFilterClassifieds.cshtml")
+       @{Html.RenderAction("GetFilterLayout", "Classifieds"); }
+    @* @Html.Partial("~/Views/Classifieds/PartialFilterClassifieds.cshtml")*@
     </div>
     <!-- /content -->
 
@@ -279,7 +280,7 @@
         $("#FilterClassifiedIcon").click(function () {
             if ($("#FilterClassifieds").css('display') == 'none') {
                 $("#content").css('display', 'none');
-                $("#subnavConfig").css('margin-top', '-25px;');
+                //$("#subnavConfig").css('margin-top', '-25px;');
                 $("#FilterClassifieds").css('display', 'block');
             }
             else {

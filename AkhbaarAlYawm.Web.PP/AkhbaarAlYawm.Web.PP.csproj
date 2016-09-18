@@ -413,6 +413,7 @@
     <Content Include="Views\Classifieds\Comment.Mobile.cshtml" />
     <Content Include="Views\Classifieds\TriggerLike.Mobile.cshtml" />
     <Content Include="Views\Classifieds\PartialFilterClassifieds.cshtml" />
+    <Content Include="Views\Classifieds\FilterClassified.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

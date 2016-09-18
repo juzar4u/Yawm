@@ -76,7 +76,8 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                         for (int i = 0; i < Request.Files.Count; i++)
                         {
                             HttpPostedFile file = System.Web.HttpContext.Current.Request.Files[i];
-                           media.Add(ValidateAndUploadImage(file));
+                            if(file.ContentLength > 0)
+                            media.Add(ValidateAndUploadImage(file));
                         }
                     }
                     foreach (var item in media)
@@ -230,6 +231,47 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
 
             return likecount;
         }
-        
+
+        public ActionResult GetFilterLayout()
+        {
+            FilterClassifiedModel model = new FilterClassifiedModel();
+            model.ParentCategories = ClassifiedServices.GetInstance.GetParentClassifiedCategories();
+            model.CountryList = PP_ArticleServices.GetInstance.GetCountryList();
+            return PartialView("~/Views/Classifieds/PartialFilterClassifieds.cshtml", model);
+        }
+        public ActionResult FilterClassified(FilterClassifiedModel item)
+        {
+            int elements = 0;
+            if (item.ChildClassifiedAdCategoryID > 0)
+            {
+                elements++;
+            }
+            if (item.CountryID > 0)
+            {
+                elements++;
+            }
+            if (item.MinPrice > 0)
+            {
+                elements++;
+            }
+            if (item.MaxPrice > 0)
+            {
+                elements++;
+            }
+            if (elements != 0)
+            {
+                List<ClassifiedIndexModel> filterclassifiedLists = ClassifiedServices.GetInstance.GetFilterClassifiedList(item, elements);
+                return View("~/Views/Classifieds/Index.Mobile.cshtml", filterclassifiedLists);
+            }
+            else
+            {
+                return Redirect("/Classifieds/index/1");
+            }
+        }
+
+        //public ActionResult setFilterView(FilterClassifiedModel item)
+        //{
+        //    return View("~/Views/Classifieds/PartialFilterClassifieds.cshtml", item);
+        //}
     }
 }

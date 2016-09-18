@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.FilterClassifiedModel
+
+<style>
     .form-control {
         width: 70%;
         margin: 20px;
@@ -8,36 +10,97 @@
         margin-top: -25px;
     }
 </style>
+
+<script type="text/javascript">
+    function ClassifiedCategoryChange(parentdd, childDDID) {
+        var selectedItem = $(parentdd).val();
+
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
+
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Classifieds/GetChildClassifiedCategories",
+            data: { "parentCategoryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
+
+                $("#categoriesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html("Select Sub Categories*"));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.ClassifiedAdCategoryID).html(option.Name));
+
+
+                });
+                
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
+</script>
 <div id="content">
-    <h2 class="separator">Filter</h2>
-    <nav id="subnavConfig" class="subnav">
-        <br />
-        <section class="subnav-section">
-            <h3 class="subnav-section-title"><a>Select Category</a></h3>
-            <select id="selectCategory" class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-            </select>
-        </section>
+    <h2 class="separator">Filter Classified Ads!</h2>
+    @using (Html.BeginForm("FilterClassified", "Classifieds", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
 
-        <section class="subnav-section">
-            <h3 class="subnav-section-title"><a>Price</a> </h3>
-            <input type="text" placeholder="MIN" class="form-control" />
-            <input type="text" placeholder="MAX" class="form-control" />
-        </section>
+        <nav id="subnavConfig" class="subnav">
+            <br />
+            <section class="subnav-section">
+                <h3 class="subnav-section-title"><a>Select Category</a></h3>
+                <select id="selectCategory" class="form-control" id="ClassifiedAdCategoryID" name="ClassifiedAdCategoryID" onchange="ClassifiedCategoryChange(this, 'ChildClassifiedAdCategoryID')" >
+                   <option value="0">select category</option>
+                    @foreach (var categories in Model.ParentCategories)
+                    {
+                        <option value="@categories.ClassifiedAdCategoryID">@categories.Name</option>
+                    }
+                </select>
+            </section>
+            <section class="subnav-section" id="categoriesDiv" style="display:none">
+                <h3 class="subnav-section-title"><a>Select Sub Category</a></h3>
+                <select id="ChildClassifiedAdCategoryID" name="ChildClassifiedAdCategoryID" class="form-control"></select>
+            </section>
+            
+            <section class="subnav-section">
+                <h3 class="subnav-section-title"><a>Price</a> </h3>
+                <input type="text" placeholder="MIN" class="form-control" name="MinPrice" id="MinPrice" />
+                <input type="text" placeholder="MAX" class="form-control" name="MaxPrice" id="MaxPrice" />
+            </section>
 
-         <section class="subnav-section">
-            <h3 class="subnav-section-title"><a>Location</a></h3>
-            <select id="selectLocation" class="form-control">
-                <option>option 1</option>
-                <option>option 1</option>
-                <option>option 1</option>
-                <option>option 1</option>
-            </select>
-        </section>
-
-        <button type="submit" class="form-control btn btn-primary"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Update Search</button>
-        <br />
-    </nav>
+            <section class="subnav-section">
+                <h3 class="subnav-section-title"><a>Location</a></h3>
+                <select id="selectLocation" class="form-control" name="CountryID" id="CountryID">
+                    <option value="0">select country</option>
+                    @foreach (var countries in Model.CountryList)
+                    {
+                        <option value="@countries.CountryID">@countries.Name</option>
+                    }
+                </select>
+            </section>
+            <div class="row">
+                <div class="col-xs-5"><button type="submit" class="form-control btn btn-primary" style="width: 100%;"><i class="fa fa-search fa-lg" aria-hidden="true"></i>Update Search</button></div>
+                <div class="col-xs-1"></div>
+                <div class="col-xs-5"><button type="button" class="form-control btn btn-danger" onclick="returnClassifieds()" style="width: 100%;"><i class="fa fa-search fa-lg" aria-hidden="true"></i>Clear Search</button></div>
+            </div>
+            
+            <br /><br /><br />
+        </nav>
+    }
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    });
+    function returnClassifieds() {
+        window.location.href = "/classifieds/index/1" ;
+    }
+</script>

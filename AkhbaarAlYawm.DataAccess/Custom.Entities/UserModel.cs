@@ -188,6 +188,17 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public List<ClassifiedAdCategories> ChildCategories { get; set; }
     }
 
+    public class FilterClassifiedModel
+    {
+        public List<ClassifiedAdCategories> ParentCategories { get; set; }
+        public List<Country> CountryList { get; set; }
+        public int ClassifiedAdCategoryID { get; set; }
+        public int CountryID { get; set; }
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
+        public int ChildClassifiedAdCategoryID { get; set; }
+    }
+
     [Serializable]
     public class ArgaamJson
     {
