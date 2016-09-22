@@ -76,5 +76,20 @@ namespace AkhbaarAlYawm.Application.Helper
                 return ConfigurationManager.AppSettings["Akhbaar_PP_URL"];
             }
         }
+
+        public static string GetUserProfileUrl
+        {
+            get
+            {
+                return "/account/userProfile?userId=";
+            }
+        }
+        public static string GetDefaultUserImageUrl
+        {
+            get
+            {
+                return "/Images/UserProfile/defaultUser.jpg";
+            }
+        }
     }
 }

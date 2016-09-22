@@ -41,6 +41,13 @@ namespace AkhbaarAlYawm.Application.Services
                 return (int)context.Insert(_token);
             }
         }
+        public int CreateProfile(UserProfile profile)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return (int)context.Insert(profile);
+            }
+        }
 
         public int UpdateUsers(Users _user)
         {
@@ -174,6 +181,14 @@ namespace AkhbaarAlYawm.Application.Services
             InsertIntoEmailTokens(_emailToken);
 
             return _emailToken;
+        }
+
+        public UserProfileModel getProfileByUserID(int userId)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<UserProfileModel>("select usrPro.UserProfileID, usrPro.UserID, usrPro.Specialisation, usrPro.PhoneNo, usrPro.Jamaat, usrPro.HomeAddress, usrPro.Gender, usrPro.DOB, usr.Email, usr.FirstName, usr.LastName, usr.ThumbnailProfileImg, usr.EjamatID from UserProfile usrPro left join Users usr on usr.UserID = usrPro.UserID where usrPro.UserID = @0", userId).FirstOrDefault();
+            }
         }
     }
 }

@@ -38,6 +38,25 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string changePassword { get; set; }
     }
 
+    public class UserProfileModel
+    {
+        public int UserProfileID { get; set; }
+        public int UserID { get; set; }
+        public int EjamatID { get; set; }
+        public string Jamaat { get; set; }
+        public string Specialisation { get; set; }
+        public DateTime DOB { get; set; }
+        public string Gender { get; set; }
+        public string HomeAddress { get; set; }
+        public string PhoneNo { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ThumbnailProfileImg { get; set; }
+    }
+
+    
+
 
     public class LoginModel
     {

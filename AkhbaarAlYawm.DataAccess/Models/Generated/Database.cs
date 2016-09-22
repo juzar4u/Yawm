@@ -1386,7 +1386,42 @@ namespace AkhbaarAlYawm.DataAccess
 
     }
 
+    [TableName("UserProfile")]
 
+
+    [PrimaryKey("UserProfile")]
+
+
+
+    [ExplicitColumns]
+    public partial class UserProfile : CPDefaultConnectionDB.Record<UserProfile>
+    {
+        [Column]
+        public int UserProfileID { get; set; }
+
+        [Column]
+        public int UserID { get; set; }
+
+        [Column]
+        public string Jamaat { get; set; }
+
+        [Column]
+        public string Specialisation { get; set; }
+
+        [Column]
+        public DateTime DOB { get; set; }
+
+        [Column]
+        public string Gender { get; set; }
+
+        [Column]
+        public string HomeAddress { get; set; }
+
+        [Column]
+        public string PhoneNo { get; set; }
+
+
+    }
 }
 
 
