@@ -138,6 +138,15 @@
             padding:5px;
             background-color:honeydew;
         }
+
+    /*.comment-txt a {
+        font-size:16px;
+        color:orange;
+    }
+    .chldcomment-txt a {
+        font-size:16px;
+        color:orange;
+    }*/
 </style>
 
 
@@ -167,7 +176,7 @@
                    
             </div>
             <div class="comment-txt" style="text-align: justify;margin: 10px;padding: 5px;">
-                <h3 style="font-weight: bold; margin: 0;">@parentcomment.ParentComment.UserName</h3>
+                <a href="@string.Format("{0}{1}",AkhbaarAlYawm.Application.Helper.ApplicationConstants.GetUserProfileUrl, parentcomment.ParentComment.CreatedBy)"><h3 style="font-weight: bold; margin: 0;">@parentcomment.ParentComment.UserName</h3></a>
                 <p><a>@parentcomment.ParentComment.Content</a></p>
             </div>
             <div class="post-txt">
@@ -194,10 +203,10 @@
                             @{
                                 string userImgChild = "";
                                 string rootUrlChild = "";
-                                if (!string.IsNullOrEmpty(parentcomment.ParentComment.ThumbnailProfileImg))
+                                if (!string.IsNullOrEmpty(childcomment.ThumbnailProfileImg))
                                 {
                                     rootUrlChild = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL;
-                                    userImgChild = parentcomment.ParentComment.ThumbnailProfileImg;
+                                    userImgChild = childcomment.ThumbnailProfileImg;
                                 }
                                 else
                                 {
@@ -210,7 +219,7 @@
                             
                     </div>
                     <div class="chldcomment-txt" style="text-align: justify;margin: 8px;padding: 2px;">
-                        <h3 style="font-weight: bold; margin: 0;">@childcomment.UserName</h3>
+                        <a href="@string.Format("{0}{1}",AkhbaarAlYawm.Application.Helper.ApplicationConstants.GetUserProfileUrl, childcomment.CreatedBy)"><h3 style="font-weight: bold; margin: 0;">@childcomment.UserName</h3></a>
                         <p><a>@childcomment.Content</a></p>
                     </div>
                     <div class="chldpost-txt">
@@ -264,6 +273,7 @@
             dataType: "html",
             data: { "commentId": val, "IsParentComment": IsParentComment },
             success: function (data) {
+                
                 if (lastClickedID != undefined && LastClickedIsParentComment != undefined) {
                     if (LastClickedIsParentComment == "true") {
                         if ($("#parentcomment-" + lastClickedID).css('display') == 'block') {
@@ -297,6 +307,7 @@
     }
 
     function deleteComment(val) {
+        $("#addloading").addClass("loading");
         var id;
         if (window.location.href.indexOf("Home/Detail") > -1) {
             id = 1;
@@ -310,10 +321,12 @@
             dataType: "html",
             data: { "commentId": val, "commentCategoryID": id },
             success: function (data) {
+               
                 //setTimeout(function () {
                 //    $("#renderPoPbox").html(data);
                 //}, 2000);
                 location.reload();
+                $("#addloading").removeClass("loading");
             }
         });
     }

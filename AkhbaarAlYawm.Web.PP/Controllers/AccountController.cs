@@ -118,6 +118,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             Users _user = new Users();
             try
             {
+                UserProfile profile = new UserProfile();
                 _user.EjamatID = model.EjamatID;
                 _user.FirstName = model.FirstName;
                 _user.LastName = model.LastName;
@@ -130,6 +131,8 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 _user.RoleID = (int)UserRoleEnum.User;
                 HttpPostedFile postedFile = System.Web.HttpContext.Current.Request.Files[0];
                 _user.UserID = UserServices.GetInstance.InsertIntoUsers(_user);
+                profile.UserID = _user.UserID;
+                UserServices.GetInstance.CreateProfile(profile);
                 ValidateAndUploadImage(postedFile, _user.UserID);
                 UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
 
@@ -268,6 +271,14 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             }
             return errorMsg;
         }
+
+        public ActionResult userProfile(int userId)
+        {
+
+            UserProfileModel profile = UserServices.GetInstance.getProfileByUserID(userId);
+            return View(profile);
+        }
+
 
     }
 }

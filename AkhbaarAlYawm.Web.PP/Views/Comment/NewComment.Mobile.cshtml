@@ -70,7 +70,7 @@ else
     }
     function PostCommentFunction(UserID, ArticleID){
         //alert("UserID is"+ UserID + "ArticleID is "+ ArticleID);
-
+        $("#addloading").addClass("loading");
         if ($("#postcomment").val() == '')
         {
             $("#error").html('Please Enter Comment');
@@ -92,10 +92,12 @@ else
                 dataType: "html",
                 data: { "userId": UserID, "articleId":ArticleID, "comment": $("#postcomment").val(), "parentCommentId": 0, "commentCategoryID":id },
                 success: function (data) {
+                    
                     //setTimeout(function(){
                     //$("#CommentBox").load(data);
                     //}, 2000);
                     location.reload();
+                    $("#addloading").removeClass("loading");
                     //$("#CommentBox").load(location.href + " #CommentBox");
                 }
             });

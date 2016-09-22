@@ -18,11 +18,11 @@
             <a href="/photo/Detail/?AlbumID=@items.PhotoAlbumID">
                 <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Helper.Constants.Akhbaar_CP_URL, items.CoverPhotoThumbnailImg)' id="image-width" alt="" style="height: 208px;" />
                 <div class="row">
-                    <div class="col-xs-5 photoBadge">
+                    <div class="col-xs-5 dateBadge">
                         <p>@items.publishedDate.ToString("dd/MMM/yyyy")</p>
                     </div>
                     <div class="col-xs-2"></div>
-                    <div class="col-xs-5 photoBadge">
+                    <div class="col-xs-5 dateBadge">
                         <p>@items.IslamicDate.Hijri</p>
                     </div>
                 </div>

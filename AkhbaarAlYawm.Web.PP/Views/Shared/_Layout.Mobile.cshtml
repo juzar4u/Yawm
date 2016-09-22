@@ -22,6 +22,7 @@
     <link rel="shortcut icon" href="@Url.Content("~/Content/Images/logoakhbaar.png")" />
 
     <style>
+      
         .subnav-section-title a {
             font-family: calibri;
             font-weight: bold;
@@ -94,6 +95,7 @@
     </nav>
     <div class="overlay-bg-popup hide" id="overlay"></div>
     <div id="body">
+        <div id="addloading"></div>
         @RenderSection("featured", required: false)
         <section class="content-wrapper main-content clear-fix" id="main-container">
             @RenderBody()

@@ -45,6 +45,7 @@
 <script type="text/javascript">
     function PostCommentFunction(UserID, CommentId, IsParentComment){
         //alert("UserID is"+ UserID + "ArticleID is "+ ArticleID);
+        $("#addloading").addClass("loading");
         if ($("#postcomment").val() == '')
         {
             $("#Replyerror").html('Please Enter Comment');
@@ -67,10 +68,12 @@
                 dataType: "html",
                 data: { "userId": UserID, "commentId":CommentId, "isParentComment":IsParentComment, "comment":$("#postcomment").val(), "CommentCategoryID": id },
                 success: function (data) {
+                   
                     //setTimeout(function(){
                     //$("#renderPoPbox").html(data);
                     //}, 2000);
                     location.reload();
+                    $("#addloading").removeClass("loading");
                 }
             });
         }

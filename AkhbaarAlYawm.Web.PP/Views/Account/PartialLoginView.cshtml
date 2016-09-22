@@ -100,7 +100,7 @@
 
         </div>
         <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
-            <h3 style="font-weight: bold; margin: 0; font-style: italic; color: orange; font-size: 20px">@Model.FirstName</h3>
+            <a href="@string.Format("{0}{1}",AkhbaarAlYawm.Application.Helper.ApplicationConstants.GetUserProfileUrl, Model.UserID)"> <h3 style="font-weight: bold; margin: 0; font-style: italic; color: orange; font-size: 20px">@Model.FirstName</h3></a>
         </div>
         <!-- /comment-txt -->
         <input type="button" class="postBtn" value="Logout" />
