@@ -9,6 +9,7 @@ namespace Akhbaar.Shared.Helper.Enum
     public enum EmailTemplateEnum
     {
         ForgotPassword = 1,
-        AccountVerification = 2
+        AccountVerification = 2,
+        UserToUserMessage = 1002
     }
 }

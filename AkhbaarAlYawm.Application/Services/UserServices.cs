@@ -34,6 +34,14 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public int InsertUserMessages(UserMessage messages)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return (int)context.Insert(messages);
+            }
+        }
+
         public int InsertIntoEmailTokens(EmailTokens _token)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
@@ -50,6 +58,13 @@ namespace AkhbaarAlYawm.Application.Services
         }
 
         public int UpdateUsers(Users _user)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return (int)context.Update(_user);
+            }
+        }
+        public int UpdateUserProfile(UserProfile _user)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
             {
@@ -130,6 +145,14 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public UserProfile GetUserProfileByUserID(int userId)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<UserProfile>("select * from UserProfile where userid = @0", userId).FirstOrDefault();
+            }
+
+        }
         public Users GetUserByUserIDandGuid(int userId, string guid)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
@@ -166,7 +189,7 @@ namespace AkhbaarAlYawm.Application.Services
             EmailTokens _emailToken = new EmailTokens();
 
             _emailToken.FromName = "Akhbaar-Al-Mumineen";
-            _emailToken.FromAddress = "admin@danatev.com";
+            _emailToken.FromAddress = "postmaster@juzarnooraniprojects.com";
             _emailToken.ToAddress = _user.Email;
             _emailToken.EmailSubject = subject;
             _emailToken.EmailBody = "";
@@ -178,6 +201,28 @@ namespace AkhbaarAlYawm.Application.Services
             _emailToken.Status = "P";
             _emailToken.EmailTemplateID = templateId;
 
+            InsertIntoEmailTokens(_emailToken);
+
+            return _emailToken;
+        }
+
+        public EmailTokens SetEmailTokenUserMessage(Users _user, string subject, string content, int templateId, Users fromUser, int usermessageid)
+        {
+            EmailTokens _emailToken = new EmailTokens();
+
+            _emailToken.FromName = fromUser.FirstName;
+            _emailToken.FromAddress = fromUser.Email;
+            _emailToken.ToAddress = _user.Email;
+            _emailToken.EmailSubject = subject;
+            _emailToken.EmailBody = "";
+            _emailToken.EntityID = _user.UserID;
+            _emailToken.EntityType = "U";
+            _emailToken.EmailPriority = 5;
+            _emailToken.EnqueuedOn = DateTime.Now;
+            _emailToken.ProcessedOn = null;
+            _emailToken.Status = "P";
+            _emailToken.EmailTemplateID = templateId;
+            _emailToken.UserMessageID = usermessageid;
             InsertIntoEmailTokens(_emailToken);
 
             return _emailToken;

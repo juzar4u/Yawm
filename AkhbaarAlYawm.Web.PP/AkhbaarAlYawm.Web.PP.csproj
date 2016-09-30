@@ -415,6 +415,9 @@
     <Content Include="Views\Classifieds\PartialFilterClassifieds.cshtml" />
     <Content Include="Views\Classifieds\FilterClassified.Mobile.cshtml" />
     <Content Include="Views\Account\userProfile.Mobile.cshtml" />
+    <Content Include="Views\Account\EditUserProfile.Mobile.cshtml" />
+    <Content Include="Views\Account\ClearProfile.Mobile.cshtml" />
+    <Content Include="Views\Account\SendMessage.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

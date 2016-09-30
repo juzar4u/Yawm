@@ -2,7 +2,7 @@
 
 <div class="popup-container hide" id="pop-up">
     <div class="container c-p">
-        <a class="close-btn" href="/"><span>&times;</span></a>
+        <a class="close-btn" onclick="return window.history.back();"><span>&times;</span></a>
         <div class="form">
         </div>
         @if (!string.IsNullOrEmpty(ViewBag.Message))

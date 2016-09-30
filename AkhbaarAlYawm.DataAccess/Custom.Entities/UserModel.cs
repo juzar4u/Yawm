@@ -53,9 +53,22 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ThumbnailProfileImg { get; set; }
+        public int? LoggedInUserID { get; set; }
     }
 
-    
+    public class ClearUserProfileModel
+    {
+        public int UserID { get; set; }
+    }
+
+
+    public class SendMessageModel
+    {
+        public int FromUserId { get; set; }
+        public int ToUserId { get; set; }
+        public string subject { get; set; }
+        public string Content { get; set; }
+    }
 
 
     public class LoginModel

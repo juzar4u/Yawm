@@ -126,7 +126,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 _user.Password = ExtensionMethodsCrypography.Encrypt(model.Password);
                 _user.UserGUID = Guid.NewGuid().ToString();
                 _user.CreatedOn = DateTime.Now;
-                _user.IsVerified = true;
+                _user.IsVerified = false;
                 _user.UserStatusID = (int)UserStatusEnum.Active;
                 _user.RoleID = (int)UserRoleEnum.User;
                 HttpPostedFile postedFile = System.Web.HttpContext.Current.Request.Files[0];
@@ -135,7 +135,15 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 UserServices.GetInstance.CreateProfile(profile);
                 ValidateAndUploadImage(postedFile, _user.UserID);
                 UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
-
+                try
+                {
+                    EmailService es = new EmailService();
+                    es.SendSimpleEmails();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                
             }
             catch (Exception ex)
@@ -184,6 +192,10 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             }
             if (_user.IsVerified)
             {
+                UserModel usermodel = new UserModel();
+                usermodel.UserID = _user.UserID;
+                usermodel.Email = _user.Email;
+                AuthHelper.AddSSOCookieIfNotExits(usermodel);
                 ViewBag.Message = "Your account is already verified";
             }
             else if (_user.UserGUID != guid)
@@ -214,37 +226,44 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
 
             if (postedFile.ContentLength > 0)
             {
-                WebImage img = new WebImage(postedFile.InputStream);
-                if (postedFile != null)
+                string extension = System.IO.Path.GetExtension(postedFile.FileName);
+
+                if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                 {
-                    if ((postedFile.ContentType.Contains("image")))
+                    WebImage img = new WebImage(postedFile.InputStream);
+                    if (postedFile != null)
                     {
-                        Users _user = UserServices.GetInstance.GetUserByUserID(userId);
-                        if (img.Width > 300 & img.Height > 300)
+                        if ((postedFile.ContentType.Contains("image")))
                         {
-                            img.Resize(300, 300);
-                            img.Save(HttpContext.Server.MapPath("~/Images/Profile/") + postedFile.FileName);
-                            profileImageUrl = null;
-                            thumbnailUrl = "/Images/Profile/" + postedFile.FileName;
+                            Users _user = UserServices.GetInstance.GetUserByUserID(userId);
+                            string fileName = Guid.NewGuid().ToString();
+                            if (img.Width > 300 & img.Height > 300)
+                            {
+                                img.Resize(300, 300);
+                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + "." + extension);
+                                profileImageUrl = null;
+                                thumbnailUrl = "/Images/Profile/"  +fileName + "." + extension;
+                            }
+                            else
+                            {
+                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + "." + extension);
+                                thumbnailUrl = "/Images/Profile/"  +fileName + "." + extension;
+                            }
+                            _user.ThumbnailProfileImg = thumbnailUrl;
+                            _user.ProfileImg = profileImageUrl;
+                            UserServices.GetInstance.UpdateUsers(_user);
                         }
-                        else
-                        {
-                            img.Save(HttpContext.Server.MapPath("~/Images/Profile/") + postedFile.FileName);
-                            thumbnailUrl = "/Images/Profile/" + postedFile.FileName;
-                        }
-                        _user.ThumbnailProfileImg = thumbnailUrl;
-                        _user.ProfileImg = profileImageUrl;
-                        UserServices.GetInstance.UpdateUsers(_user);
+                    }
+                    else
+                    {
+                        thumbnailUrl = null;
                     }
                 }
                 else
                 {
                     thumbnailUrl = null;
                 }
-            }
-            else
-            {
-                thumbnailUrl = null;
+               
             }
             return thumbnailUrl;
         }
@@ -276,9 +295,105 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         {
 
             UserProfileModel profile = UserServices.GetInstance.getProfileByUserID(userId);
+            profile.LoggedInUserID = AuthHelper.LoggedInUserID;
             return View(profile);
         }
 
+        [HttpGet]
+        public ActionResult EditUserProfile(int userId)
+        {
+            UserProfileModel profile = UserServices.GetInstance.getProfileByUserID(userId);
+            return View(profile);
+        }
+
+        [HttpPost]
+        public ActionResult EditUserProfile(UserProfileModel model)
+        {
+            HttpPostedFile postedFile = System.Web.HttpContext.Current.Request.Files[0];
+            if(postedFile.ContentLength > 0)
+                ValidateAndUploadImage(postedFile, model.UserID);
+            UserProfile profile = new UserProfile();
+
+            profile.UserID = model.UserID;
+            profile.UserProfileID = model.UserProfileID;
+            if(model.DOB.Year >1000)
+            profile.DOB = model.DOB;
+            profile.Gender = model.Gender;
+            profile.HomeAddress = model.HomeAddress;
+            profile.Jamaat = model.Jamaat;
+            profile.PhoneNo = model.PhoneNo;
+            profile.Specialisation = model.Specialisation;
+            UserServices.GetInstance.UpdateUserProfile(profile);
+
+            Users user = UserServices.GetInstance.GetUserByUserID(model.UserID);
+            user.EjamatID = model.EjamatID;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+
+            UserServices.GetInstance.UpdateUsers(user);
+
+            return Redirect("/account/UserProfile?userId=1");
+        }
+
+        [HttpGet]
+        public ActionResult ClearProfile(int userId)
+        {
+            ClearUserProfileModel model = new ClearUserProfileModel();
+            ViewBag.message = "Are you sure you wish to clear your profile info?";
+            model.UserID = userId;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ClearProfile(ClearUserProfileModel model)
+        {
+            UserProfile profile = new UserProfile();
+            profile = UserServices.GetInstance.GetUserProfileByUserID(model.UserID);
+            profile.DOB = (DateTime?) null;
+            profile.Gender = "";
+            profile.HomeAddress = "";
+            profile.Jamaat = "";
+            profile.PhoneNo = "";
+            profile.Jamaat = "";
+            profile.Specialisation = "";
+            UserServices.GetInstance.UpdateUserProfile(profile);
+            return Redirect("/account/UserProfile?userId=1");
+        }
+
+        [HttpGet]
+        public ActionResult SendMessage(int fromUserId, int toUserId)
+        {
+            SendMessageModel model = new SendMessageModel();
+            model.FromUserId = fromUserId;
+            model.ToUserId = toUserId;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(SendMessageModel model)
+        {
+            UserMessage usermessage = new UserMessage();
+            usermessage.TO_UserID = model.ToUserId;
+            usermessage.From_UserID = model.FromUserId;
+            usermessage.UserSubject = model.subject;
+            usermessage.UserContent = model.Content;
+            usermessage.SentOn = DateTime.Now;
+            int userMessageId = UserServices.GetInstance.InsertUserMessages(usermessage);
+
+            Users userFrom = UserServices.GetInstance.GetUserByUserID(model.FromUserId);
+            Users userTO = UserServices.GetInstance.GetUserByUserID(model.ToUserId);
+            UserServices.GetInstance.SetEmailTokenUserMessage(userTO, string.Format("{0}{1}", "New Message from - ", userFrom.FirstName), model.Content, (int)EmailTemplateEnum.UserToUserMessage, userFrom, userMessageId);
+            try
+            {
+                EmailService es = new EmailService();
+                es.SendSimpleEmails();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return Redirect(string.Format("{0}{1}", "/account/UserProfile?userId=", model.ToUserId));
+        }
 
     }
 }

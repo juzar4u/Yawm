@@ -821,7 +821,7 @@ namespace AkhbaarAlYawm.DataAccess
         public int UserID { get; set; }
 
         [Column]
-        public int EjamatID { get; set; }
+        public int? EjamatID { get; set; }
 
         [Column]
         public string Password { get; set; }
@@ -1189,6 +1189,8 @@ namespace AkhbaarAlYawm.DataAccess
         [Column]
         public int EmailTemplateID { get; set; }
 
+        [Column]
+        public int? UserMessageID { get; set; }
     }
 
     [TableName("EmailTemplates")]
@@ -1389,7 +1391,7 @@ namespace AkhbaarAlYawm.DataAccess
     [TableName("UserProfile")]
 
 
-    [PrimaryKey("UserProfile")]
+    [PrimaryKey("UserProfileID")]
 
 
 
@@ -1409,7 +1411,7 @@ namespace AkhbaarAlYawm.DataAccess
         public string Specialisation { get; set; }
 
         [Column]
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
         [Column]
         public string Gender { get; set; }
@@ -1421,6 +1423,35 @@ namespace AkhbaarAlYawm.DataAccess
         public string PhoneNo { get; set; }
 
 
+    }
+
+    [TableName("UserMessage")]
+
+
+    [PrimaryKey("UserMessageID")]
+
+
+
+    [ExplicitColumns]
+    public partial class UserMessage : CPDefaultConnectionDB.Record<UserMessage>
+    {
+        [Column]
+        public int UserMessageID { get; set; }
+
+        [Column]
+        public int TO_UserID { get; set; }
+
+        [Column]
+        public int From_UserID { get; set; }
+
+        [Column]
+        public string UserSubject { get; set; }
+
+        [Column]
+        public string UserContent { get; set; }
+
+        [Column]
+        public DateTime SentOn { get; set; }
     }
 }
 
