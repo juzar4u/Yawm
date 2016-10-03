@@ -1,0 +1,109 @@
+﻿
+@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserProfileModel
+@using AkhbaarAlYawm.Application.Helper;
+<style>
+    .panel-title {
+    text-align: center;
+    font-family: 'Century Gothic', futura, 'URW Gothic L', Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    }
+</style>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title">@string.Format("{0}{1}{2}", Model.FirstName, " ", Model.LastName)</h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 " align="center">
+                @if(!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
+                {
+                <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive">
+                }
+                else{
+                <img alt="User Pic" src="@string.Format("{0}{1}", ApplicationConstants.Akhbaar_CP_URL, ApplicationConstants.GetDefaultUserImageUrl)" class="img-circle img-responsive"> 
+                }
+            </div>
+
+            <!--<div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                  <dl>
+                    <dt>DEPARTMENT:</dt>
+                    <dd>Administrator</dd>
+                    <dt>HIRE DATE</dt>
+                    <dd>11/12/2013</dd>
+                    <dt>DATE OF BIRTH</dt>
+                       <dd>11/12/2013</dd>
+                    <dt>GENDER</dt>
+                    <dd>Male</dd>
+                  </dl>
+                </div>-->
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                        <tr>
+                            <td>EjamaatID:</td>
+                            <td>@Model.EjamatID</td>
+                        </tr>
+                        <tr>
+                            <td>Jamaat:</td>
+                            <td>@Model.Jamaat</td>
+                        </tr>
+                        <tr>
+                            <td>specialisation:</td>
+                            <td>@Model.Specialisation</td>
+                        </tr>
+                        <tr>
+                            <td>Date of Birth</td>
+                            @if (Model.DOB.Year <= 1000)
+                            {
+                                <td></td>
+                            }
+                            else{
+                            <td>@Model.DOB.ToString("dd/MM/yyyy")</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>@Model.Gender</td>
+                        </tr>
+                        <tr>
+                            <td>Home Address</td>
+                            <td>@Model.HomeAddress</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td>@Model.PhoneNo
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                @*<a href="#" class="btn btn-primary">My Sales Performance</a>
+                <a href="#" class="btn btn-primary">Team Sales Performance</a>*@
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if(AuthHelper.LoggedInUserID != Model.UserID)
+        {
+        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" href="/account/SendMessage?fromUserId=@Model.LoggedInUserID&toUserId=@Model.UserID"><i class="glyphicon glyphicon-envelope"></i></a>
+        }
+        else{
+            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-default" style="background-color:#ccc;"><i class="glyphicon glyphicon-envelope"></i></a>
+        }
+        @if(AuthHelper.LoggedInUserID == Model.UserID)
+        {
+        <span class="pull-right">
+            <a href="/account/EditUserProfile?userId=@Model.UserID" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="/account/ClearProfile?userId=@Model.UserID" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+        </span>
+        }
+    </div>
+
+</div>
