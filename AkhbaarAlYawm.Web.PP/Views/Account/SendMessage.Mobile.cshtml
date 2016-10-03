@@ -1,0 +1,27 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.SendMessageModel
+
+@using (Html.BeginForm("SendMessage", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+ <label class="bg-danger" id="error"></label>   
+<input type="hidden" name="ToUserId" id="ToUserId" />
+<input type="hidden" name="FromUserId" id="FromUserId" />
+<textarea id="subject" name="subject" style="width:100%" placeholder="Subject"></textarea>
+<textarea id="Content" name="Content" style="height:160px; width:100%" placeholder="Message"></textarea>
+
+<input type="submit" class="btn btn-success" value="send" id="submit"  style="float: right;margin: 10px;"/>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ToUserId").val('@Model.ToUserId');
+        $("#FromUserId").val('@Model.FromUserId');
+    });
+    $("#submit").click(function () {
+        if ($("#subject").val() == '' || $("#Content").val() == '') {
+            $("#error").html('Please enter subject and content');
+            return false;
+
+            
+        }
+    });
+</script>
