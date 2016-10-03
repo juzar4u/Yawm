@@ -266,19 +266,23 @@
         });
 
         $("#submit").click(function () {
+            $("#addloading").addClass("loading");
             if ($("#Title").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Title is not Entered.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#ParentClassifiedAdCategoryID").val() == 'Select Category*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Category is not Selected.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#ChildClassifiedAdCategoryID").val() == null || $("#ChildClassifiedAdCategoryID").val() == 'Select Sub Categories*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('sub category is not Selected.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
 
@@ -288,41 +292,49 @@
                     if ($("#CountryID").val() == '' || $("#CountryID").val() == null || $("#CountryID").val() == 'Select Country*') {
                         $("#error").css('display', 'block');
                         $("#errText").text('Country is not Selected.');
+                        $("#addloading").removeClass("loading");
                         return false;
                     }
                     else {
                         $("#error").css('display', 'block');
                         $("#errText").text('State is not Selected.');
+                        $("#addloading").removeClass("loading");
                         return false;
                     }
                 }
                 else {
                     $("#error").css('display', 'block');
                     $("#errText").text('City is not Selected.');
+                    $("#addloading").removeClass("loading");
                     return false;
                 }
             }
             else if ($("#PhoneCode").val() == '' || $("#PhoneCode").val() == 'Select PhoneCode*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('PhoneCode is not Selected.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#PhoneNo").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('PhoneNo is not Entered.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#CurrencyID").val() == '' || $("#CurrencyID").val() == 'Select Currency*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Currency is not Selected.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#price").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('price is not Selected.');
+                $("#addloading").removeClass("loading");
                 return false;
             }
         });
 
 
     </script>
+    

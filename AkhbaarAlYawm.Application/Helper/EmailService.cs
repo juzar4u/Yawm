@@ -227,7 +227,6 @@ namespace AkhbaarAlYawm.Application.Helper
                 UserMessage userMessage = context.Fetch<UserMessage>("select * from userMessage where UserMessageID = @0", userMessageId).FirstOrDefault();
                 Users user = UserServices.GetInstance.GetUserByUserID(userId);
                 body = body.Replace("<%Sender%>", from);
-                body = body.Replace("<%FirstName%>", user.FirstName);
                 body = body.Replace("<%subject%>", userMessage.UserSubject);
                 body = body.Replace("<%Content%>", userMessage.UserContent);
                 body = body.Replace("<%ReplyLink%>", string.Format("{0}{1}{2}{3}{4}",ApplicationConstants.Akhbaar_PP_URL, "/account/SendMessage?fromUserId=",userMessage.TO_UserID, "&toUserId=",userMessage.From_UserID ));
