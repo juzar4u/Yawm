@@ -1,0 +1,88 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserProfileModel
+@using AkhbaarAlYawm.Application.Helper;
+<link href="~/Content/screen.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@using (Html.BeginForm("EditUserProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+<div class="popup-container hide" id="pop-up">
+    <div class="container c-p">
+        <a class="close-btn" onclick="return window.history.back();"><span>&times;</span></a>
+        <div class="form">
+            <h2>@Model.FirstName 's Profile</h2>
+            <input type="hidden" class="input-text" placeholder="UserID" name="UserID" id="UserID" />
+            <input type="hidden" class="input-text" placeholder="UserProfileID" name="UserProfileID" id="UserProfileID" />
+             <input type="hidden" class="input-text" placeholder="Email" name="Email" id="Email" />
+            <input type="text" class="input-text" placeholder="E-jamaat ID" name="EjamatID" id="EjamatID" />
+
+            <input type="text" class="input-text" placeholder="Jamaat" name="Jamaat" id="Jamaat">
+            <input type="text" class="input-text" placeholder="FirstName" name="FirstName" id="FirstName">
+            <input type="text" class="input-text" placeholder="LastName" name="LastName" id="LastName">
+            <input type="text" class="input-text" placeholder="Specialisation" name="Specialisation" id="Specialisation">
+            <input type="text" class="input-text" placeholder="Gender" name="Gender" id="Gender">
+            <input type="text" class="input-text" placeholder="Date Of Birth" name="DOB" id="DOB">
+            <input type="text" class="input-text" placeholder="Home Address" name="HomeAddress" id="HomeAddress">
+
+            <input type="email" class="input-text" placeholder="Email" name="EmailReadOnly" id="EmailReadOnly" disabled style="background-color: #ccc;color: grey;">
+
+            <input type="text" class="input-text" placeholder="PhoneNo" name="PhoneNo" id="PhoneNo">
+            @if(!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
+                {
+                <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive" style="width:100px; height:100px">
+                }
+                else{
+                <img alt="User Pic" src="@string.Format("{0}{1}", ApplicationConstants.Akhbaar_CP_URL, ApplicationConstants.GetDefaultUserImageUrl)" class="img-circle img-responsive" style="width:100px; height:100px"> 
+                }
+            <input type="file" class="btn btn-success" name="ProfileImg" id="ProfileImg" value="" style="width:100%" />
+            <br />
+            <button class="submit" id="submit">Submit</button>
+            
+            <a href="/account/UserProfile?userId=@Model.UserID" style="color: blue;"><p>Back to Your Profile</p></a>
+        </div>
+    </div>
+</div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+        $("#UserID").val('@Model.UserID');
+        $("#UserProfileID").val('@Model.UserProfileID');
+        $("#EjamatID").val('@Model.EjamatID');
+        $("#Jamaat").val('@Model.Jamaat');
+        $("#FirstName").val('@Model.FirstName');
+        $("#LastName").val('@Model.LastName');
+        $("#Specialisation").val('@Model.Specialisation')
+        $("#Gender").val('@Model.Gender');
+        @{
+            string dateNew = "";
+            if(Model.DOB.Year > 1000)
+            {
+            dateNew = Model.DOB.ToString("dd/MM/yyyy");
+            }
+            else{
+             dateNew = "";
+            }
+        
+        
+        }
+        $("#DOB").val('@dateNew');
+        $("#HomeAddress").val('@Model.HomeAddress');
+        $("#EmailReadOnly").val('@Model.Email');
+        $("#Email").val('@Model.Email');
+        $("#PhoneNo").val('@Model.PhoneNo');
+        $('#DOB').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            yearRange: '1920:2016'
+        });
+
+        $('#ui-datepicker-div').css('margin-top', '-100px');
+    });
+</script>
