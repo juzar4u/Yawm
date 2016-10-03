@@ -1,0 +1,98 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.ClassifiedIndexModel>
+
+<div id="content">
+    
+    
+    <h2 class="separator" >Classifieds</h2>
+    <button type="button" class="postnow btn btn-success" value="Post Ad" id="fixedbutton"><i class="fa fa-upload fa-lg" aria-hidden="true" style="padding:5px; color:#000;"></i>Post Ad</button>
+    <!-- TOPSTORY -->
+
+    @foreach(var item in Model)
+    {
+        
+    <div class="swiper-container">
+        
+        <ul class="comment box">
+            
+            <li class="box" id="">
+                <div class="comment-img">
+                    <a>
+                        <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, item.UserProfileImg)" alt="" /></a>
+                </div>
+                <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
+                    <h3 style="font-weight: bold; margin: 0;">@string.Format("{0}{1}{2}", item.FirstName, " ", item.LastName)</h3>
+                </div>
+
+                <!-- /comment-txt -->
+            </li>
+        </ul>
+        <h3 class="separator" id="BG" style="font-family:Calibri; font-size:14px;">Category: @item.ClassifiedCategoryName</h3>
+        
+        <div id="bodymain">
+
+            <h1><a href="">@item.Title</a></h1>
+
+
+
+            <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgray;">@item.PublishedDate.ToString("dd/MMM/yyyy")</span>
+            <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">@string.Format("{0}{1}{2}", item.CurrencyCode, " ", item.price)</span>
+            <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgrey;">@string.Format("{0}{1}{2}", item.CityName, " ,", item.CountryName)</span>
+
+        </div>
+        <div class="swiper-wrapper">
+
+            @foreach(var media in item.mediaList)
+            {
+            <div class="swiper-slide">
+                @if(!string.IsNullOrEmpty(media.Thumbnail ))
+                {
+                <div id="topstory">
+
+                    <a>
+                        <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, media.Thumbnail)' id="image-width" alt="" style="height:250px;"/>
+                    </a>
+                </div>
+                }
+            </div>
+            }
+
+
+        </div>
+        <br />
+        @if(item.mediaList.Count > 0)
+        {
+        <div class="swiper-pagination" style="position: relative"></div>
+        }
+        <span style="float: left; font-family: calibri; padding: 5px; font-size: 20px;">Phone No.</span>
+        <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">@string.Format("{0}{1}{2}{3}", "+", item.PhoneCode, " ", item.PhoneNo)</span><br />
+        <div id="body-section">
+            @{
+        
+            
+                <p class="body" id="@string.Format("{0}{1}", "content-less",item.ClassifiedID)">
+
+                    @if(item.Description.Length  > 150)
+                    {
+                     string content = string.Format("{0}{1}", item.Description.Substring(0,150), "...");
+                     @content   
+                    <a onclick="readmore('@item.ClassifiedID')" style="font-family: Calibri; color: darkgray;">ReadMore</a>
+                    }
+                    else
+                    {
+                     @item.Description   
+                    }
+                    
+                </p>
+                
+                <p class="body" id="@string.Format("{0}{1}", "content-more",item.ClassifiedID)" style="display: none;">
+
+                    @item.Description
+
+                </p>
+            }
+        </div>
+    </div>
+       
+    }
+
+    </div>
