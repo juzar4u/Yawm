@@ -1,0 +1,29 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.ClearUserProfileModel
+<link href="~/Content/screen.css" rel="stylesheet" />
+
+@using (Html.BeginForm("ClearProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="popup-container hide" id="pop-up">
+<div class="container c-p">
+            <a class="close-btn" onclick="return window.history.back();"><span>&times;</span></a>
+            <div class="form">
+               <input type="hidden" name="UserID" id="UserID" />
+            </div>
+             <h4 style="color:green;font-size: 20px;margin: 10px;padding: 5px;">@ViewBag.message</h4>
+            <input type="submit" class="btn btn-success" value="ok" />
+
+            <input type="button" class="btn btn-danger" onclick="return window.history.back();" value="cancel" />
+        </div>
+    </div>
+    
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+        $("#UserID").val('@Model.UserID');
+    });
+
+
+ </script>
