@@ -24,12 +24,14 @@
 
     .Error-general {
         font-size: 15px;
-    font-weight: bold;
-    color: red;
-    padding:10px;
+        font-weight: bold;
+        color: red;
+        padding: 10px;
     }
+
     #Body {
-        width: 600px;height: 170px;
+        width: 600px;
+        height: 170px;
     }
 
 
@@ -99,7 +101,7 @@
             return false;
         });
     });
-   
+
     function CountryChange(countrydd, childDDID) {
         var selectedItem = $(countrydd).val();
 
@@ -115,19 +117,19 @@
             data: { "countryID": selectedItem },
             success: function (data) {
                 console.log(data[0]);
-                
-                    $("#statesDiv").css("display", "block");
-                    $("#" + childDDID).html('');
-                    $("#" + childDDID).append($('<option></option>').html(""));
-                    $.each(data, function (id, option) {
 
-                        $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+                $("#statesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
+
+                    $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
 
 
-                    });
-                    $("#StateID").trigger("chosen:updated");
-                    $("#StateID").chosen({ width: "100%" });
-                
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
+
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve cities.');
@@ -150,15 +152,15 @@
             url: "/Home/GetCities",
             data: { "StateID": selectedItem },
             success: function (data) {
-                
+
                 $("#" + childDDID).html('');
                 $("#" + childDDID).append($('<option></option>').html(""));
                 console.log(data);
                 if (data != '') {
                     $.each(data, function (id, option) {
-                       
-                            $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
-                        
+
+                        $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+
                     });
                 } else {
                     $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
@@ -175,7 +177,7 @@
 
     }
 
-    
+
 </script>
 
 <h2>PostArticles</h2>
@@ -187,7 +189,7 @@
     <fieldset>
         <legend>ArticleModel</legend>
 
-        
+
         <div class="ih" style="display: none">
             @Html.LabelFor(model => model.ArticleID)
 
@@ -201,32 +203,32 @@
             <br />
             </center>
         <div class="ih">
-                    @Html.LabelFor(model => model.CategoryID, "Category")
+            @Html.LabelFor(model => model.CategoryID, "Category")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.CategoryID, new List<SelectListItem>
+            <div class="slhold">
+                @Html.DropDownListFor(model => model.CategoryID, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Huzurala (TUS) Akhbaar", Value= "1"},
                                 new SelectListItem() {Text = "Saadat Kiram Akhbaar", Value= "2"},
                                 new SelectListItem() {Text = "Qasre Ali Akhbaar", Value= "3"},
                                 new SelectListItem() {Text = "Bilaad Imaniya Akhbaar", Value= "6"}
                             })
-                        @Html.ValidationMessageFor(model => model.CategoryID)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.CategoryID)
+            </div>
+        </div>
 
         <div class="ih">
-                    @Html.LabelFor(model => model.IsVideo, "Article Type")
+            @Html.LabelFor(model => model.IsVideo, "Article Type")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.IsVideo, new List<SelectListItem>
+            <div class="slhold">
+                @Html.DropDownListFor(model => model.IsVideo, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Image Article", Value= "false"},
                                 new SelectListItem() {Text = "Video Article", Value= "true"}
                             })
-                        @Html.ValidationMessageFor(model => model.IsVideo)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.IsVideo)
+            </div>
+        </div>
         <div class="ih">
             @Html.LabelFor(model => model.Title)
 
@@ -240,12 +242,12 @@
             @Html.LabelFor(model => model.Body)
 
             <div>
-                @Html.TextAreaFor(model => model.Body,"Body")
+                @Html.TextAreaFor(model => model.Body, "Body")
                 @Html.ValidationMessageFor(model => model.Body)
             </div>
         </div>
 
-         <div class="ih">
+        <div class="ih">
             @Html.LabelFor(model => model.SourceID, "Source")
 
             <div class="slhold">
@@ -258,12 +260,31 @@
             @Html.ActionLink("Create", "AddSource")
         </div>
 
-        
         <div class="ih">
-                    @Html.LabelFor(model => model.IslamicDay, "Day")
+            <label>Date Type</label>
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.IslamicDay, new List<SelectListItem>
+            <div>
+                <input type="radio" name="radioDateType" value="gregorian" id="gregorian" />Gregorian
+                <input type="radio" name="radioDateType" value="hijri" id="hijri" style="margin-left: 100px;" />Hijri
+                
+            </div>
+
+
+        </div><br />
+        <div class="ih" id="gregorianDiv" style="display: none">
+            <label>Select Gregorian Date</label>
+
+            <div>
+                <input type="text" name="gregorianDate" id="gregorianDate" />
+            </div>
+        </div>
+
+        <div id="hijriDiv" style="display: none">
+            <div class="ih">
+                @Html.LabelFor(model => model.IslamicDay, "Day")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.IslamicDay, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "01", Value= "01"},
                                 new SelectListItem() {Text = "02", Value= "02"},
@@ -297,14 +318,14 @@
                                 new SelectListItem() {Text = "30", Value= "30"},
                                 new SelectListItem() {Text = "31", Value= "31"}
                             })
-                        @Html.ValidationMessageFor(model => model.IslamicDay)
-                    </div>
+                    @Html.ValidationMessageFor(model => model.IslamicDay)
                 </div>
-         <div class="ih">
-                    @Html.LabelFor(model => model.IslamicMonth, "Month")
+            </div>
+            <div class="ih">
+                @Html.LabelFor(model => model.IslamicMonth, "Month")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.IslamicMonth, new List<SelectListItem>
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.IslamicMonth, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Moharrum-ul-Haram", Value= "01"},
                                 new SelectListItem() {Text = "Safar-ul-Muzaffar", Value= "02"},
@@ -319,26 +340,30 @@
                                 new SelectListItem() {Text = "Zilqadatil-Haram", Value= "11"},
                                 new SelectListItem() {Text = "Zilhajjatil-Haram", Value= "12"}
                             })
-                        @Html.ValidationMessageFor(model => model.IslamicMonth)
-                    </div>
+                    @Html.ValidationMessageFor(model => model.IslamicMonth)
                 </div>
-        <div class="ih">
-                    @Html.LabelFor(model => model.IslamicYear, "Year")
+            </div>
+            <div class="ih">
+                @Html.LabelFor(model => model.IslamicYear, "Year")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.IslamicYear, new List<SelectListItem>
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.IslamicYear, new List<SelectListItem>
                             {
-                                new SelectListItem() {Text = "1437", Value= "1437"}
+                                new SelectListItem() {Text = "1437", Value= "1437"},
+                                new SelectListItem() {Text = "1438", Value= "1438"},
+                                new SelectListItem() {Text = "1439", Value= "1439"},
+                                new SelectListItem() {Text = "1440", Value= "1440"},
+                                new SelectListItem() {Text = "1441", Value= "1441"}
                             })
-                        @Html.ValidationMessageFor(model => model.IslamicYear)
-                    </div>
+                    @Html.ValidationMessageFor(model => model.IslamicYear)
                 </div>
-
+            </div>
+        </div>
         <div class="ih">
             @Html.LabelFor(model => model.CountryList, "Country")
 
             <div class="slhold">
-                <select class="chosen-select" data-placeholder="Select an Option" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" style="width:302px;">
+                <select class="chosen-select" data-placeholder="Select an Option" id="CountryID" name="CountryID" onchange="CountryChange(this, 'StateID')" style="width: 302px;">
                     <option></option>
                     @{
                                 
@@ -354,59 +379,61 @@
 
             </div>
 
-           
+
         </div>
         <div class="ih" id="statesDiv" style="display: none">
-                    <label>States</label>
+            <label>States</label>
 
 
-                    <div class="slhold">
-                        <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="chosen-select" style="width:302px;"></select>
-                    </div>
-                </div>
-                <div class="ih" id="cityDivHolder" style="display: none;">
-                    <label>Cities</label>
+            <div class="slhold">
+                <select id="StateID" name="StateID" onchange="StateChange(this, 'CityID')" class="chosen-select" style="width: 302px;"></select>
+            </div>
+        </div>
+        <div class="ih" id="cityDivHolder" style="display: none;">
+            <label>Cities</label>
 
-                    <div class="slhold">
-                        <select id="CityID" name="CityID" class="chosen-select" style="width:302px;"></select>
-                    </div>
-                </div>
+            <div class="slhold">
+                <select id="CityID" name="CityID" class="chosen-select" style="width: 302px;"></select>
+            </div>
+        </div>
 
         <div class="ih clearfix">
-                    <label>--Video URL--</label>
+            <label>--Video URL--</label>
 
-                    <div class="editor-field">
-                        <div id="VideoContainer" class="VideoContainer pull-left">
-                            <div class="holder" style="display:none">
-                                <input type="text" class="video" name="video1" id="video1" value="" />
-                                <div class="RadioWrap">
-                                    <input type="radio" class="radioClass" name="radio" id="radio1" value="" /><label for="radio1">Mark as Featured</label></div>
-                            </div>
-
-                            <div>
-                                <input type="button" name="AddMoreVideos" value="Add More" id="AddMoreVideos" class="btn-blue m-bottom" />
-                            </div>
-                            <input type="hidden" name="TotalUploadedVideos" id="TotalUploadedVideos" value="" />
-                            <input type="hidden" name="IsFeaturedNameVideos" id="IsFeaturedNameVideos" value="" />
+            <div class="editor-field">
+                <div id="VideoContainer" class="VideoContainer pull-left">
+                    <div class="holder" style="display: none">
+                        <input type="text" class="video" name="video1" id="video1" value="" />
+                        <div class="RadioWrap">
+                            <input type="radio" class="radioClass" name="radio" id="radio1" value="" /><label for="radio1">Mark as Featured</label>
                         </div>
                     </div>
+
+                    <div>
+                        <input type="button" name="AddMoreVideos" value="Add More" id="AddMoreVideos" class="btn-blue m-bottom" />
+                    </div>
+                    <input type="hidden" name="TotalUploadedVideos" id="TotalUploadedVideos" value="" />
+                    <input type="hidden" name="IsFeaturedNameVideos" id="IsFeaturedNameVideos" value="" />
                 </div>
+            </div>
+        </div>
         <div class="ih">
-                    <label>--Upload Images--</label>
+            <label>--Upload Images--</label>
 
-                    <div class="editor-field">
-                        <div id="ImagesContainer" class="ImageContainer pull-left">
-                            <div class="holder clearfix" style="display:none">
-                                <input type="file" class="image" name="image1" value="" />
-                                <div class="RadioWrap">
-                                    <input type="radio" class="radioClassImage" name="radioImage" id="radioImage1" value="" /><label for="radioImage1">Mark as Featured</label></div>
-                            </div>
-                            <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
-                            <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
-                            <input type="hidden" name="IsFeaturedNameImage" id="IsFeaturedNameImage" value="" />
+            <div class="editor-field">
+                <div id="ImagesContainer" class="ImageContainer pull-left">
+                    <div class="holder clearfix" style="display: none">
+                        <input type="file" class="image" name="image1" value="" />
+                        <div class="RadioWrap">
+                            <input type="radio" class="radioClassImage" name="radioImage" id="radioImage1" value="" /><label for="radioImage1">Mark as Featured</label>
                         </div>
                     </div>
+                    <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
+                    <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
+                    <input type="hidden" name="IsFeaturedNameImage" id="IsFeaturedNameImage" value="" />
                 </div>
+            </div>
+        </div>
         <p id="gap">
             <input type="submit" value="Create" id="submit" />
         </p>
@@ -414,6 +441,26 @@
 }
 
 <script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#gregorianDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            yearRange: '1920:@DateTime.Now.Year'
+        });
+    });
+
+    $("#gregorian").click(function () {
+        $("#gregorianDiv").css('display', 'block');
+        $("#hijriDiv").css('display', 'none');
+    });
+
+    $("#hijri").click(function () {
+        $("#hijriDiv").css('display', 'block');
+        $("#gregorianDiv").css('display', 'none');
+    });
     $("#submit").click(function () {
 
         if ($("#IsVideo").val() == "false") {
@@ -439,7 +486,7 @@
     $("#DateSpecific").on("change", function () {
         alert("Juzar");
     });
-    
+
 </script>
 
 <div>

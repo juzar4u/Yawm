@@ -54,5 +54,7 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public int CategoryID { get; set; }
         public bool IsVideo { get; set; }
         public string ImageResolutionError { get; set; }
+        public DateTime gregorianDate { get; set; }
+        public string radioDateType { get; set; }
     }
 }

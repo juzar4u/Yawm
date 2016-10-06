@@ -338,6 +338,14 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public HijriBohraCalenderModel GetGregorianCalenderDetailByDayMonthYear(int day, int month, int year)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<HijriBohraCalenderModel>("select * from HijriBohra_Gregorian_Calendar where G_Day = @0 and G_Month = @1 and G_Year = @2", day, month, year).FirstOrDefault();
+            }
+        }
+
         public List<HijriBohraCalenderModel> GetHijriBohraCalenderDetailByDayMonth(int day, int month)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
