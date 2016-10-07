@@ -410,7 +410,7 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             _article.CountryList = ArticleServices.GetInstance.GetAllCountries();
             _article.ArticleSelectedState = ArticleServices.GetInstance.GetStateNameByStateID(_article.StateID);
             _article.ArticleSelectedCity = ArticleServices.GetInstance.GetCityNameByCityID(_article.CityID);
-
+            
             return View(_article);
         }
 
@@ -441,17 +441,14 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
                 }
                 _article.StateID = null;
             }
-            //CultureInfo arCI = new CultureInfo("ar-SA");
-
-            //string hijri = string.Format("{0}{1}{2}{3}{4}", model.IslamicDay, "/", model.IslamicMonth, "/", model.IslamicYear);
-
-            //DateTime tempDate = DateTime.ParseExact(hijri, "dd/MM/yyyy", arCI.DateTimeFormat, DateTimeStyles.AllowInnerWhite);
-
-            //_article.mappedDate = tempDate.AddDays(-1);
-            //_article.IslamicDate = string.Format("{0}{1}{2}{3}{4}{5}", model.IslamicDay, " ", getMonth(model.IslamicMonth), "", ",", model.IslamicYear);
-
-            _hijri = MiqaatServices.GetInstance.GetHijriBohraCalenderDetailByDayMonthYear(Convert.ToInt32(model.IslamicDay), Convert.ToInt32(model.IslamicMonth), model.IslamicYear);
-
+            if (model.radioDateType == "gregorian")
+            {
+                _hijri = MiqaatServices.GetInstance.GetGregorianCalenderDetailByDayMonthYear(model.gregorianDate.Day, model.gregorianDate.Month, model.gregorianDate.Year);
+            }
+            else
+            {
+                _hijri = MiqaatServices.GetInstance.GetHijriBohraCalenderDetailByDayMonthYear(Convert.ToInt32(model.IslamicDay), Convert.ToInt32(model.IslamicMonth), model.IslamicYear);
+            }
             _article.mappedDate = _hijri.Gregorian;
             _article.IslamicDate = string.Format("{0}{1}{2}{3}{4}", _hijri.H_Day, "-", MiqaatServices.GetInstance.getMonth(_hijri.H_Month), "-", _hijri.H_Year);
 

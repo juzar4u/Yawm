@@ -47,166 +47,166 @@
             type: "GET",
             url: "/Home/GetStates",
             data: { "countryID": '@Model.CountryID' },
-           success: function (data) {
-               console.log(data[0]);
+            success: function (data) {
+                console.log(data[0]);
                
-               $("#statesDiv").css("display", "block");
-               $("#StateID").html('');
-               $("#StateID").append($('<option></option>').html(""));
-               $.each(data, function (id, option) {
+                $("#statesDiv").css("display", "block");
+                $("#StateID").html('');
+                $("#StateID").append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
 
-                   $("#StateID").append($('<option></option>').val(option.StateID).html(option.StateName));
+                    $("#StateID").append($('<option></option>').val(option.StateID).html(option.StateName));
 
 
-               });
-               $("#statesDiv").css("display", "block");
-               $("#StateID").trigger("chosen:updated");
-               $("#StateID").chosen({ width: "100%" });
+                });
+                $("#statesDiv").css("display", "block");
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
                 
-           },
-           error: function (xhr, ajaxOptions, thrownError) {
-               alert('Failed to retrieve data.');
-           }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve data.');
+            }
 
-       });
+        });
         
     });
 
-   $(document).ready(function () {
-       $("#CountryID").chosen({ width: "100%" });
+    $(document).ready(function () {
+        $("#CountryID").chosen({ width: "100%" });
         
 
-       $("#AddMoreVideos").click(function (e) {
+        $("#AddMoreVideos").click(function (e) {
 
 
-           e.preventDefault();
-           var $container = $("#VideoContainer");
+            e.preventDefault();
+            var $container = $("#VideoContainer");
 
-           if ($container != undefined) {
-               var countVideos = $container.find(".video").length;
-               var newVideoId = 0;
-               var newRadioId = 0;
-               if (countVideos == undefined || countVideos <= 0) {
-                   newVideoId = 1;
-                   newRadioId = 1;
-               }
-               else {
-                   newVideoId = countVideos + 1;
-                   newRadioId = countVideos + 1;
-               }
-               if ($("#video" + newVideoId).val() == '') {
-                   alert("Please add Video url to add more");
-               } else {
+            if ($container != undefined) {
+                var countVideos = $container.find(".video").length;
+                var newVideoId = 0;
+                var newRadioId = 0;
+                if (countVideos == undefined || countVideos <= 0) {
+                    newVideoId = 1;
+                    newRadioId = 1;
+                }
+                else {
+                    newVideoId = countVideos + 1;
+                    newRadioId = countVideos + 1;
+                }
+                if ($("#video" + newVideoId).val() == '') {
+                    alert("Please add Video url to add more");
+                } else {
 
-                   $container.append("<br /><input type='text' class='video' name='video" + newVideoId + "' id='video" + newVideoId + "' value='' />");
-                   //$container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClass' name='radio' id='radio" + newRadioId + "' value='' />");
-                   $container.parent().parent().find("#TotalNewUploadedVideos").val(newVideoId);
-               }
-           }
+                    $container.append("<br /><input type='text' class='video' name='video" + newVideoId + "' id='video" + newVideoId + "' value='' />");
+                    //$container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClass' name='radio' id='radio" + newRadioId + "' value='' />");
+                    $container.parent().parent().find("#TotalNewUploadedVideos").val(newVideoId);
+                }
+            }
 
-           return false;
-       });
+            return false;
+        });
 
-       $("#AddMoreImages").click(function (e) {
-           e.preventDefault();
-           var $container = $("#ImagesContainer");
+        $("#AddMoreImages").click(function (e) {
+            e.preventDefault();
+            var $container = $("#ImagesContainer");
 
-           if ($container != undefined) {
-               var countImages = $container.find(".image").length;
-               var newImageId = 0;
-               var newImageRadioId = 0;
-               if (countImages == undefined || countImages <= 0) {
-                   newImageId = 1;
-                   newImageRadioId = 1;
-               }
-               else {
-                   newImageId = countImages + 1;
-                   newImageRadioId = countImages + 1;
-               }
+            if ($container != undefined) {
+                var countImages = $container.find(".image").length;
+                var newImageId = 0;
+                var newImageRadioId = 0;
+                if (countImages == undefined || countImages <= 0) {
+                    newImageId = 1;
+                    newImageRadioId = 1;
+                }
+                else {
+                    newImageId = countImages + 1;
+                    newImageRadioId = countImages + 1;
+                }
 
-               $container.append("<br/><input type='file' class='image' name='image" + newImageId + "' value='' />");
-               //$container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClassImage' name='radioImage' id='radioImage" + newImageRadioId + "' value='' />");
-               $container.parent().parent().find("#TotalNewUploadedImages").val(newImageId);
-           }
+                $container.append("<br/><input type='file' class='image' name='image" + newImageId + "' value='' />");
+                //$container.append("<br /><p>Mark as Featured</p><input type='radio' class='radioClassImage' name='radioImage' id='radioImage" + newImageRadioId + "' value='' />");
+                $container.parent().parent().find("#TotalNewUploadedImages").val(newImageId);
+            }
 
-           return false;
-       });
-   });
+            return false;
+        });
+    });
 
-   function CountryChange(countrydd, childDDID) {
-       var selectedItem = $(countrydd).val();
+    function CountryChange(countrydd, childDDID) {
+        var selectedItem = $(countrydd).val();
 
-       if (selectedItem == null || selectedItem == '') {
-           $("#" + childDDID).html('');
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
 
-           return;
-       }
-       $.ajax({
-           cache: false,
-           type: "GET",
-           url: "/Home/GetStates",
-           data: { "countryID": selectedItem },
-           success: function (data) {
-               console.log(data[0]);
+            return;
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetStates",
+            data: { "countryID": selectedItem },
+            success: function (data) {
+                console.log(data[0]);
 
-               $("#statesDiv").css("display", "block");
-               $("#" + childDDID).html('');
-               $("#" + childDDID).append($('<option></option>').html(""));
-               $.each(data, function (id, option) {
+                $("#statesDiv").css("display", "block");
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                $.each(data, function (id, option) {
 
-                   $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
+                    $("#" + childDDID).append($('<option></option>').val(option.StateID).html(option.StateName));
 
 
-               });
-               $("#StateID").trigger("chosen:updated");
-               $("#StateID").chosen({ width: "100%" });
+                });
+                $("#StateID").trigger("chosen:updated");
+                $("#StateID").chosen({ width: "100%" });
 
-           },
-           error: function (xhr, ajaxOptions, thrownError) {
-               alert('Failed to retrieve cities.');
-           }
-       });
-   }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
+    }
 
-   function StateChange(statedd, childDDID) {
-       var selectedItem = $(statedd).val();
+    function StateChange(statedd, childDDID) {
+        var selectedItem = $(statedd).val();
 
-       if (selectedItem == null || selectedItem == '') {
-           $("#" + childDDID).html('');
+        if (selectedItem == null || selectedItem == '') {
+            $("#" + childDDID).html('');
 
-           return;
-       }
+            return;
+        }
 
-       $.ajax({
-           cache: false,
-           type: "GET",
-           url: "/Home/GetCities",
-           data: { "StateID": selectedItem },
-           success: function (data) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/Home/GetCities",
+            data: { "StateID": selectedItem },
+            success: function (data) {
 
-               $("#" + childDDID).html('');
-               $("#" + childDDID).append($('<option></option>').html(""));
-               console.log(data);
-               if (data != '') {
-                   $.each(data, function (id, option) {
+                $("#" + childDDID).html('');
+                $("#" + childDDID).append($('<option></option>').html(""));
+                console.log(data);
+                if (data != '') {
+                    $.each(data, function (id, option) {
 
-                       $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
+                        $("#" + childDDID).append($('<option></option>').val(option.CityID).html(option.CityName));
 
-                   });
-               } else {
-                   $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
+                    });
+                } else {
+                    $("#" + childDDID).append($('<option></option>').html($("#StateID option:selected").html()));
 
-               }
-               $("#cityDivHolder").css("display", "block");
-               $("#CityID").trigger("chosen:updated");
-               $("#CityID").chosen({ width: "100%" });
-           },
-           error: function (xhr, ajaxOptions, thrownError) {
-               alert('Failed to retrieve cities.');
-           }
-       });
+                }
+                $("#cityDivHolder").css("display", "block");
+                $("#CityID").trigger("chosen:updated");
+                $("#CityID").chosen({ width: "100%" });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve cities.');
+            }
+        });
 
-   }
+    }
 
 
 </script>
@@ -230,31 +230,31 @@
         </div>
 
         <div class="ih">
-                    @Html.LabelFor(model => model.CategoryID, "Category")
+            @Html.LabelFor(model => model.CategoryID, "Category")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.CategoryID, new List<SelectListItem>
+            <div class="slhold">
+                @Html.DropDownListFor(model => model.CategoryID, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Huzurala (TUS) Akhbaar", Value= "1"},
                                 new SelectListItem() {Text = "Saadat Kiram Akhbaar", Value= "2"},
                                 new SelectListItem() {Text = "Qasre Ali Akhbaar", Value= "3"},
                                 new SelectListItem() {Text = "Bilaad Imaniya Akhbaar", Value= "6"}
                             })
-                        @Html.ValidationMessageFor(model => model.IslamicMonth)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.IslamicMonth)
+            </div>
+        </div>
         <div class="ih">
-                    @Html.LabelFor(model => model.IsVideo, "Article Type")
+            @Html.LabelFor(model => model.IsVideo, "Article Type")
 
-                    <div class="slhold">
-                        @Html.DropDownListFor(model => model.IsVideo, new List<SelectListItem>
+            <div class="slhold">
+                @Html.DropDownListFor(model => model.IsVideo, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Image Article", Value= "false"},
                                 new SelectListItem() {Text = "Video Article", Value= "true"}
                             })
-                        @Html.ValidationMessageFor(model => model.IsVideo)
-                    </div>
-                </div>
+                @Html.ValidationMessageFor(model => model.IsVideo)
+            </div>
+        </div>
         <div class="ih">
             @Html.LabelFor(model => model.Title)
 
@@ -268,7 +268,7 @@
             @Html.LabelFor(model => model.Body)
 
             <div>
-                @Html.EditorFor(model => model.Body, "Body")
+                @Html.TextAreaFor(model => model.Body, "Body")
                 @Html.ValidationMessageFor(model => model.Body)
             </div>
         </div>
@@ -286,12 +286,31 @@
             @Html.ActionLink("Create", "AddSource")
         </div>
 
-
         <div class="ih">
-            @Html.LabelFor(model => model.IslamicDay, "Day")
+            <label>Date Type</label>
 
-            <div class="slhold">
-                @Html.DropDownListFor(model => model.IslamicDay, new List<SelectListItem>
+            <div>
+                <input type="radio" name="radioDateType" value="gregorian" id="gregorian" />Gregorian<input type="text" value="@Model.mappedDate.ToString("dd/MM/yyyy")" disabled style="width:200px">
+                <input type="radio" name="radioDateType" value="hijri" id="hijri" style="margin-left: 100px;" />Hijri<input type="text" value="@Model.IslamicDate" disabled style="width:200px">
+                
+            </div>
+
+
+        </div>
+        <br />
+        <div class="ih" id="gregorianDiv" style="display: none">
+            <label>Select Gregorian Date</label>
+
+            <div>
+                <input type="text" name="gregorianDate" id="gregorianDate" />
+            </div>
+        </div>
+        <div id="hijriDiv" style="display: none">
+            <div class="ih">
+                @Html.LabelFor(model => model.IslamicDay, "Day")
+
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.IslamicDay, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "01", Value= "01"},
                                 new SelectListItem() {Text = "02", Value= "02"},
@@ -325,14 +344,14 @@
                                 new SelectListItem() {Text = "30", Value= "30"},
                                 new SelectListItem() {Text = "30", Value= "30"}
                             })
-                @Html.ValidationMessageFor(model => model.IslamicDay)
+                    @Html.ValidationMessageFor(model => model.IslamicDay)
+                </div>
             </div>
-        </div>
-        <div class="ih">
-            @Html.LabelFor(model => model.IslamicMonth, "Month")
+            <div class="ih">
+                @Html.LabelFor(model => model.IslamicMonth, "Month")
 
-            <div class="slhold">
-                @Html.DropDownListFor(model => model.IslamicMonth, new List<SelectListItem>
+                <div class="slhold">
+                    @Html.DropDownListFor(model => model.IslamicMonth, new List<SelectListItem>
                             {
                                 new SelectListItem() {Text = "Moharrum-ul-Haram", Value= "01"},
                                 new SelectListItem() {Text = "Safar-ul-Muzaffar", Value= "02"},
@@ -347,21 +366,26 @@
                                 new SelectListItem() {Text = "Zilqadatil-Haram", Value= "11"},
                                 new SelectListItem() {Text = "Zilhajjatil-Haram", Value= "12"}
                             })
-                @Html.ValidationMessageFor(model => model.IslamicMonth)
+                    @Html.ValidationMessageFor(model => model.IslamicMonth)
+                </div>
             </div>
-        </div>
+        
         <div class="ih">
             @Html.LabelFor(model => model.IslamicYear, "Year")
 
             <div class="slhold">
                 @Html.DropDownListFor(model => model.IslamicYear, new List<SelectListItem>
                             {
-                                new SelectListItem() {Text = "1437", Value= "1437"}
+                               new SelectListItem() {Text = "1437", Value= "1437"},
+                                new SelectListItem() {Text = "1438", Value= "1438"},
+                                new SelectListItem() {Text = "1439", Value= "1439"},
+                                new SelectListItem() {Text = "1440", Value= "1440"},
+                                new SelectListItem() {Text = "1441", Value= "1441"}
                             })
                 @Html.ValidationMessageFor(model => model.IslamicYear)
             </div>
         </div>
-
+       </div>
 
         <div class="ih">
             @Html.LabelFor(model => model.CountryList, "Country")
@@ -423,7 +447,7 @@ else
 
 counterVideo++;
         @:</div>
-                                            }
+                                                                }
                 }
                 <input type="hidden" id="TotalVideo" name="TotalVideo" />
                 @Html.ValidationMessageFor(model => model.VideoURL)
@@ -442,7 +466,8 @@ counterVideo++;
     {
                     @:<div class="holder clearfix">
 <div class="Pic">
-                    <img src='@images.URL' id="@images.EntityMediaID" />
+                    <img src='
+@images.URL' id="@images.EntityMediaID" />
                             </div>
                     <div class="PicDetail">
                    
@@ -460,7 +485,7 @@ counterVideo++;
                     <input type="file" class="image" name="@string.Format("{0}{1}{2}", images.EntityMediaID, "image", counter)" id="@string.Format("{0}{1}", images.EntityMediaID, "image")" value="" style="display:none;"/>
         counter++;
         @:</div>
-                                        
+                                                            
     }
     
 
@@ -478,6 +503,24 @@ counterVideo++;
 }
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#gregorianDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            yearRange: '1920:@DateTime.Now.Year'
+        });
+    });
+
+    $("#gregorian").click(function () {
+        $("#gregorianDiv").css('display', 'block');
+        $("#hijriDiv").css('display', 'none');
+    });
+
+    $("#hijri").click(function () {
+        $("#hijriDiv").css('display', 'block');
+        $("#gregorianDiv").css('display', 'none');
+    });
     $("#submit").click(function () {
         var name = $('input[type=radio][name=radio]:checked').attr('id');
         //console.log(name);

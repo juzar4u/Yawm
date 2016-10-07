@@ -56,5 +56,8 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string ImageResolutionError { get; set; }
         public DateTime gregorianDate { get; set; }
         public string radioDateType { get; set; }
+        public DateTime mappedDate { get; set; }
+        public string IslamicDate { get; set; }
+
     }
 }
