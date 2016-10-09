@@ -58,6 +58,7 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string radioDateType { get; set; }
         public DateTime mappedDate { get; set; }
         public string IslamicDate { get; set; }
+        public int akhbaarPhotoCount { get; set; }
 
     }
 }

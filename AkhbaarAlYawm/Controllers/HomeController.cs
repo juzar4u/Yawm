@@ -204,12 +204,22 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
                     {
                         model.IsFeaturedImage = false;
                     }
-                    ValidateImageAndUpload("image" + i.ToString(), _article.ArticleID, model.IsFeaturedImage);
+                    ValidateImageAndUpload("image" + i.ToString(), _article.ArticleID, model.IsFeaturedImage,null);
 
                 }
             }
             #endregion
-
+            #region akhbaarPhoto
+            if (model.akhbaarPhotoCount > 0)
+            {
+                //List<HttpPostedFile> akhbaarPhotos = new List<HttpPostedFile>();
+                for (int i = 0; i < model.akhbaarPhotoCount; i++)
+                {
+                    //akhbaarPhotos.Add(System.Web.HttpContext.Current.Request.Files[i]);
+                    ValidateImageAndUpload("", _article.ArticleID, false, System.Web.HttpContext.Current.Request.Files[i]);
+                }
+            }
+            #endregion
 
             return RedirectToAction("ManagementArticles");
 
@@ -276,36 +286,45 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             }
         }
 
-        private int ValidateImageAndUpload(String fileUploadId, int articleId, bool isfeatured)
+        private int ValidateImageAndUpload(String fileUploadId, int articleId, bool isfeatured, HttpPostedFile akhbaarFile)
         {
             int creativeId = 0;
             string articleImageUrl = "";
             string thumbnailUrl = "";
-            HttpPostedFile postedFile = System.Web.HttpContext.Current.Request.Files[fileUploadId];
+            HttpPostedFile postedFile;
 
+            if (akhbaarFile == null && !string.IsNullOrEmpty(fileUploadId))
+                postedFile = System.Web.HttpContext.Current.Request.Files[fileUploadId];
+            else
+                postedFile = akhbaarFile;
             if (postedFile != null && postedFile.ContentLength > 0)
             {
                 WebImage img = new WebImage(postedFile.InputStream);
                 if ((postedFile.ContentType.Contains("image")))
                 {
+                    string extension = System.IO.Path.GetExtension(postedFile.FileName);
 
-                    if (img.Width > 1024 & img.Height > 600)
+                    if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                     {
-                        img.Resize(1024, 640);
-                        img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + postedFile.FileName);
-                        img.Resize(400, 400);
-                        img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + postedFile.FileName);
-                        articleImageUrl = "/Images/Articles/" + "Large" + postedFile.FileName;
-                        thumbnailUrl = "/Images/Articles/" + postedFile.FileName;
-                        ArticleServices.GetInstance.InsertArticleImages(articleId, articleImageUrl, thumbnailUrl, isfeatured);
-                    }
-                    else
-                    {
-                        img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + postedFile.FileName);
-                        thumbnailUrl = "/Images/Articles/" + postedFile.FileName;
-                        ArticleServices.GetInstance.InsertArticleImages(articleId, thumbnailUrl, thumbnailUrl, isfeatured);
-                    }
+                        string fileName = Guid.NewGuid().ToString();
+                        if (img.Width > 800 & img.Height > 300)
+                        {
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + fileName + "." + extension);
+                            img.Resize(800, 300);
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + "." + extension);
+                            articleImageUrl = "/Images/Articles/" + "Large" + fileName + "." + extension;
+                            thumbnailUrl = "/Images/Articles/" + fileName + "." + extension;
+                            
+                            ArticleServices.GetInstance.InsertArticleImages(articleId, articleImageUrl, thumbnailUrl, isfeatured);
+                        }
+                        else
+                        {
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + "." + extension);
+                            thumbnailUrl = "/Images/Articles/" + fileName + "." + extension;
+                            ArticleServices.GetInstance.InsertArticleImages(articleId, thumbnailUrl, thumbnailUrl, isfeatured);
+                        }
 
+                    }
                 }
             }
             else
@@ -317,7 +336,7 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
 
         }
 
-
+        
         private int UpdateAndValidateCurrentImage(String fileUploadId, int articleId, bool isfeatured, int entityMediaID)
         {
             int creativeId = 0;
@@ -508,12 +527,12 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
                     {
                         model.IsFeaturedImage = false;
                     }
-                    ValidateImageAndUpload("image" + i.ToString(), _article.ArticleID, model.IsFeaturedImage);
+                    ValidateImageAndUpload("image" + i.ToString(), _article.ArticleID, model.IsFeaturedImage, null);
 
                 }
             }
             #endregion
-
+           
             ArticleServices.GetInstance.UpdateArticle(_article);
             return RedirectToAction("ManagementArticles");
         }

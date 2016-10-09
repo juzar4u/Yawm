@@ -46,6 +46,7 @@
     $(document).ready(function () {
         $("#CountryID").chosen({ width: "100%" });
         $("#AddMoreImages").click(function (e) {
+            $("#AddMoreImages").css('display', 'none');
             e.preventDefault();
             var $container = $("#ImagesContainer");
 
@@ -396,7 +397,14 @@
                 <select id="CityID" name="CityID" class="chosen-select" style="width: 302px;"></select>
             </div>
         </div>
+        <div class="ih">
+            <label>Akhbaar Photo's</label>
 
+            <div id="akhbaarPhotoContainer">
+                <input type="file" name="akhbaarPhotos[]" class="akhPhoto" id="akhbaarPhotos" multiple />
+                <input type="hidden" id="akhbaarPhotoCount" name="akhbaarPhotoCount" />
+            </div>
+        </div><br />
         <div class="ih clearfix">
             <label>--Video URL--</label>
 
@@ -428,12 +436,14 @@
                             <input type="radio" class="radioClassImage" name="radioImage" id="radioImage1" value="" /><label for="radioImage1">Mark as Featured</label>
                         </div>
                     </div>
-                    <input type="button" name="AddMoreImages" value="Add More" id="AddMoreImages" class="btn-blue m-bottom" />
+                    <input type="button" name="AddMoreImages" value="Add" id="AddMoreImages" class="btn-blue m-bottom" />
                     <input type="hidden" name="TotalUploadedImages" id="TotalUploadedImages" value="" />
                     <input type="hidden" name="IsFeaturedNameImage" id="IsFeaturedNameImage" value="" />
                 </div>
             </div>
         </div>
+
+         
         <p id="gap">
             <input type="submit" value="Create" id="submit" />
         </p>
@@ -462,7 +472,7 @@
         $("#gregorianDiv").css('display', 'none');
     });
     $("#submit").click(function () {
-
+        $("#akhbaarPhotoCount").val(document.getElementById("akhbaarPhotos").files.length);
         if ($("#IsVideo").val() == "false") {
             if ($("#TotalUploadedImages").val() == "") {
                 alert("Image Not Uploaded for Image Article");
