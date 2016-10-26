@@ -132,6 +132,8 @@
 
         <div class="breaker"></div>
         @Html.Partial("~/Views/Shared/commentPartialView.cshtml", Model.ArticleComment)
+        
+        
         <!-- RECENT ARTICLES -->
         <h2 class="separator">Top Viewed Related Articles</h2>
         <ul class="list box">
@@ -143,7 +145,7 @@
     <script type="text/javascript">
         var playerInstance = jwplayer("myElement");
         playerInstance.setup({
-            file: "@Model.FeaturedVideo",
+        file: "@Model.FeaturedVideo",
         width: $(window).width(),
         image: "@Model.FeaturedImage"
     });

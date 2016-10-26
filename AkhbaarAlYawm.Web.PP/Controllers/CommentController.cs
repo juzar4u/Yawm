@@ -31,6 +31,9 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
 
         public ActionResult PostComment(int userId, int articleId, string comment, int parentCommentId, int commentCategoryID)
         {
+            UserModel user = AuthHelper.LoginFromCookie();
+
+            CommentMasterModel allComments = new CommentMasterModel();
             Comment _comment = new Comment();
             _comment.ArticleID = articleId;
             _comment.Content = comment;
@@ -49,17 +52,21 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             CommentServices.GetInstance.InsertComment(_comment);
             CommentServices.GetInstance.updateCommentCount(articleId, commentCategoryID);
             ViewBag.message = "Comment Posted!";
-            return PartialView("~/Views/Shared/PartialCustomPopupMessage.cshtml");
+            allComments = CommentServices.GetInstance.GetAllCommentsByArticleID(articleId, (int)CommentCategoryEnum.ArticleType, user);
+
+            return PartialView("~/Views/Shared/commentPartialView.cshtml", allComments);
         }
 
 
-        public ActionResult DeleteComment(int commentId, int commentCategoryID)
+        public ActionResult DeleteComment(int commentId, int commentCategoryID, int articleId)
         {
+            UserModel user = AuthHelper.LoginFromCookie();
+
+            CommentMasterModel allComments = new CommentMasterModel();
             CommentServices.GetInstance.DeleteCommentsByCommentID(commentId, commentCategoryID);
+            allComments = CommentServices.GetInstance.GetAllCommentsByArticleID(articleId, (int)CommentCategoryEnum.ArticleType, user);
 
-
-            ViewBag.message = "Comment Deleted!";
-            return PartialView("~/Views/Shared/PartialCustomPopupMessage.cshtml");
+            return PartialView("~/Views/Shared/commentPartialView.cshtml", allComments);
         }
 
         public ActionResult ReplyComment(int commentId, string IsParentComment)
@@ -79,6 +86,9 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
 
         public ActionResult PostReplyComment(int userId, int commentId, string isParentComment, string comment, int CommentCategoryID)
         {
+            UserModel user = AuthHelper.LoginFromCookie();
+
+            CommentMasterModel allComments = new CommentMasterModel();
             Comment NewComment = new Comment();
             Comment _comment = CommentServices.GetInstance.GetCommentByCommentID(commentId);
 
@@ -99,7 +109,9 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             CommentServices.GetInstance.InsertComment(NewComment);
             CommentServices.GetInstance.updateCommentCount((int)_comment.ArticleID, CommentCategoryID);
             ViewBag.message = "Successfully Replied";
-            return PartialView("~/Views/Shared/PartialCustomPopupMessage.cshtml");
+            allComments = CommentServices.GetInstance.GetAllCommentsByArticleID((int)_comment.ArticleID, (int)CommentCategoryEnum.ArticleType, user);
+
+            return PartialView("~/Views/Shared/commentPartialView.cshtml", allComments);
         }
 
     }

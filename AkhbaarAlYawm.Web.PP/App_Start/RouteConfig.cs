@@ -20,6 +20,7 @@ namespace AkhbaarAlYawm.Web.PP
               new { controller = "Classifieds", action = "Index" }
           );
 
+            
             routes.MapRoute(
               "AkhbaarList",
               "Home/AkhbaarList/{categoryId}/{isVideo}/{pageNo}",

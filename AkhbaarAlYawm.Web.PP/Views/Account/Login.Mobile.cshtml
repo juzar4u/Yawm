@@ -31,6 +31,7 @@
                 <p>Your password has been reset successfully.</p>
             </div>*@
         </div>
+     <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="@Model.ReturnUrl" />
     </div>
     
     
@@ -40,8 +41,11 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        
         $("#overlay").removeClass('hide');
         $("#pop-up").removeClass('hide');
+
+       
     });
 
     $("#submit").click(function () {

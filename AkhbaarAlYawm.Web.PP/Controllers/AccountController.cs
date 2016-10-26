@@ -71,13 +71,23 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
             UserModel _user = new UserModel();
             _user = AuthHelper.LoginFromCookie();
+            LoginModel model = new LoginModel();
+            if (returnUrl == null)
+            {
+                model.ReturnUrl = "";
+            }
+            else
+            {
+                model.ReturnUrl = returnUrl;
+            }
+
             if (_user == null)
             {
-                return View();
+                return View(model);
             }
              
             else
@@ -95,15 +105,20 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 if (_user != null && _user.IsVerified && _user.UserStatusID == (int)UserStatusEnum.Active)
                 {   
                     AuthHelper.AddSSOCookieIfNotExits(_user);
-                    return RedirectToAction("Index", "Home");
+                    if (!string.IsNullOrEmpty(model.ReturnUrl))
+                        return Redirect(model.ReturnUrl);
+                    else
+                        return RedirectToAction("Index", "Home");
                 }
                 else
                 {
+                    
                     string Error = GetErrorMsg(_user);
                     ViewBag.Error = Error;
+
                 }
 
-            return View();
+                return View(model);
         }
 
         [HttpGet]

@@ -80,6 +80,7 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         [Required(ErrorMessage = "Password is Required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string ReturnUrl { get; set; }
     }
 
     [Serializable]
