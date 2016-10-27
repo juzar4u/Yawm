@@ -99,13 +99,38 @@
     $(document).ready(function () {
         $("#overlay").removeClass('hide');
         $("#pop-up").removeClass('hide');
+        
+        
     });
 
+    $("#EjamatID").click(function () {
+        $('#pop-up').scrollTop(0);
+    });
+
+    $("#FirstName").click(function () {
+        $('#pop-up').scrollTop(100);
+    });
+
+    $("#LastName").click(function () {
+        $('#pop-up').scrollTop(250);
+    });
+
+    $("#Email").click(function () {
+        $('#pop-up').scrollTop(350);
+    });
+
+    $("#Password").click(function () {
+        $('#pop-up').scrollTop(400);
+    });
+
+    $("#ConfirmPassword").click(function () {
+        $('#pop-up').scrollTop(500);
+    });
     $("#submit").click(function (e) { 
         if ($("#EjamatID").val() == '' || $("#FirstName").val() == '' || $("#Email").val() == '' || $("#Password").val() == '') {
             $("#error").removeClass('hide');
             $("#error").css('display', 'block');
-            //$("#error").val('Please make sure all required fields are filled.');
+            $('#pop-up').scrollTop(0);
             $("#errText").text('Please make sure all required fields are filled.');
             return false;
         }
@@ -113,6 +138,7 @@
         if ($("#Password").val() != $("#ConfirmPassword").val()) {
             $("#error").removeClass('hide');
             $("#error").css('display', 'block');
+            $('#pop-up').scrollTop(0);
             $("#errText").text('Password and Confirm Password does not match');
             return false;
         }

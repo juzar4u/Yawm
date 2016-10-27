@@ -12,7 +12,7 @@
 
             @if (Model.user != null)
             {
-                <textarea id="postcomment" class="form-control" rows="3"></textarea>
+                <textarea id="replypostcomment" class="form-control" rows="3"></textarea>
             }
             else
             {
@@ -22,9 +22,9 @@
 
         @if (Model.user != null)
         {
-            <button type="button" class="btn btn-primary" onclick="PostCommentFunction('@Model.user.UserID', '@Model.CommentID', '@Model.IsParentComment')">Submit</button>
+            <button type="button" class="btn btn-primary" onclick="PostReplyCommentFunction('@Model.user.UserID', '@Model.CommentID', '@Model.IsParentComment')">Submit</button>
             
-            <button type="button" class="btn btn-danger" onclick="CancelReply('@Model.CommentID', '@Model.IsParentComment')">Cancel</button>
+            <button type="button" class="btn btn-danger" onclick="CancelReply('@Model.CommentID')">Cancel</button>
         }
         else
         {
@@ -39,9 +39,9 @@
     function redirect() {
         window.location.href = "/Account/Login/?returnUrl=" + window.location.href;
     }
-    function PostCommentFunction(UserID, CommentId, IsParentComment){
+    function PostReplyCommentFunction(UserID, CommentId, IsParentComment){
         
-        if ($("#postcomment").val() == '')
+        if ($("#replypostcomment").val() == '')
         {
             $("#Replyerror").html('Please Enter Comment');
             $("#Replyerror").css('display', 'block');
@@ -61,23 +61,19 @@
                 url: "/Comment/PostReplyComment",
                 type: "GET",
                 dataType: "html",
-                data: { "userId": UserID, "commentId":CommentId, "isParentComment":IsParentComment, "comment":$("#postcomment").val(), "CommentCategoryID": id },
+                data: { "userId": UserID, "commentId":CommentId, "isParentComment":IsParentComment, "comment":$("#replypostcomment").val(), "CommentCategoryID": id },
                 success: function (data) {
-                    $("#newComment").html('');
+                   
                     $("#CommentList").html(data);
+                    $("#newComment").css('display', 'block');
                    }
             });
         }
     }
 
-    function CancelReply(commentId, isParentComment) {
-        if (isParentComment == true) {
-            $("#parentcomment-" + commentId).html('');
-            $("#newComment").css('display', 'block');
-        }
-        else {
-            $("#childcomment-" + commentId).html('');
-            $("#newComment").css('display', 'block');
-        }
+    function CancelReply(commentId) {
+        $("#parentcomment-" + commentId).html('');
+        $("#newComment").css('display', 'block');
+      
     }
 </script>

@@ -277,6 +277,14 @@
     
     <script type="text/javascript">
 
+
+        $("#info").click(function () {
+            if ($("#subnav").css('display') == 'block') {
+                $("#header").css('height', '40px');
+            } else {
+                $("#header").css('height', '65px');
+            }
+        });
         $("#FilterClassifiedIcon").click(function () {
             if ($("#FilterClassifieds").css('display') == 'none') {
                 $("#content").css('display', 'none');

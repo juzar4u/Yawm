@@ -57,7 +57,13 @@
                 dataType: "html",
                 data: { "userId": UserID, "articleId": ArticleID, "comment": $("#postcomment").val(), "parentCommentId": 0, "commentCategoryID": id },
                 success: function (data) {
+
                     $("#CommentList").html(data);
+                    $("#postcomment").val('');
+
+                    if ($("#error").css('display') == 'block') {
+                        $("#error").css('display', 'none');
+                    }
                 }
             });
         }

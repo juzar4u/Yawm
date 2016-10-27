@@ -257,7 +257,7 @@
     </div>
     }
 </ul>
-@{Html.RenderAction("NewComment", "Comment", Model );}
+@*@{Html.RenderAction("NewComment", "Comment", Model );}*@
 
 
 
@@ -282,8 +282,7 @@
     var LastClickedIsParentComment;
     function replyComment(val, IsParentComment) {
         //alert("reply" + val + "isParentComment" + isParentComment);
-       
-
+      
         $.ajax({
             url: "/Comment/ReplyComment",
             type: "GET",
@@ -295,14 +294,20 @@
                     if (LastClickedIsParentComment == "true") {
                         if ($("#parentcomment-" + lastClickedID).css('display') == 'block') {
                             $("#parentcomment-" + lastClickedID).css('display', 'none');
+                           
                         }
                         else {
                             $("#parentcomment-" + lastClickedID).css('display', 'block');
+
                         }
                     }
                     else {
                         if ($("#childcomment-" + lastClickedID).css('display') == 'block') {
                             $("#childcomment-" + lastClickedID).css('display', 'none');
+                           
+                            if ($("#newComment").css('display') == 'none') {
+                                $("#newComment").css('display','block');
+                            }
                         }
                         else {
                             $("#childcomment-" + lastClickedID).css('display', 'block');
@@ -315,7 +320,8 @@
                 }
                 else {
                     $("#childcomment-" + val).html(data);
-                    $("#newComment").css('display', 'none');
+                    
+                    //$("#newComment").css('display', 'none');
                 }
                 lastClickedID = val;
                 LastClickedIsParentComment = IsParentComment;

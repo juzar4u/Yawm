@@ -47,7 +47,13 @@
 
        
     });
+    $("#Email").click(function () {
+        $('#pop-up').scrollTop(0);
+    });
 
+    $("#Password").click(function () {
+        $('#pop-up').scrollTop(100);
+    });
     $("#submit").click(function () {
         if ($("#Email").val() == '' || $("#Password").val() == '') {
             $("#error").css('display','block');

@@ -100,10 +100,11 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         public ActionResult Login(LoginModel model)
         {
             UserModel _user = new UserModel();
-            
+            if (UserServices.GetInstance.CheckIfEmailIsValid(model.Email))
+            {
                 _user = UserServices.GetInstance.LoginPPUserByEmailandPassword(model.Email, ExtensionMethodsCrypography.Encrypt(model.Password));
                 if (_user != null && _user.IsVerified && _user.UserStatusID == (int)UserStatusEnum.Active)
-                {   
+                {
                     AuthHelper.AddSSOCookieIfNotExits(_user);
                     if (!string.IsNullOrEmpty(model.ReturnUrl))
                         return Redirect(model.ReturnUrl);
@@ -112,13 +113,19 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 }
                 else
                 {
-                    
+
                     string Error = GetErrorMsg(_user);
                     ViewBag.Error = Error;
 
                 }
 
-                return View(model);
+            }
+            else
+            {
+                ViewBag.Error = "Email Id not Registered!";
+            }
+          return View(model);
+            
         }
 
         [HttpGet]
@@ -141,7 +148,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 _user.Password = ExtensionMethodsCrypography.Encrypt(model.Password);
                 _user.UserGUID = Guid.NewGuid().ToString();
                 _user.CreatedOn = DateTime.Now;
-                _user.IsVerified = false;
+                _user.IsVerified = true;
                 _user.UserStatusID = (int)UserStatusEnum.Active;
                 _user.RoleID = (int)UserRoleEnum.User;
                 HttpPostedFile postedFile = System.Web.HttpContext.Current.Request.Files[0];
@@ -149,16 +156,16 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 profile.UserID = _user.UserID;
                 UserServices.GetInstance.CreateProfile(profile);
                 ValidateAndUploadImage(postedFile, _user.UserID);
-                UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
-                try
-                {
-                    EmailService es = new EmailService();
-                    es.SendSimpleEmails();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                //UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
+                //try
+                //{
+                //    EmailService es = new EmailService();
+                //    es.SendSimpleEmails();
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+                //}
                
             }
             catch (Exception ex)
@@ -255,14 +262,14 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                             if (img.Width > 300 & img.Height > 300)
                             {
                                 img.Resize(300, 300);
-                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + "." + extension);
+                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + extension);
                                 profileImageUrl = null;
-                                thumbnailUrl = "/Images/Profile/"  +fileName + "." + extension;
+                                thumbnailUrl = "/Images/Profile/"  +fileName + extension;
                             }
                             else
                             {
-                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + "." + extension);
-                                thumbnailUrl = "/Images/Profile/"  +fileName + "." + extension;
+                                img.Save(HttpContext.Server.MapPath("~/Images/Profile/")  +fileName + extension);
+                                thumbnailUrl = "/Images/Profile/"  +fileName + extension;
                             }
                             _user.ThumbnailProfileImg = thumbnailUrl;
                             _user.ProfileImg = profileImageUrl;
@@ -347,7 +354,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
 
             UserServices.GetInstance.UpdateUsers(user);
 
-            return Redirect("/account/UserProfile?userId=1");
+            return Redirect(string.Format("/account/UserProfile?userId={0}", model.UserID));
         }
 
         [HttpGet]
