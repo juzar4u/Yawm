@@ -111,6 +111,21 @@ namespace AkhbaarAlYawm.Application.Services
             }
             return _user;
         }
+
+        public bool CheckIfEmailIsValid(string email)
+        {
+            bool Exists = false;
+            UserModel _user = new UserModel();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                _user = context.Fetch<UserModel>("select * from Users where email = @0", email).FirstOrDefault();
+                if (_user != null)
+                    Exists = true;
+            }
+            return Exists;
+        }
+
+
         public SessionAkhbaarUserEntity GetSessionAkhbaarUserEntityByEmailID(string email)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())

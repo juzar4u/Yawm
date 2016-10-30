@@ -66,7 +66,7 @@ namespace AkhbaarAlYawm.Application.Helper
             return errMsg;
         }
 
-         public static string GetResponseFromServer(string url)
+        public static string GetResponseFromServer(string url)
         {
             string responseFromServer = "";
             HttpWebResponse response = null;
