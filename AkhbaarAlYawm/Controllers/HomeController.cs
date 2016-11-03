@@ -46,7 +46,7 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             return RedirectToAction("Index");
         }
 
-         [Authentication]
+        [Authentication]
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -309,18 +309,18 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
                         string fileName = Guid.NewGuid().ToString();
                         if (img.Width > 800 & img.Height > 300)
                         {
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + fileName + "." + extension);
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + fileName + extension);
                             img.Resize(800, 300);
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + "." + extension);
-                            articleImageUrl = "/Images/Articles/" + "Large" + fileName + "." + extension;
-                            thumbnailUrl = "/Images/Articles/" + fileName + "." + extension;
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + extension);
+                            articleImageUrl = "/Images/Articles/" + "Large" + fileName + extension;
+                            thumbnailUrl = "/Images/Articles/" + fileName + extension;
                             
                             ArticleServices.GetInstance.InsertArticleImages(articleId, articleImageUrl, thumbnailUrl, isfeatured);
                         }
                         else
                         {
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + "." + extension);
-                            thumbnailUrl = "/Images/Articles/" + fileName + "." + extension;
+                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + extension);
+                            thumbnailUrl = "/Images/Articles/" + fileName + extension;
                             ArticleServices.GetInstance.InsertArticleImages(articleId, thumbnailUrl, thumbnailUrl, isfeatured);
                         }
 

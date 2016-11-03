@@ -170,6 +170,7 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string Title { get; set; }
         public int CityID { get; set; }
         public string CityName { get; set; }
+        public string StateName { get; set; }
         public string CountryName { get; set; }
         public string address { get; set; }
         public string Description { get; set; }
@@ -181,10 +182,19 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public int UserID { get; set; }
         public List<Currency> CurrencyList { get; set; }
         public int CurrencyID { get; set; }
+        public string CurrencyName { get; set; }
         public List<Country> CountryList { get; set; }
         public int ParentClassifiedAdCategoryID { get; set; }
+        public string ParentCategoryName { get; set; }
+        public string ChildCategoryName { get; set; }
         public int ChildClassifiedAdCategoryID { get; set; }
         public List<ClassifiedAdCategories> ClassifiedAdParentList { get; set; }
+        public string StateID { get; set; }
+        public List<ClassifiedAdCategories> ClassifiedAdChildList { get; set; }
+        public int CountryID { get; set; }
+        public List<State> StateList { get; set; }
+        public List<City> CityList { get; set; }
+        public List<NewsfeedClassifiedMedia> ImgsUrl { get; set; }
 
     }
 

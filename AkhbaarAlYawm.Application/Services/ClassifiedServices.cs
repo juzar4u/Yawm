@@ -159,6 +159,7 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+
         public List<CommentMaster> GetClassifiedCommentsByClassifiedID(int classifiedID, int commentCategoryID)
         {
             List<CommentModel> _comments = new List<CommentModel>();
@@ -329,6 +330,23 @@ namespace AkhbaarAlYawm.Application.Services
             }
 
             return ClassifiedList;
+        }
+
+
+        public ClassifiedModel GetclassifiedById(int classifiedId)
+        {
+            ClassifiedModel model = new ClassifiedModel();
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+
+                var sql = string.Format("select C.title,C.ClassifiedID,C.CurrencyID,C.Address,C.Description,C.PhoneCode,C.PhoneNo, C.Price, c.UserID,cur.Code as CurrencyCode, Cat.ParentCategoryID as ParentClassifiedAdCategoryID, cat.Name as ChildCategoryName,cat.ClassifiedAdCategoryID as ChildClassifiedAdCategoryID, state.StateID as StateID, city.Name as CityName,C.CityId,state.Name as StateName,country.Name as CountryName,country.CountryID from classified C left join cities city on city.cityid = C.cityid left join states state on state.StateID = city.StateID left join Countries country on country.CountryID = state.CountryID left join Currency cur on cur.CurrencyID = C.CurrencyID left join ClassifiedAdCategories Cat on Cat.ClassifiedAdCategoryID = c.ClassifiedAdCategoryID where C.ClassifiedID = {0}", classifiedId);
+
+                model = context.FirstOrDefault<ClassifiedModel>(sql);
+                model.StateList = context.Fetch<State>("select * from States where CountryID = @0", model.CountryID);
+                model.CityList = context.Fetch<City>("select * from Cities where StateID = @0", model.StateID);
+                model.ImgsUrl = context.Fetch<NewsfeedClassifiedMedia>("select * from NewsfeedClassifiedMedia where EntityID = @0 and EntityTypeID = @1", classifiedId, Akhbaar.Shared.Helper.Enum.EntityTypeEnum.Classifieds);
+            }
+            return model;
         }
     }
 }

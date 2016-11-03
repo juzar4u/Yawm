@@ -34,6 +34,7 @@
                     height: 70px;
                     margin-left: 8px;
                     border-radius: 50%;
+                    transform: rotate(276deg);
                 }
 
             .comment li .comment-txt {
@@ -141,7 +142,10 @@
                 <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
                     <h3 style="font-weight: bold; margin: 0;">@string.Format("{0}{1}{2}", item.FirstName, " ", item.LastName)</h3>
                 </div>
-
+                @if(item.UserID == AkhbaarAlYawm.Application.Helper.AuthHelper.LoggedInUserID)
+                {
+                <a href="/Classifieds/EditClassified/?classifiedId=@item.ClassifiedID"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>
+                }
                 <!-- /comment-txt -->
             </li>
         </ul>

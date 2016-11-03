@@ -71,7 +71,11 @@
         <ul class="list box" id="@string.Format("{0}{1}", "collapse", items.CategoryID)">
             @Html.Partial("~/Views/Shared/sharedHomeNonFeaturedView.cshtml", items.nonFeaturedList)
         </ul>
-        <span><button type="button" name="AkhbaarButton" class="btn btn-success full-width" onclick="AkhbaarButtonFunction('@items.CategoryID')"><i class="fa fa-download fa-lg" aria-hidden="true" style="color:#000;"></i> Load More</button></span>
+       
+            if (items.nonFeaturedList.Count > 5)
+            {
+             <span><button type="button" name="AkhbaarButton" class="btn btn-success full-width" onclick="AkhbaarButtonFunction('@items.CategoryID')"><i class="fa fa-download fa-lg" aria-hidden="true" style="color:#000;"></i> Load More</button></span>
+            }
     }
 
 

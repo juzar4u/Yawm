@@ -66,6 +66,7 @@
                     height: 70px;
                     margin-left: 8px;
                     border-radius: 50%;
+                    
                 }
 
             .user li .user-txt {
@@ -95,25 +96,16 @@
             <a href="@string.Format("{0}{1}",AkhbaarAlYawm.Application.Helper.ApplicationConstants.GetUserProfileUrl, Model.UserID)"> <h3 style="font-weight: bold; margin: 0; font-style: italic; color: orange; font-size: 20px">@Model.FirstName</h3></a>
         </div>
         <div class="user-img">
-            <a>
-                 @{
-                    string userImg = "";
-                    string rootUrl= "";
-                    if (!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
-                    {
-                        rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL;
-                        userImg = Model.ThumbnailProfileImg;
-                    }
-                    else
-                    {
-                        rootUrl = AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_CP_URL;
-                        userImg = "/Images/UserProfile/defaultUser.jpg";
-                    }
-                @:<img src="@string.Format("{0}{1}", rootUrl, userImg)" alt=@Model.FirstName /></a>
-                 
-                        
+            
+                @if (!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
+                {
+                <img style="transform: rotate(276deg);" src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, Model.ThumbnailProfileImg)" alt=@Model.FirstName />
                 }
-               
+                else
+                {
+                <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_CP_URL, "/Images/UserProfile/defaultUser.jpg")" alt=@Model.FirstName />
+                }
+                 
         </div>
 
         <div class="post-txt">

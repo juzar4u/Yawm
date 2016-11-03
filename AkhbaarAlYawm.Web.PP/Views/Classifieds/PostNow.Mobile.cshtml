@@ -250,7 +250,7 @@
             <input type="text" class="input-text" placeholder="Price*" name="price" id="price">
             <textarea type="text" class="input-text" placeholder="Address" name="address" id="address" style="height: 105px;"></textarea>
 
-            <input type="file" class="postBtn" name="Img" id="Img" multiple />
+            <input type="file" class="btn btn-success" name="Img" id="Img" multiple style="width:100%"/>
             <input type="text" id="UserID" name="UserID" value="@Model.UserID" style="display:none"/>
             <div class="error clearfix" id="error" style="display:none"><i class="fa fa-exclamation-triangle" id="errText" aria-hidden="true"></i></div>
             <button type="submit" class="submit" id="submit">Post Ad</button>
@@ -270,18 +270,21 @@
             if ($("#Title").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Title is not Entered.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#ParentClassifiedAdCategoryID").val() == 'Select Category*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Category is not Selected.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#ChildClassifiedAdCategoryID").val() == null || $("#ChildClassifiedAdCategoryID").val() == 'Select Sub Categories*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('sub category is not Selected.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
@@ -292,12 +295,14 @@
                     if ($("#CountryID").val() == '' || $("#CountryID").val() == null || $("#CountryID").val() == 'Select Country*') {
                         $("#error").css('display', 'block');
                         $("#errText").text('Country is not Selected.');
+                        $('#pop-up').scrollTop(0);
                         $("#addloading").removeClass("loading");
                         return false;
                     }
                     else {
                         $("#error").css('display', 'block');
                         $("#errText").text('State is not Selected.');
+                        $('#pop-up').scrollTop(0);
                         $("#addloading").removeClass("loading");
                         return false;
                     }
@@ -305,6 +310,7 @@
                 else {
                     $("#error").css('display', 'block');
                     $("#errText").text('City is not Selected.');
+                    $('#pop-up').scrollTop(0);
                     $("#addloading").removeClass("loading");
                     return false;
                 }
@@ -312,24 +318,28 @@
             else if ($("#PhoneCode").val() == '' || $("#PhoneCode").val() == 'Select PhoneCode*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('PhoneCode is not Selected.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#PhoneNo").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('PhoneNo is not Entered.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#CurrencyID").val() == '' || $("#CurrencyID").val() == 'Select Currency*') {
                 $("#error").css('display', 'block');
                 $("#errText").text('Currency is not Selected.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }
             else if ($("#price").val() == '') {
                 $("#error").css('display', 'block');
                 $("#errText").text('price is not Selected.');
+                $('#pop-up').scrollTop(0);
                 $("#addloading").removeClass("loading");
                 return false;
             }

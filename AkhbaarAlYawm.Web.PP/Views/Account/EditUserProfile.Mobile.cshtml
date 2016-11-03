@@ -33,7 +33,7 @@
             <input type="text" class="input-text" placeholder="PhoneNo" name="PhoneNo" id="PhoneNo">
             @if(!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
                 {
-                <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive" style="width:100px; height:100px">
+                <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive" style="width:100px; height:100px;transform: rotate(276deg);">
                 }
                 else{
                 <img alt="User Pic" src="@string.Format("{0}{1}", ApplicationConstants.Akhbaar_CP_URL, ApplicationConstants.GetDefaultUserImageUrl)" class="img-circle img-responsive" style="width:100px; height:100px"> 
@@ -84,5 +84,41 @@
         });
 
         $('#ui-datepicker-div').css('margin-top', '-100px');
+
+        $("#EjamatID").click(function () {
+            $('#pop-up').scrollTop(0);
+        });
+
+        $("#Jamaat").click(function () {
+            $('#pop-up').scrollTop(100);
+        });
+
+        $("#FirstName").click(function () {
+            $('#pop-up').scrollTop(250);
+        });
+
+        $("#LastName").click(function () {
+            $('#pop-up').scrollTop(350);
+        });
+
+        $("#Specialisation").click(function () {
+            $('#pop-up').scrollTop(400);
+        });
+
+        $("#Gender").click(function () {
+            $('#pop-up').scrollTop(500);
+        });
+
+        $("#DOB").click(function () {
+            $('#pop-up').scrollTop(570);
+        });
+
+        $("#HomeAddress").click(function () {
+            $('#pop-up').scrollTop(640);
+        });
+
+        $("#PhoneNo").click(function () {
+            $('#pop-up').scrollTop(770);
+        });
     });
 </script>

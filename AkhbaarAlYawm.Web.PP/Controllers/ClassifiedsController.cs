@@ -31,7 +31,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 ClassifiedList = entities.Items;
                 return View(ClassifiedList);
             }
-            return Redirect("/Account/Login");
+            return Redirect("/Account/Login/?returnUrl=/classifieds/index/1");
         }
 
 
@@ -48,7 +48,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 _classified.ClassifiedAdParentList = ClassifiedServices.GetInstance.GetParentClassifiedCategories();
                 return View(_classified);
             }
-            return Redirect("/Account/Login");
+            return Redirect("/Account/Login/?returnUrl=/classifieds/postnow");
         }
 
         [HttpPost]
@@ -105,7 +105,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                         ClassifiedServices.GetInstance.InsertNewsfeedClassifiedMedia(_creativeMedia);
                     }
                 }
-
+    
                 catch (Exception ex)
                 {
                     ClassifiedModel _classified = new ClassifiedModel();
@@ -273,5 +273,34 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         //{
         //    return View("~/Views/Classifieds/PartialFilterClassifieds.cshtml", item);
         //}
+
+        [HttpGet]
+        public ActionResult EditClassified(int classifiedId)
+        {
+            ClassifiedModel model = new ClassifiedModel();
+            UserModel user = AuthHelper.LoginFromCookie();
+            
+            if (user != null)
+            {
+                
+                model = ClassifiedServices.GetInstance.GetclassifiedById(classifiedId);
+                model.UserID = (int)user.UserID;
+                model.CountryList = PP_ArticleServices.GetInstance.GetCountryList();
+                model.CurrencyList = PP_ArticleServices.GetInstance.GetCurrencyList();
+                model.ClassifiedAdParentList = ClassifiedServices.GetInstance.GetParentClassifiedCategories();
+                model.ClassifiedAdChildList = ClassifiedServices.GetInstance.GetChildClassifiedCategories(model.ParentClassifiedAdCategoryID);
+                if (user.UserID == AuthHelper.LoggedInUserID)
+                    return View(model);
+                else
+                    return Redirect("/Classifieds/index/1");
+            }
+            return Redirect(string.Format("/Account/Login/?returnUrl=/classifieds/EditClassified/?classifiedId={0}", classifiedId));
+        }
+
+        [HttpPost]
+        public ActionResult EditClassified(ClassifiedModel model)
+        {
+            return Redirect("Classifieds/Index/1");
+        }
     }
 }

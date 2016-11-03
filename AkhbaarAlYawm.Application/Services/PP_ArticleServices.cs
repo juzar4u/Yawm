@@ -277,6 +277,14 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public string GetStateByCityID(int cityID)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<string>("select Name from states where stateid = (select stateid from cities where cityid = @0)", cityID).FirstOrDefault();
+            }
+        }
+
         public string GetSourceNameBySourceID(int sourceId)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
