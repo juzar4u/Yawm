@@ -225,6 +225,10 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
         public string userlikescount { get; set; }
     }
 
+    public class classifiedDeleteModel
+    {
+        public int ClassifiedID { get; set; }
+    }
     public class ClassfiedAdModel
     {
         public ClassifiedAdCategories ParentCategory { get; set; }

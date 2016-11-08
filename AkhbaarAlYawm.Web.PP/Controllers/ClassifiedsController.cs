@@ -17,7 +17,6 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
     {
         //
         // GET: /Classifieds/
-
         public ActionResult Index(int pageNo)
         {
             int pageSize = 10;
@@ -29,7 +28,14 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 ViewBag.currentPages = entities.CurrentPage;
                 ViewBag.TotalPages = entities.TotalPages;
                 ClassifiedList = entities.Items;
-                return View(ClassifiedList);
+                ViewBag.currentPage = entities.CurrentPage;
+                ViewBag.TotalPages = entities.TotalPages;
+                ViewBag.ArticleCount = entities.TotalItems;
+                if (pageNo > 1)
+                    return PartialView("~/Views/Shared/PartialClassifiedIndexModelView.Mobile.cshtml", ClassifiedList);
+                else
+                    return View(ClassifiedList);
+               
             }
             return Redirect("/Account/Login/?returnUrl=/classifieds/index/1");
         }
@@ -300,7 +306,24 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         [HttpPost]
         public ActionResult EditClassified(ClassifiedModel model)
         {
-            return Redirect("Classifieds/Index/1");
+            return Redirect("/classifieds/index/1");
+        }
+
+
+        [HttpGet]
+        public ActionResult DeleteClassified(int id)
+        {
+            classifiedDeleteModel model = new classifiedDeleteModel();
+            model.ClassifiedID = id;
+            ViewBag.message = "Are you sure you wish to delete this classified Ad!";
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult DeleteClassified(classifiedDeleteModel model)
+        {
+            Classified classifieds = ClassifiedServices.GetInstance.GetclassifiedForDeleteById(model.ClassifiedID);
+            ClassifiedServices.GetInstance.DeleteClassified(classifieds);
+            return Redirect("/classifieds/index/1");
         }
     }
 }

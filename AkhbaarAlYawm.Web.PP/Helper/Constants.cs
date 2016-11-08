@@ -16,5 +16,13 @@ namespace AkhbaarAlYawm.Helper
             }
         }
 
+        public static string Akhbaar_PP_URL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Akhbaar_PP_URL"];
+            }
+        }
+
     }
 }

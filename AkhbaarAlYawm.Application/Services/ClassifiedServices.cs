@@ -38,6 +38,19 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public int DeleteClassified(Classified _classified)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                List<NewsfeedClassifiedMedia> media = context.Fetch<NewsfeedClassifiedMedia>("select * from NewsfeedClassifiedMedia where entityid = @0", _classified.ClassifiedID);
+                foreach (var item in media)
+                {
+                    context.Delete(item);
+                }
+                return (int)context.Delete(_classified);
+            }
+        }
+
         public int UpdateClassified(Classified _classified)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
@@ -347,6 +360,14 @@ namespace AkhbaarAlYawm.Application.Services
                 model.ImgsUrl = context.Fetch<NewsfeedClassifiedMedia>("select * from NewsfeedClassifiedMedia where EntityID = @0 and EntityTypeID = @1", classifiedId, Akhbaar.Shared.Helper.Enum.EntityTypeEnum.Classifieds);
             }
             return model;
+        }
+
+        public Classified GetclassifiedForDeleteById(int classifiedId)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<Classified>("select * from Classified where ClassifiedID = @0", classifiedId).FirstOrDefault();
+            }
         }
     }
 }
