@@ -1,0 +1,132 @@
+﻿@model List<AkhbaarAlYawm.DataAccess.Custom.Entities.ClassifiedIndexModel>
+
+@foreach (var item in Model)
+            {
+<div class="swiper-container">
+
+                    <ul class="comment box">
+
+                        <li class="box" id="">
+                            <div class="comment-img">
+                                <a>
+                                    <img src="@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, item.UserProfileImg)" alt="" /></a>
+                            </div>
+                            <div class="comment-txt" style="text-align: justify; margin: 10px; padding: 5px;">
+                                <h3 style="font-weight: bold; margin: 0;">@string.Format("{0}{1}{2}", item.FirstName, " ", item.LastName)</h3>
+                            </div>
+                            @if (item.UserID == AkhbaarAlYawm.Application.Helper.AuthHelper.LoggedInUserID)
+                            {
+                                <a href="/classifieds/DeleteClassified/?id=@item.ClassifiedID"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>
+                            }
+                            <!-- /comment-txt -->
+                        </li>
+                    </ul>
+                    <h3 class="separator" id="BG" style="font-family: Calibri; font-size: 14px;">Category: @item.ClassifiedCategoryName</h3>
+
+                    <div id="bodymain">
+
+                        <h1><a href="">@item.Title</a></h1>
+
+
+
+                        <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgray;">@item.PublishedDate.ToString("dd/MMM/yyyy")</span>
+                        <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">@string.Format("{0}{1}{2}", item.CurrencyCode, " ", item.price)</span>
+                        <span style="float: left; font-style: italic; font-family: calibri; padding: 5px; color: darkgrey;">@string.Format("{0}{1}{2}", item.CityName, " ,", item.CountryName)</span>
+
+                    </div>
+                    <div class="swiper-wrapper">
+
+                        @foreach (var media in item.mediaList)
+                        {
+                            <div class="swiper-slide">
+                                @if (!string.IsNullOrEmpty(media.Thumbnail))
+                                {
+                                    <div id="topstory">
+
+                                        <a>
+                                            <img src='@string.Format("{0}{1}", AkhbaarAlYawm.Application.Helper.ApplicationConstants.Akhbaar_PP_URL, media.Thumbnail)' id="image-width" alt="" style="height:250px;"/>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+
+                    </div>
+                    <br />
+                    @if (item.mediaList.Count > 0)
+                    {
+                        <div class="swiper-pagination" style="position: relative"></div>
+                    }
+                    <span style="float: left; font-family: calibri; padding: 5px; font-size: 20px;">Phone No.</span>
+                    <span style="float: right; font-family: calibri; color: darkred; font-weight: bold; padding: 5px; font-size: 22px;">@string.Format("{0}{1}{2}{3}", "+", item.PhoneCode, " ", item.PhoneNo)</span><br />
+                    <div id="body-section">
+                        @{
+        
+            
+                            <p class="body" id="@string.Format("{0}{1}", "content-less", item.ClassifiedID)">
+
+                                @if (item.Description.Length > 150)
+                                {
+                                    string content = string.Format("{0}{1}", item.Description.Substring(0, 150), "...");
+                                    @content   
+                                    <a onclick="readmore('@item.ClassifiedID')" style="font-family: Calibri; color: darkgray;">ReadMore</a>
+                                }
+                                else
+                                {
+                                    @item.Description   
+                                }
+
+                            </p>
+                
+                            <p class="body" id="@string.Format("{0}{1}", "content-more", item.ClassifiedID)" style="display: none;">
+
+                                @item.Description
+
+                            </p>
+                        }
+                    </div>
+                    @*<div id="info-section" style="float: right;">
+            <div id="people-comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px;">
+                <span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray; float: right;">
+                    @{
+        string commmentText;
+        if (item.CommentCount > 1)
+        {
+            commmentText = string.Format("{0}{1}{2}", item.CommentCount," ", "comments");
+        }
+        else
+        {
+            commmentText = string.Format("{0}{1}{2}", item.CommentCount, " ", "comment");
+        }
+                    }
+                    <a onclick="commentFunction('@item.ClassifiedID')" style="color:darkgray;">@commmentText</a>
+                </span>
+            </div>
+        </div>*@
+                    @* <div id="people-like-section-@item.ClassifiedID" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
+
+            <span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">@item.userlikescount</span>
+
+        </div>*@
+
+
+                    @* <div id="share-section" style="float: left;">
+            <div id="like-section" style="float: left; padding: 5px; margin-left: 20px; margin-bottom: 15px;">
+                
+                <div style="display:none" id="HiddenUnlikeID-@item.ClassifiedID"><i class="fa fa-thumbs-o-up" aria-hidden="true" style="color: darkgray;" onclick="LikeFuntion('@item.UserID', '@item.ClassifiedID', true)"><span style="font-style: italic; font-family: Calibri; margin-left: 5px; color: darkgray; font-weight: bold;">Like</span></i></div>
+                <div style="display:none" id="HiddenLikedID-@item.ClassifiedID"><i class="fa fa-thumbs-up"  aria-hidden="true" style="color:blue;" onclick="LikeFuntion('@item.UserID', '@item.ClassifiedID', false)"><span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">Like</span></i></div>
+                @if(!item.UserLikedClassified)
+                {
+                <div><i class="fa fa-thumbs-o-up" id="UnlikeID-@item.ClassifiedID" aria-hidden="true" style="color: darkgray;" onclick="LikeFuntion('@item.UserID', '@item.ClassifiedID', true)"><span style="font-style: italic; font-family: Calibri; margin-left: 5px; color: darkgray; font-weight: bold;">Like</span></i></div>
+                }else{
+                <div><i class="fa fa-thumbs-up" id="LikedID-@item.ClassifiedID" aria-hidden="true" style="color:blue;" onclick="LikeFuntion('@item.UserID', '@item.ClassifiedID', false)"><span style="font-style:italic;font-family:Calibri;margin-left:5px; color:blue;font-weight:bold;">Like</span></i></div>
+                }
+                
+            </div>
+
+            <div id="comment-section" style="float: left; padding: 5px; margin-right: 20px; margin-bottom: 15px; margin-left: 147px;"><i class="fa fa-comment-o" aria-hidden="true" style="color: darkgray;"><span style="font-style: italic; font-weight: bold; font-family: Calibri; margin-left: 5px; color: darkgray;"><a onclick="commentFunction('@item.ClassifiedID')" style="color:darkgray;">comment</a></span></i></div>
+        </div>
+        *@
+                </div>
+}
