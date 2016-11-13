@@ -2,7 +2,7 @@
 
 <style>
     .form-control {
-        width: 70%;
+        width: 90%;
         margin: 20px;
     }
 
@@ -76,11 +76,11 @@
 
             <section class="subnav-section">
                 <h3 class="subnav-section-title"><a>Location</a></h3>
-                <select id="selectLocation" class="form-control" name="CountryID" id="CountryID">
-                    <option value="0">select country</option>
-                    @foreach (var countries in Model.CountryList)
+                <select id="selectLocation" class="form-control" name="CityID" id="CityID">
+                    <option value="0">Select City</option>
+                    @foreach (var city in Model.CityList)
                     {
-                        <option value="@countries.CountryID">@countries.Name</option>
+                        <option value="@city.CityID">@city.Name</option>
                     }
                 </select>
             </section>

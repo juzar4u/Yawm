@@ -238,9 +238,9 @@ namespace AkhbaarAlYawm.DataAccess.Custom.Entities
     public class FilterClassifiedModel
     {
         public List<ClassifiedAdCategories> ParentCategories { get; set; }
-        public List<Country> CountryList { get; set; }
+        public List<City> CityList { get; set; }
         public int ClassifiedAdCategoryID { get; set; }
-        public int CountryID { get; set; }
+        public int CityID { get; set; }
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
         public int ChildClassifiedAdCategoryID { get; set; }

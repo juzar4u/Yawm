@@ -4,10 +4,19 @@
 <link href="~/FeaturedPanel/dist/css/swiper.min.css" rel="stylesheet" />
 <style>
     .swiper-container {
-        border: 15px #e9e3e3 solid;
-        /* margin: 5px; */
-        background: #fff;
-    }
+    background: #fff;
+    -moz-box-shadow: 0 0 25px 0 #f7800a;
+    -webkit-box-shadow: 0 0 25px 0 #422405;
+    box-shadow: 0 0 25px 0 #0a0a0a;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 16px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    border-radius: 9px;
+    padding: 10px;
+    margin-top: 22px;
+}
 
     .postnow {
         width: 100%;
@@ -29,14 +38,14 @@
                 width: 88px;
             }
 
-                .comment li .comment-img img {
-                    display: block;
-                    width: 70px;
-                    height: 70px;
-                    margin-left: 8px;
-                    border-radius: 50%;
-                    transform: rotate(276deg);
-                }
+            .comment li .comment-img img {
+                display: block;
+                width: 70px;
+                height: 70px;
+                margin-left: 8px;
+                border-radius: 50%;
+                transform: rotate(276deg);
+            }
 
             .comment li .comment-txt {
             }
@@ -122,14 +131,35 @@
         padding: 0 15px;
         width: 100%;
     }
+    .compose-button {
+    position: fixed;
+    background-color: darkred;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    width: 60px;
+    height: 60px;
+    bottom: 15px;
+    left: 15px;
+    -moz-box-shadow: 0 0 25px 0 #f7800a;
+    -webkit-box-shadow: 0 0 25px 0 #f7800a;
+    box-shadow: 0 0 25px 0 #f7800a;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 26px;
+    z-index: 99;
+
+    
+}
+  
 </style>
 <div id="content">
-
+    <a class="compose-button" id="fixedbutton"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="margin: 15px;color: white;"></i></a>
 
     <h2 class="separator">Classifieds</h2>
     <button type="button" class="postnow btn btn-success" value="Post Ad" id="fixedbutton"><i class="fa fa-upload fa-lg" aria-hidden="true" style="padding: 5px; color: #000;"></i>Post Ad</button>
     <!-- TOPSTORY -->
-    <div class="box">
+    <div class="box" style="margin: 18px;">
         <section class="hmeContent">
            @Html.Partial("~/Views/Shared/PartialClassifiedIndexModelView.Mobile.cshtml", Model) 
         </section>

@@ -242,7 +242,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
         {
             FilterClassifiedModel model = new FilterClassifiedModel();
             model.ParentCategories = ClassifiedServices.GetInstance.GetParentClassifiedCategories();
-            model.CountryList = PP_ArticleServices.GetInstance.GetCountryList();
+            model.CityList = ClassifiedServices.GetInstance.GetCityListOfClassifieds();
             return PartialView("~/Views/Classifieds/PartialFilterClassifieds.cshtml", model);
         }
         public ActionResult FilterClassified(FilterClassifiedModel item)
@@ -252,7 +252,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             {
                 elements++;
             }
-            if (item.CountryID > 0)
+            if (item.CityID > 0)
             {
                 elements++;
             }
@@ -318,6 +318,8 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             ViewBag.message = "Are you sure you wish to delete this classified Ad!";
             return View(model);
         }
+
+
         [HttpPost]
         public ActionResult DeleteClassified(classifiedDeleteModel model)
         {
