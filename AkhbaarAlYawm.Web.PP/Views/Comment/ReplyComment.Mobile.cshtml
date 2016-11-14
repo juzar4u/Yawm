@@ -24,7 +24,7 @@
         {
             <button type="button" class="btn btn-primary" onclick="PostReplyCommentFunction('@Model.user.UserID', '@Model.CommentID', '@Model.IsParentComment')">Submit</button>
             
-            <button type="button" class="btn btn-danger" onclick="CancelReply('@Model.CommentID')">Cancel</button>
+            <button type="button" class="btn btn-danger" onclick="CancelReply('@Model.CommentID','@Model.IsParentComment')">Cancel</button>
         }
         else
         {
@@ -71,9 +71,15 @@
         }
     }
 
-    function CancelReply(commentId) {
-        $("#parentcomment-" + commentId).html('');
-        $("#newComment").css('display', 'block');
+    function CancelReply(commentId, IsParentComment) {
+        if (IsParentComment == 'true') {
+            $("#parentcomment-" + commentId).html('');
+            $("#newComment").css('display', 'block');
+        }
+        else {
+            $("#childcomment-" + commentId).html('');
+            $("#newComment").css('display', 'block');
+        }
       
     }
 </script>

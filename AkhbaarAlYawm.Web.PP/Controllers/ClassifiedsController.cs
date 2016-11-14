@@ -275,10 +275,6 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             }
         }
 
-        //public ActionResult setFilterView(FilterClassifiedModel item)
-        //{
-        //    return View("~/Views/Classifieds/PartialFilterClassifieds.cshtml", item);
-        //}
 
         [HttpGet]
         public ActionResult EditClassified(int classifiedId)
