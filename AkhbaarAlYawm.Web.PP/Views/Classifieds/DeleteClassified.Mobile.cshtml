@@ -1,0 +1,34 @@
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.classifiedDeleteModel
+
+<link href="~/Content/screen.css" rel="stylesheet" />
+
+@using (Html.BeginForm("DeleteClassified", "Classifieds", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="popup-container hide" id="pop-up">
+<div class="container c-p">
+            <a href="/" class="close-btn"><span>&times;</span></a>
+            <div class="form">
+               
+            </div>
+             <h4 style="color:green;font-size: 20px;margin: 10px;padding: 5px;">@ViewBag.message</h4>
+
+             <input type="submit" class="btn btn-primary" value="Delete"/>
+             <input type="button" id="cancel" name="cancel" class="btn btn-danger" value="Cancel" />
+             <input type="hidden" id="ClassifiedID" name="ClassifiedID" value="@Model.ClassifiedID" />
+        </div>
+    </div>
+    
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#overlay").removeClass('hide');
+        $("#pop-up").removeClass('hide');
+    });
+
+
+    $("#cancel").click(function () {
+        window.location.href = "/classifieds/index/1";
+    });
+
+ </script>

@@ -14,7 +14,6 @@
     -moz-border-radius: 100px;
     -webkit-border-radius: 100px;
     border-radius: 9px;
-    padding: 10px;
     margin-top: 22px;
 }
 
@@ -169,7 +168,6 @@
 </div>
 <div id="FilterClassifieds" style="display: none;">
     @{Html.RenderAction("GetFilterLayout", "Classifieds"); }
-    @* @Html.Partial("~/Views/Classifieds/PartialFilterClassifieds.cshtml")*@
 </div>
 <!-- /content -->
 @if (ViewBag.currentPage <= ViewBag.TotalPages)
