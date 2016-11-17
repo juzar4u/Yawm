@@ -170,18 +170,18 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                             string fileName = Guid.NewGuid().ToString();
                             if (img.Width > 600 & img.Height > 400)
                             {
-                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + "Large" + fileName +"." +extension);
+                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + "Large" + fileName +extension);
                                 img.Resize(600, 400);
-                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + fileName + "." + extension);
-                                _media.Url = "/Images/Classifieds/" + "Large" + fileName + "." + extension;
-                                _media.Thumbnail = "/Images/Classifieds/" + fileName + "." + extension;
+                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + fileName + extension);
+                                _media.Url = "/Images/Classifieds/" + "Large" + fileName + extension;
+                                _media.Thumbnail = "/Images/Classifieds/" + fileName + extension;
                                 _media.creativeType = "Image";
                                 _media.ErrorMessage = null;
                             }
                             else
                             {
-                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + fileName + "." + extension);
-                                _media.Thumbnail = "/Images/Classifieds/" + fileName + "." + extension;
+                                img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + fileName + extension);
+                                _media.Thumbnail = "/Images/Classifieds/" + fileName + extension;
                                 _media.Url = null;
                                 _media.creativeType = "Image";
                                 _media.ErrorMessage = null;
