@@ -1,12 +1,11 @@
-﻿
-@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserProfileModel
+﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.UserProfileModel
 @using AkhbaarAlYawm.Application.Helper;
 <style>
     .panel-title {
-    text-align: center;
-    font-family: 'Century Gothic', futura, 'URW Gothic L', Verdana, sans-serif;
-    font-size: 20px;
-    font-weight: bold;
+        text-align: center;
+        font-family: 'Century Gothic', futura, 'URW Gothic L', Verdana, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
     }
 </style>
 <div class="panel panel-info">
@@ -16,12 +15,13 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3 col-lg-3 " align="center">
-                @if(!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
+                @if (!string.IsNullOrEmpty(Model.ThumbnailProfileImg))
                 {
-                <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive" style="height: 200px;width: 200px;transform: rotate(276deg);">
+                    <img alt="User Pic" src="@Model.ThumbnailProfileImg" class="img-circle img-responsive" style="height: 200px;width: 200px;transform: rotate(276deg);">
                 }
-                else{
-                <img alt="User Pic" src="@string.Format("{0}{1}", ApplicationConstants.Akhbaar_CP_URL, ApplicationConstants.GetDefaultUserImageUrl)" class="img-circle img-responsive"> 
+                else
+                {
+                    <img alt="User Pic" src="@string.Format("{0}{1}", ApplicationConstants.Akhbaar_CP_URL, ApplicationConstants.GetDefaultUserImageUrl)" class="img-circle img-responsive"> 
                 }
             </div>
 
@@ -58,8 +58,9 @@
                             {
                                 <td></td>
                             }
-                            else{
-                            <td>@Model.DOB.ToString("dd/MM/yyyy")</td>
+                            else
+                            {
+                                <td>@Model.DOB.ToString("dd/MM/yyyy")</td>
                             }
                         </tr>
                         <tr>
@@ -71,8 +72,21 @@
                             <td>@Model.HomeAddress</td>
                         </tr>
                         <tr>
-                            <td>Email</td>
-                            <td>@Model.Email</td>
+                            <td>Email ID</td>
+
+                            @{
+                                
+                                string emailId = Model.Email;
+                                if (emailId.Length > 20)
+                                {
+                                    emailId = string.Format("{0}{1}", emailId.Substring(0, 20), "...");
+                                }
+                                else
+                                {
+                                    emailId = Model.Email;
+                                }
+                            }
+                            <td data-toggle="modal" data-target="#myModal">@emailId</td>
                         </tr>
                         <tr>
                             <td>Phone Number</td>
@@ -83,26 +97,43 @@
 
                     </tbody>
                 </table>
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
 
-                @*<a href="#" class="btn btn-primary">My Sales Performance</a>
-                <a href="#" class="btn btn-primary">Team Sales Performance</a>*@
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Email ID:</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>@Model.Email</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="panel-footer">
-        @if(AuthHelper.LoggedInUserID != Model.UserID)
+        @if (AuthHelper.LoggedInUserID != Model.UserID)
         {
-        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" href="/account/SendMessage?fromUserId=@Model.LoggedInUserID&toUserId=@Model.UserID"><i class="glyphicon glyphicon-envelope"></i></a>
+            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" href="/account/SendMessage?fromUserId=@Model.LoggedInUserID&toUserId=@Model.UserID"><i class="glyphicon glyphicon-envelope"></i></a>
         }
-        else{
-            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-default" style="background-color:#ccc;"><i class="glyphicon glyphicon-envelope"></i></a>
-        }
-        @if(AuthHelper.LoggedInUserID == Model.UserID)
+        else
         {
-        <span class="pull-right">
-            <a href="/account/EditUserProfile?userId=@Model.UserID" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-            <a href="/account/ClearProfile?userId=@Model.UserID" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-        </span>
+            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-default" style="background-color: #ccc;"><i class="glyphicon glyphicon-envelope"></i></a>
+        }
+        @if (AuthHelper.LoggedInUserID == Model.UserID)
+        {
+            <span class="pull-right">
+                <a href="/account/EditUserProfile?userId=@Model.UserID" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                <a href="/account/ClearProfile?userId=@Model.UserID" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+            </span>
         }
     </div>
 

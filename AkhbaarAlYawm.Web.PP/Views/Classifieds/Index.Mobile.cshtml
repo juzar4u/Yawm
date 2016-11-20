@@ -25,43 +25,43 @@
         margin: 0;
     }
 
-        .comment li {
-            display: block;
-            padding: 8px;
-            border-bottom: 1px solid #CCC;
-            background: url("../design/gradient.png") 0 100% repeat-x;
+    .comment li {
+        display: block;
+        padding: 8px;
+        border-bottom: 1px solid #CCC;
+        background: url("../design/gradient.png") 0 100% repeat-x;
+    }
+
+        .comment li .comment-img {
+            float: left;
+            width: 88px;
         }
 
-            .comment li .comment-img {
-                float: left;
-                width: 88px;
+        .comment li .comment-img img {
+            display: block;
+            width: 70px;
+            height: 70px;
+            margin-left: 8px;
+            border-radius: 50%;
+            transform: rotate(276deg);
+        }
+
+        .comment li .comment-txt {
+        }
+
+            /*.comment li .post-txt {
+            margin-left: 170px;
+        }*/
+
+            .comment li .comment-txt p {
+                margin: 0;
+                font-size: 14px;
             }
 
-            .comment li .comment-img img {
-                display: block;
-                width: 70px;
-                height: 70px;
-                margin-left: 8px;
-                border-radius: 50%;
-                transform: rotate(276deg);
-            }
-
-            .comment li .comment-txt {
-            }
-
-                /*.comment li .post-txt {
-                margin-left: 170px;
-            }*/
-
-                .comment li .comment-txt p {
-                    margin: 0;
-                    font-size: 14px;
-                }
-
-            .comment li .post-txt a {
-                margin: 10px;
-                color: blue;
-            }
+        .comment li .post-txt a {
+            margin: 10px;
+            color: blue;
+        }
 
 
 
@@ -191,8 +191,6 @@
         if ($(".box").size() <= 10) {
             $(".loaderDiv").css('display', 'none');
         }
-
-
     });
 
     $("#info").click(function () {

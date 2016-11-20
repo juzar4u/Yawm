@@ -156,17 +156,8 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                 profile.UserID = _user.UserID;
                 UserServices.GetInstance.CreateProfile(profile);
                 ValidateAndUploadImage(postedFile, _user.UserID);
-                //UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
-                //try
-                //{
-                //    EmailService es = new EmailService();
-                //    es.SendSimpleEmails();
-                //}
-                //catch (Exception ex)
-                //{
-                //    Console.WriteLine(ex.Message);
-                //}
-               
+                UserServices.GetInstance.SetEmailToken(_user, "Akhbaar-Verfication Link", (int)EmailTemplateEnum.AccountVerification);
+                
             }
             catch (Exception ex)
             {
