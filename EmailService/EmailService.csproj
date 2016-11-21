@@ -65,7 +65,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AkhbaarBGSLIb\AkhbaarBGSLIb.csproj">
+    <ProjectReference Include="..\AkhbaarBGSLIb\AkhbaarBGSLIb.csproj">
       <Project>{760782ba-3b23-4856-a0a8-0d8daac4ec97}</Project>
       <Name>AkhbaarBGSLIb</Name>
     </ProjectReference>

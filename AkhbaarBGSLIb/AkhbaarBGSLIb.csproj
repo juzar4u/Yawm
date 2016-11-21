@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailSender\AkhbaarEmailSyncController.cs" />
+    <Compile Include="EmailSender\EmailSyncController.cs" />
+    <Compile Include="EmailSyncThread.cs" />
     <Compile Include="Helper\EmailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,6 +55,9 @@
       <Project>{ff175435-3ad1-4748-8bda-c6028cd236ef}</Project>
       <Name>AkhbaarAlYawm.DataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
