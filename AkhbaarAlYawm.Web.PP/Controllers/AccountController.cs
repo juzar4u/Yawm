@@ -396,15 +396,7 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
             Users userFrom = UserServices.GetInstance.GetUserByUserID(model.FromUserId);
             Users userTO = UserServices.GetInstance.GetUserByUserID(model.ToUserId);
             UserServices.GetInstance.SetEmailTokenUserMessage(userTO, string.Format("{0}{1}", "New Message from - ", userFrom.FirstName), model.Content, (int)EmailTemplateEnum.UserToUserMessage, userFrom, userMessageId);
-            try
-            {
-                EmailService es = new EmailService();
-                es.SendSimpleEmails();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            
             return Redirect(string.Format("{0}{1}", "/account/UserProfile?userId=", model.ToUserId));
         }
 

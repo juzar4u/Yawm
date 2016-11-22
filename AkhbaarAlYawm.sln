@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkhbaarBGSLIb", "AkhbaarBGS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkhbaarAlYawm.CDN", "AkhbaarAlYawm.CDN\AkhbaarAlYawm.CDN.csproj", "{5CE8264D-ED7C-4621-AEF7-5AC610DC29B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "BackgroundServices\EmailService\EmailService.csproj", "{CAE637D9-7D0F-4F7E-AE95-A9EF86829DA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{CAE637D9-7D0F-4F7E-AE95-A9EF86829DA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@
     ViewBag.Title = "EditArticle";
 }
 
-
+<script src="~/Scripts/ckeditor.js"></script>
 <style>
     #Body {
         width: 600px;
@@ -578,7 +578,11 @@ counterVideo++;
 </script>
 
 
-
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('Body');
+</script>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

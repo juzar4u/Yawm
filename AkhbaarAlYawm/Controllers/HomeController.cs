@@ -131,6 +131,7 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
 
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult PostArticles(ArticleModel model)
         {
 
@@ -139,6 +140,14 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             HijriBohraCalenderModel _hijri = new HijriBohraCalenderModel();
 
             _article.Title = model.Title;
+            if (!model.Body.Contains("<img alt=\"\" class=\"img-responsive\""))
+            {
+                model.Body = model.Body.Replace("<img alt=\"\"", "<img alt=\"\" class=\"img-responsive\"");
+            }
+            if (!model.Body.Contains("<iframe id=\"iframeBody\""))
+            {
+                model.Body = model.Body.Replace("<iframe", "<iframe id=\"iframeBody\"");
+            }
             _article.Body = model.Body;
             _article.SourceID = model.SourceID;
             _article.IsActive = true;
@@ -307,10 +316,11 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
                     if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                     {
                         string fileName = Guid.NewGuid().ToString();
-                        if (img.Width > 800 & img.Height > 300)
+                        if (img.Width > 1000 & img.Height > 700)
                         {
+                            img.Resize(1000, 700);
                             img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + fileName + extension);
-                            img.Resize(800, 300);
+                            img.Resize(500, 365);
                             img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + extension);
                             articleImageUrl = "/Images/Articles/" + "Large" + fileName + extension;
                             thumbnailUrl = "/Images/Articles/" + fileName + extension;
@@ -347,36 +357,39 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             if (postedFile.ContentLength > 0)
             {
                 WebImage img = new WebImage(postedFile.InputStream);
+                string extension = System.IO.Path.GetExtension(postedFile.FileName);
                 if (postedFile != null)
                 {
-                    if ((postedFile.ContentType.Contains("image")))
-                    {
-                        if (img.Width > 1024 & img.Height > 600)
+                        
+                        if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                         {
-                            img.Resize(1024, 640);
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + postedFile.FileName);
-                            img.Resize(400, 400);
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + postedFile.FileName);
-                            articleImageUrl = "/Images/Articles/" + "Large" + postedFile.FileName;
-                            thumbnailUrl = "/Images/Articles/" + postedFile.FileName;
-                            EntityMedia _entity = ArticleServices.GetInstance.GetEntityMediaRecordByEntityMediaID(entityMediaID);
+                            string fileName = Guid.NewGuid().ToString();
+                            if (img.Width > 1000 & img.Height > 700)
+                            {
+                                img.Resize(1000, 700);
+                                img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + "Large" + fileName + extension);
+                                img.Resize(500, 365);
+                                img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + extension);
+                                articleImageUrl = "/Images/Articles/" + "Large" + fileName + extension;
+                                thumbnailUrl = "/Images/Articles/" + fileName + extension;
+                                EntityMedia _entity = ArticleServices.GetInstance.GetEntityMediaRecordByEntityMediaID(entityMediaID);
 
-                            _entity.URL = articleImageUrl;
-                            _entity.Thumbnail = thumbnailUrl;
-                            ArticleServices.GetInstance.UpdateCompaignImage(_entity);
+                                _entity.URL = articleImageUrl;
+                                _entity.Thumbnail = thumbnailUrl;
+                                ArticleServices.GetInstance.UpdateCompaignImage(_entity);
+                            }
+                            else
+                            {
+                                img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + fileName + extension);
+                                thumbnailUrl = "/Images/Articles/" + fileName + extension;
+                                EntityMedia _entity = ArticleServices.GetInstance.GetEntityMediaRecordByEntityMediaID(entityMediaID);
+
+                                _entity.URL = thumbnailUrl;
+                                _entity.Thumbnail = thumbnailUrl;
+                                ArticleServices.GetInstance.UpdateCompaignImage(_entity);
+                            }
                         }
-                        else
-                        {
-                            img.Save(HttpContext.Server.MapPath("~/Images/Articles/") + postedFile.FileName);
-                            thumbnailUrl = "/Images/Articles/" + postedFile.FileName;
-                            EntityMedia _entity = ArticleServices.GetInstance.GetEntityMediaRecordByEntityMediaID(entityMediaID);
-
-                            _entity.URL = thumbnailUrl;
-                            _entity.Thumbnail = thumbnailUrl;
-                            ArticleServices.GetInstance.UpdateCompaignImage(_entity);
-                        }
-
-                    }
+                    
                 }
                 else
                 {
@@ -391,7 +404,7 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
 
         }
 
-         [Authentication]
+        [Authentication]
         [HttpGet]
         public ActionResult EditArticle(int Id)
         {
@@ -434,43 +447,46 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditArticle(ArticleModel model)
         {
             Article _article = ArticleServices.GetInstance.GetArticleRecordByArticleID(model.ArticleID);
             HijriBohraCalenderModel _hijri = new HijriBohraCalenderModel();
             _article.Title = model.Title;
+            if(!model.Body.Contains("<img alt=\"\" class=\"img-responsive\""))
+            {
+            model.Body = model.Body.Replace("<img alt=\"\"", "<img alt=\"\" class=\"img-responsive\"");
+            }
+            if (!model.Body.Contains("<iframe id=\"iframeBody\""))
+            {
+                model.Body = model.Body.Replace("<iframe", "<iframe id=\"iframeBody\"");
+            }
             _article.Body = model.Body;
             _article.SourceID = model.SourceID;
 
-            if (model.CityID <= 0)
+            if (model.StateID > 1)
             {
-                _article.CityID = null;
-
-                if (model.StateID > 0)
+                _article.StateID = model.StateID;
+            }
+            if (model.CityID > 1)
+            {
+                _article.CityID = model.CityID;
+            }
+            if (model.gregorianDate.Year >= 1900)
+            {
+                if (model.radioDateType == "gregorian")
                 {
-                    _article.StateID = model.StateID;
+                    _hijri = MiqaatServices.GetInstance.GetGregorianCalenderDetailByDayMonthYear(model.gregorianDate.Day, model.gregorianDate.Month, model.gregorianDate.Year);
                 }
-
-            }
-            else
-            {
-                if (model.CityID > 0)
+                else
                 {
-                    _article.CityID = model.CityID;
+                    _hijri = MiqaatServices.GetInstance.GetHijriBohraCalenderDetailByDayMonthYear(Convert.ToInt32(model.IslamicDay), Convert.ToInt32(model.IslamicMonth), model.IslamicYear);
                 }
-                _article.StateID = null;
-            }
-            if (model.radioDateType == "gregorian")
-            {
-                _hijri = MiqaatServices.GetInstance.GetGregorianCalenderDetailByDayMonthYear(model.gregorianDate.Day, model.gregorianDate.Month, model.gregorianDate.Year);
-            }
-            else
-            {
-                _hijri = MiqaatServices.GetInstance.GetHijriBohraCalenderDetailByDayMonthYear(Convert.ToInt32(model.IslamicDay), Convert.ToInt32(model.IslamicMonth), model.IslamicYear);
-            }
-            _article.mappedDate = _hijri.Gregorian;
-            _article.IslamicDate = string.Format("{0}{1}{2}{3}{4}", _hijri.H_Day, "-", MiqaatServices.GetInstance.getMonth(_hijri.H_Month), "-", _hijri.H_Year);
+                _article.mappedDate = _hijri.Gregorian;
+                _article.IslamicDate = string.Format("{0}{1}{2}{3}{4}", _hijri.H_Day, "-", MiqaatServices.GetInstance.getMonth(_hijri.H_Month), "-", _hijri.H_Year);
 
+            }
+            
             _article.CategoryID = model.CategoryID;
             _article.IsVideo = model.IsVideo;
             #region Videos
@@ -645,6 +661,23 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
         }
 
         [HttpGet]
+        public ActionResult ArticleIDDataAutocomplete(int id, string name)
+        {
+
+            var IDList = new List<Article>();
+            IDList = ArticleServices.GetInstance.GetArticleIDs(name);
+            var result = (from c in IDList
+                          select new
+                          {
+                              ArticleID = c.ArticleID,
+                              ArticleData = c.ArticleID
+                          }).ToList();
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult UpdateListing(int id, int elementId)
         {
             List<ArticleModel> _articles = new List<ArticleModel>();
@@ -655,6 +688,10 @@ namespace AkhbaarAlYawm.Web.CP.Controllers
             else if (id == 2)
             {
                 _articles = ArticleServices.GetInstance.GetAllArticleBySource(elementId);
+            }
+            else if (id == 5)
+            {
+                _articles = ArticleServices.GetInstance.GetAllArticleIDs(elementId);
             }
             else
             {

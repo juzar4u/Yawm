@@ -76,6 +76,23 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
+        public List<ArticleModel> GetAllArticleIDs(int elementId)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+                return context.Fetch<ArticleModel>(String.Format("select * from Articles where articleid like '%{0}%'", elementId));
+            }
+        }
+
+        public List<City> GetArticleListByCityFilter(string name)
+        {
+            using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
+            {
+
+                return context.Fetch<City>(String.Format("select * from Cities where Name like '%{0}%'", name));
+            }
+        }
+
         public List<ArticleModel> GetAllArticleByCity(int elementId)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
@@ -195,12 +212,12 @@ namespace AkhbaarAlYawm.Application.Services
             }
         }
 
-        public List<City> GetArticleListByCityFilter(string name)
+        public List<Article> GetArticleIDs(string name)
         {
             using (PetaPoco.Database context = DataContextHelper.GetCPDataContext())
             {
 
-                return context.Fetch<City>(String.Format("select * from Cities where Name like '%{0}%'", name));
+                return context.Fetch<Article>(String.Format("select * from articles where articleid like '%{0}%'", name));
             }
         }
 

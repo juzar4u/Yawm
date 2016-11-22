@@ -32,7 +32,7 @@ LAYOUT
 #content .separator {margin:0; padding:8px; background:url("../design/separator.png"); text-align:center; text-shadow:1px 1px 0px #000; font-size:20px; font-weight:bold; color:#FFF;font-family: Cambria, 'Palatino Linotype', 'Book Antiqua', 'URW Palladio L', serif;font-style: italic;}
 #content .padding {padding:0px;}
 #content .title {margin:7px 0; font-size:20px;font-family: calibri;font-weight: bold; margin-left:10px; }
-#content .body {font-size: 18px; font-family: Calibri; padding: 12px; text-align: justify; line-height: 20px; }
+/*#content .body {font-size: 18px; font-family: Calibri; padding: 12px; text-align: justify; line-height: 20px; }*/
 #footer {padding:8px; border-top:1px solid #CCC; color:#777;}
 #footer p {margin:0;}
 #footer a {color:#777;}
@@ -61,6 +61,13 @@ PAGE: HOMEPAGE
         font-weight: bold;
         color: #051249;
     }
+#body-section {
+    margin: 10px;
+    text-align: justify;
+}
+#iframeBody {
+    height:250px;
+}
 .info-article {
         color: darkgray;
         float: left;

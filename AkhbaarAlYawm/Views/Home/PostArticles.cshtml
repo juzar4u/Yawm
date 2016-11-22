@@ -1,10 +1,11 @@
 ﻿@model AkhbaarAlYawm.DataAccess.Custom.Entities.ArticleModel
 
+
 @{
     ViewBag.Title = "PostArticles";
 }
 
-
+<script src="~/Scripts/ckeditor.js"></script>
 <style>
     input[type="datetime"] {
         border: 1px solid #e5e5e5;
@@ -498,7 +499,11 @@
     });
 
 </script>
-
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('Body');
+</script>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

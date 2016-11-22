@@ -151,30 +151,35 @@ namespace AkhbaarAlYawm.Controllers
             if (postedFile != null && postedFile.ContentLength > 0)
             {
                 WebImage img = new WebImage(postedFile.InputStream);
+                string extension = System.IO.Path.GetExtension(postedFile.FileName);
                 if ((postedFile.ContentType.Contains("image")))
                 {
                     PhotoGallery _photo = new PhotoGallery();
-                    if (img.Width > 1024 & img.Height > 600)
+                    if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                     {
-                        img.Resize(1024, 640);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + postedFile.FileName);
-                        img.Resize(400, 400);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        ImageUrl = "/Images/PhotoGallery/" + "Large" + postedFile.FileName;
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
-                        _photo.PhotoAlbumID = photoAlbumID;
-                        _photo.PhotoImgUrl = ImageUrl;
-                        _photo.PhotoThumbnailUrl = thumbnailUrl;
-                        
-                        PhotoServices.GetInstance.InsertPhotoGallery(_photo);
-                    }
-                    else
-                    {
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
-                        _photo.PhotoAlbumID = photoAlbumID;
-                        _photo.PhotoThumbnailUrl = thumbnailUrl;
-                        PhotoServices.GetInstance.InsertPhotoGallery(_photo);
+                        string fileName = Guid.NewGuid().ToString();
+                        if (img.Width > 1000 & img.Height > 700)
+                        {
+                            img.Resize(1000, 700);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + fileName + extension);
+                            img.Resize(500, 365);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            ImageUrl = "/Images/PhotoGallery/" + "Large" + fileName + extension;
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
+                            _photo.PhotoAlbumID = photoAlbumID;
+                            _photo.PhotoImgUrl = ImageUrl;
+                            _photo.PhotoThumbnailUrl = thumbnailUrl;
+
+                            PhotoServices.GetInstance.InsertPhotoGallery(_photo);
+                        }
+                        else
+                        {
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
+                            _photo.PhotoAlbumID = photoAlbumID;
+                            _photo.PhotoThumbnailUrl = thumbnailUrl;
+                            PhotoServices.GetInstance.InsertPhotoGallery(_photo);
+                        }
                     }
                 }
             }
@@ -197,33 +202,38 @@ namespace AkhbaarAlYawm.Controllers
             if (postedFile != null && postedFile.ContentLength > 0)
             {
                 WebImage img = new WebImage(postedFile.InputStream);
+                string extension = System.IO.Path.GetExtension(postedFile.FileName);
                 if ((postedFile.ContentType.Contains("image")))
                 {
-                    PhotoAlbum _photo = new PhotoAlbum();
-                    if (img.Width > 1024 & img.Height > 600)
+                    if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                     {
-                        img.Resize(1024, 640);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + postedFile.FileName);
-                        img.Resize(400, 400);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        ImageUrl = "/Images/PhotoGallery/" + "Large" + postedFile.FileName;
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
-                        _photo.PhotoAlbumID = photoAlbumID;
-                        _photo.CoverPhotoImg = ImageUrl;
-                        _photo.Title = title;
-                        _photo.CoverPhotoThumbnailImg = thumbnailUrl;
-                        _photo.publishedDate = DateTime.Now;
-                        PhotoServices.GetInstance.UpdatePhotoAlbum(_photo);
-                    }
-                    else
-                    {
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
-                        _photo.PhotoAlbumID = photoAlbumID;
-                        _photo.Title = title;
-                        _photo.CoverPhotoThumbnailImg = thumbnailUrl;
-                        _photo.publishedDate = DateTime.Now;
-                        PhotoServices.GetInstance.UpdatePhotoAlbum(_photo);
+                        string fileName = Guid.NewGuid().ToString();
+                        PhotoAlbum _photo = new PhotoAlbum();
+                        if (img.Width > 1000 & img.Height > 700)
+                        {
+                            img.Resize(1000, 700);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + fileName + extension);
+                            img.Resize(500, 365);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            ImageUrl = "/Images/PhotoGallery/" + "Large" + fileName + extension;
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
+                            _photo.PhotoAlbumID = photoAlbumID;
+                            _photo.CoverPhotoImg = ImageUrl;
+                            _photo.Title = title;
+                            _photo.CoverPhotoThumbnailImg = thumbnailUrl;
+                            _photo.publishedDate = DateTime.Now;
+                            PhotoServices.GetInstance.UpdatePhotoAlbum(_photo);
+                        }
+                        else
+                        {
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
+                            _photo.PhotoAlbumID = photoAlbumID;
+                            _photo.Title = title;
+                            _photo.CoverPhotoThumbnailImg = thumbnailUrl;
+                            _photo.publishedDate = DateTime.Now;
+                            PhotoServices.GetInstance.UpdatePhotoAlbum(_photo);
+                        }
                     }
                 }
             }
@@ -245,32 +255,37 @@ namespace AkhbaarAlYawm.Controllers
             if (postedFile != null && postedFile.ContentLength > 0)
             {
                 WebImage img = new WebImage(postedFile.InputStream);
+                string extension = System.IO.Path.GetExtension(postedFile.FileName);
                 if ((postedFile.ContentType.Contains("image")))
                 {
                     PhotoGallery _photo = new PhotoGallery();
-                    if (img.Width > 1024 & img.Height > 600)
+                    if (extension == ".bmp" || extension == ".gif" || extension == ".jpg" || extension == ".png" || extension == ".psd" || extension == ".pspimage" || extension == ".thm" || extension == ".tif" || extension == ".yuv")
                     {
-                        img.Resize(1024, 640);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + postedFile.FileName);
-                        img.Resize(400, 400);
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        ImageUrl = "/Images/PhotoGallery/" + "Large" + postedFile.FileName;
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
-                        _photo.PhotoGalleryID = photoGalleryID;
-                        _photo.PhotoAlbumID = AlbumID;
-                        _photo.PhotoImgUrl = ImageUrl;
-                        _photo.PhotoThumbnailUrl = thumbnailUrl;
-                        PhotoServices.GetInstance.UpdatePhotoGallery(_photo);
-                    }
-                    else
-                    {
-                        img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + postedFile.FileName);
-                        thumbnailUrl = "/Images/PhotoGallery/" + postedFile.FileName;
+                        string fileName = Guid.NewGuid().ToString();
+                        if (img.Width > 1000 & img.Height > 700)
+                        {
+                            img.Resize(1000, 700);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + "Large" + fileName + extension);
+                            img.Resize(500, 365);
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            ImageUrl = "/Images/PhotoGallery/" + "Large" + fileName + extension;
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
+                            _photo.PhotoGalleryID = photoGalleryID;
+                            _photo.PhotoAlbumID = AlbumID;
+                            _photo.PhotoImgUrl = ImageUrl;
+                            _photo.PhotoThumbnailUrl = thumbnailUrl;
+                            PhotoServices.GetInstance.UpdatePhotoGallery(_photo);
+                        }
+                        else
+                        {
+                            img.Save(HttpContext.Server.MapPath("~/Images/PhotoGallery/") + fileName + extension);
+                            thumbnailUrl = "/Images/PhotoGallery/" + fileName + extension;
 
-                        _photo.PhotoGalleryID = photoGalleryID;
-                        _photo.PhotoAlbumID = AlbumID;
-                        _photo.PhotoThumbnailUrl = thumbnailUrl;
-                        PhotoServices.GetInstance.UpdatePhotoGallery(_photo);
+                            _photo.PhotoGalleryID = photoGalleryID;
+                            _photo.PhotoAlbumID = AlbumID;
+                            _photo.PhotoThumbnailUrl = thumbnailUrl;
+                            PhotoServices.GetInstance.UpdatePhotoGallery(_photo);
+                        }
                     }
                 }
             }
