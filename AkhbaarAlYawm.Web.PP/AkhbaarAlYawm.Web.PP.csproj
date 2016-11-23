@@ -201,6 +201,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\404Template\css\animate.css" />
+    <Content Include="Content\404Template\css\bootstrap.css" />
+    <Content Include="Content\404Template\css\custom.css" />
+    <Content Include="Content\404Template\css\font-awesome.css" />
+    <Content Include="Content\404Template\images\noise.png" />
+    <Content Include="Content\404Template\js\countUp.js" />
+    <Content Include="Content\404Template\js\jquery-1.10.1.min.js" />
+    <Content Include="Content\404Template\js\wow.js" />
     <Content Include="Content\bootstrap-3.3.7-dist\css\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-3.3.7-dist\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap-3.3.7-dist\css\bootstrap.css" />
@@ -277,6 +285,7 @@
     <Content Include="Content\PhotoSwipe\dist\photoswipe.js" />
     <Content Include="Content\PhotoSwipe\dist\photoswipe.min.js" />
     <Content Include="Content\screen.css" />
+    <Content Include="errorpage.htm" />
     <Content Include="favicon.ico" />
     <Content Include="FeaturedPanel\dist\css\swiper.css" />
     <Content Include="FeaturedPanel\dist\css\swiper.min.css" />
@@ -305,6 +314,8 @@
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\404Template\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\404Template\fonts\fontawesome-webfont.woff" />
     <None Include="Properties\PublishProfiles\Akhbaar-Al-Mumineen-3-09-2016.pubxml" />
     <None Include="Properties\PublishProfiles\Akhbaar-Al-MumineenPP-3-09-2016.pubxml" />
     <None Include="Properties\PublishProfiles\AkhbaarAlMumi_PP.pubxml" />
@@ -355,6 +366,7 @@
     <Content Include="Images\Profile\default.gif" />
     <Content Include="Images\Profile\fe0ca094-1cd5-48a6-8d65-d9cd28b76f0c..jpg" />
     <Content Include="Navigation\test.css" />
+    <Content Include="pagenotfound.htm" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
