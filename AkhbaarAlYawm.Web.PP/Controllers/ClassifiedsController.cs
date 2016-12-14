@@ -168,11 +168,11 @@ namespace AkhbaarAlYawm.Web.PP.Controllers
                         if ((postedFile.ContentType.Contains("image")))
                         {
                             string fileName = Guid.NewGuid().ToString();
-                            if (img.Width > 600 & img.Height > 400)
+                            if (img.Width > 1000 & img.Height > 700)
                             {
-                                img.Resize(600, 400);
+                                img.Resize(1000, 700);
                                 img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + "Large" + fileName +extension);
-                                img.Resize(400, 150);
+                                img.Resize(600, 365);
                                 img.Save(HttpContext.Server.MapPath("~/Images/Classifieds/") + fileName + extension);
                                 _media.Url = "/Images/Classifieds/" + "Large" + fileName + extension;
                                 _media.Thumbnail = "/Images/Classifieds/" + fileName + extension;
